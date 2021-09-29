@@ -1,0 +1,15 @@
+.buttonNavBar {
+  text-decoration: none;
+  color: inherit;
+  padding: 8px 18px;
+  border-radius: 5px;
+  border: 1px solid white;
+  transition: 0.2s;
+  margin-left: 5px;
+
+  &:hover {
+    color: #52C41A;
+    border: 1px solid #52C41A;
+  }
+
+}
