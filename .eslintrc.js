@@ -23,6 +23,7 @@ module.exports = {
   rules: {
     "import/prefer-default-export": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "indent": [ "error", 2, { "SwitchCase": 1 } ],
     "no-plusplus": "off",
     "no-console": "error",
     "jsx-a11y/label-has-associated-control": [ 2, {

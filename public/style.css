@@ -37,6 +37,7 @@ body {
 html{
     background: #F3F7FA;
     padding: 0 calc(20px - (100vw - 100%)) 0 0;
+    font-size: 12px;
 }
 
 body {
@@ -52,5 +53,6 @@ body {
 
 #root{
     background: #f3f7fa;
+    font-size: 12px;
 }
 

@@ -1,15 +1,15 @@
 import React from 'react';
 import Article from '../article/article';
 
-const ArticleList = () => {
+const ArticleList = ({ arrArticles }) => {
   let key = 100;
-
-  const counter = [1];
+  // eslint-disable-next-line no-console
+  console.log(arrArticles);
 
   const createList = () => {
-    const elements = counter.map(article => (
+    const elements = arrArticles.map(data => (
       <Article
-        item={article}
+        item={data}
         key={key++}
       />
     ));

@@ -1,0 +1,47 @@
+.articleContainer {
+  background-color: white;
+  width: 940px;
+  margin-top: 26px;
+  padding: 15px;
+  box-shadow: 0 4px 12px 0 rgba(0,0,0,0.15);
+
+  h1 {
+    font-size: 20px;
+    color: #1890FF;
+    align-items: center;
+    margin: 0;
+    padding: 2px 0;
+    //margin-right: 12px;
+  }
+
+  .h1LikeCount {
+    display: flex;
+
+    .likeCount {
+      padding-left: 18px;
+      background: no-repeat url("../../pictures/heart.svg") left bottom 40%;
+      margin-left: 13px;
+    }
+  }
+
+  .tagList{
+    display: flex;
+    margin: 4px 0;
+
+    &__tag {
+      padding: 2px 5px;
+      margin-right: 8px;
+      border-radius: 3px;
+      border: 1px solid black;
+    }
+  }
+
+  .autor{
+    display: flex;
+
+    &__poster{
+      width: 45px;
+      height: 45px;
+    }
+  }
+}
