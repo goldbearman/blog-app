@@ -27,7 +27,7 @@ const Article = (item) => {
   return (
     <Container className={classes.articleContainer}>
       <Row>
-        <Col md={8}>
+        <Col md={9}>
           <div className={classes.h1LikeCount}>
             <h1>{title}</h1>
             <div className={classes.likeCount}>{favoritesCount}</div>
@@ -38,14 +38,14 @@ const Article = (item) => {
             {body}
           </p>
         </Col>
-        <Col md={4}>
-          <div className={classes.autor}>
-            <div className={classes.autor__data}>
-              <div className={classes.autorName}>{username}</div>
-              <div className={classes.autorDate}>{date}</div>
+        <Col md={3}>
+          <div className={classes.author}>
+            <div className={classes.author__data}>
+              <div className={classes.authorName}>{username}</div>
+              <div className={classes.authorDate}>{date}</div>
             </div>
             {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
-            <img className={classes.autor__poster} src={image} alt="image" />
+            <img className={classes.author__poster} src={image} alt="image" />
           </div>
         </Col>
       </Row>

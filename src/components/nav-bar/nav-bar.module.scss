@@ -1,15 +1,23 @@
-.buttonNavBar {
-  text-decoration: none;
-  color: inherit;
-  padding: 8px 18px;
-  border-radius: 5px;
-  border: 1px solid white;
-  transition: 0.2s;
-  margin-left: 5px;
+.articleNavbar {
+  padding: 8px 0;
+  font-size: 18px;
 
-  &:hover {
-    color: #52C41A;
-    border: 1px solid #52C41A;
+  .brand{
+    font-size: 18px;
   }
 
+  .buttonNavBar {
+    text-decoration: none;
+    color: inherit;
+    padding: 12px 23px;
+    border-radius: 5px;
+    border: 1px solid white;
+    transition: 0.2s;
+    margin-left: 15px;
+
+    &:hover {
+      color: #52C41A;
+      border: 1px solid #52C41A;
+    }
+  }
 }

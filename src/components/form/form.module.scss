@@ -1,0 +1,18 @@
+.windowForm {
+  width: 384px;
+  padding: 32px;
+
+
+  h1{
+    font-size: 20px;
+    text-align: center;
+  }
+
+  input, label {
+    display: block;
+  }
+
+  input {
+    width: 100%;
+  }
+}

@@ -2,13 +2,13 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
-    node: true
+    node: true,
   },
   extends: [
     'plugin:react/recommended',
     'airbnb',
   ],
-  parser: "babel-eslint",
+  parser: 'babel-eslint',
   parserOptions: {
     ecmaFeatures: {
 
@@ -21,16 +21,23 @@ module.exports = {
     'react',
   ],
   rules: {
-    "import/prefer-default-export": "off",
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "indent": [ "error", 2, { "SwitchCase": 1 } ],
-    "no-plusplus": "off",
-    "no-console": "error",
-    "jsx-a11y/label-has-associated-control": [ 2, {
-      "labelComponents": ["CustomInputLabel"],
-      "labelAttributes": ["label"],
-      "controlComponents": ["CustomInput"],
-      "depth": 3,
+    'import/prefer-default-export': 'off',
+    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+    indent: ['error', 2, { SwitchCase: 1 }],
+    'no-plusplus': 'off',
+    'no-console': 'error',
+    'jsx-a11y/label-has-associated-control': [2, {
+      labelComponents: ['CustomInputLabel'],
+      labelAttributes: ['label'],
+      controlComponents: ['CustomInput'],
+      depth: 3,
+    }],
+    'jsx-a11y/label-has-for': [2, {
+      components: ['Label'],
+      required: {
+        every: ['nesting', 'id'],
+      },
+      allowChildren: false,
     }],
   },
 };
