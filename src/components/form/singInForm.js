@@ -7,10 +7,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import classes from './form.module.scss';
 
-const SignupSchema = yup.object().shape({
-  firstName: yup.string().required(),
-  age: yup.number().required().positive().integer(),
-  website: yup.string().url(),
+const SignInSchema = yup.object().shape({
+  'User name': yup.string().min(3).max(20).required(),
+  'Email address': yup.string().email().required(),
+  Password: yup.string().min(6).max(40).required('Поле обязательно!'),
+  'Confirm password': yup.string().oneOf([yup.ref('password')], 'Passwords should match'),
 });
 
 function SingInForm() {
@@ -19,7 +20,7 @@ function SingInForm() {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(SignupSchema),
+    resolver: yupResolver(SignInSchema),
     mode: 'all',
   });
   const onSubmit = (data) => {
@@ -37,47 +38,44 @@ function SingInForm() {
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* eslint-disable-next-line jsx-a11y/label-has-for */}
         <label>
-          First Name
+          UserName
           <input
-            {...register('firstName', {
-              required: true,
-              minLength: 3,
-              maxLength: 20,
-              pattern: /^[A-Za-z]+$/i,
-            })}
+            type="text"
+            placeholder="User Name"
+            {...register('User name')}
           />
         </label>
-        {errors?.firstName?.type === 'required' && <p>This field is required</p>}
-        {errors?.firstName?.type === 'maxLength' && (
-          <p>First name cannot exceed 20 characters</p>
-        )}
-        {errors?.firstName?.type === 'minLength' && (
-          <p>First name cannot exceed min 3 characters</p>
-        )}
-        {errors?.firstName?.type === 'pattern' && (
-          <p>Alphabetical characters only</p>
-        )}
+        <p>{errors?.['User name'] && errors?.['User name']?.message}</p>
         {/* eslint-disable-next-line jsx-a11y/label-has-for */}
         <label>
-          Last Name
-          <input {...register('lastName', {
-            required: true,
-            pattern: /^[A-Za-z]+$/i,
-          })}
+          Email address
+          <input
+            type="text"
+            placeholder="Email address"
+            {...register('Email address')}
           />
         </label>
-        {errors?.lastName?.type === 'required' && <p>This field is required</p>}
-        {errors?.lastName?.type === 'pattern' && (
-          <p>Alphabetical characters only</p>
-        )}
+        <p>{errors?.['Email address'] && errors?.['Email address']?.message}</p>
         {/* eslint-disable-next-line jsx-a11y/label-has-for */}
         <label>
-          Age
-          <input {...register('age', { min: 18, max: 99 })} />
+          Password
+          <input
+            type="password"
+            placeholder="Password"
+            {...register('Password')}
+          />
         </label>
-        {errors.age && (
-          <p>You Must be older then 18 and younger then 99 years old</p>
-        )}
+        <p>{errors?.Password && errors?.Password?.message}</p>
+        {/* eslint-disable-next-line jsx-a11y/label-has-for */}
+        <label>
+          Repeat Password
+          <input
+            type="password"
+            placeholder="Password"
+            {...register('Confirm password')}
+          />
+        </label>
+        <p>{errors?.['Confirm password'] && errors?.['Confirm password']?.message}</p>
         <input type="submit" />
       </form>
     </Container>
