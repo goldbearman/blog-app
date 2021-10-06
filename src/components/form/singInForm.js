@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { Container } from 'react-bootstrap';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Checkbox, FormControlLabel } from '@material-ui/core';
 
 import classes from './form.module.scss';
 
@@ -11,13 +12,17 @@ const SignInSchema = yup.object().shape({
   'User name': yup.string().min(3).max(20).required(),
   'Email address': yup.string().email().required(),
   Password: yup.string().min(6).max(40).required('Поле обязательно!'),
-  'Confirm password': yup.string().oneOf([yup.ref('password')], 'Passwords should match'),
+  // eslint-disable-next-line no-undef
+  'Confirm password': yup.string().oneOf([yup.ref('Password')], 'Passwords should match'),
+  checkAgree: yup.boolean.t
 });
+
 
 function SingInForm() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(SignInSchema),
@@ -27,6 +32,11 @@ function SingInForm() {
     alert(JSON.stringify(data));
   };
 
+  // eslint-disable-next-line no-unused-vars
+  const checkAgree = watch('checkAgree');
+
+  // eslint-disable-next-line no-console
+  console.log(errors);
   // eslint-disable-next-line no-console
   console.log(errors);
   // eslint-disable-next-line no-console
@@ -41,7 +51,7 @@ function SingInForm() {
           UserName
           <input
             type="text"
-            placeholder="User Name"
+            placeholder="Username"
             {...register('User name')}
           />
         </label>
@@ -53,6 +63,7 @@ function SingInForm() {
             type="text"
             placeholder="Email address"
             {...register('Email address')}
+            required
           />
         </label>
         <p>{errors?.['Email address'] && errors?.['Email address']?.message}</p>
@@ -76,6 +87,14 @@ function SingInForm() {
           />
         </label>
         <p>{errors?.['Confirm password'] && errors?.['Confirm password']?.message}</p>
+
+        <FormControlLabel
+          control={
+            <Checkbox {...register('checkAgree')} color="primary" />
+          }
+          label="I agree to the processing of my personal
+         information"
+        />
         <input type="submit" />
       </form>
     </Container>
