@@ -10,7 +10,8 @@ import SingInForm from '../form/singInForm';
 // eslint-disable-next-line no-unused-vars
 
 const App = () => {
-  // const [arrArticles, setArrArticles] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [arrArticles, setArrArticles] = useState([]);
   const [isLoggedIn, setisLoggedIn] = useState(false);
   const blogService = new BlogService();
 
@@ -18,7 +19,7 @@ const App = () => {
     blogService.getAllArticles().then((articles) => {
       // eslint-disable-next-line no-console
       console.log(articles);
-      // setArrArticles(articles);
+      setArrArticles(articles);
     });
   }, []);
 

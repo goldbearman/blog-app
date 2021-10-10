@@ -5,6 +5,7 @@ import * as yup from 'yup';
 import { Container } from 'react-bootstrap';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Checkbox, FormControlLabel } from '@material-ui/core';
+import cn from 'classnames';
 
 import classes from './form.module.scss';
 
@@ -14,7 +15,6 @@ const SignInSchema = yup.object().shape({
   Password: yup.string().min(6).max(40).required('Поле обязательно!'),
   // eslint-disable-next-line no-undef
   'Confirm password': yup.string().oneOf([yup.ref('Password')], 'Passwords should match'),
-  checkAgree: yup.boolean.t
 });
 
 
@@ -36,11 +36,13 @@ function SingInForm() {
   const checkAgree = watch('checkAgree');
 
   // eslint-disable-next-line no-console
-  console.log(errors);
+  console.log(checkAgree);
   // eslint-disable-next-line no-console
   console.log(errors);
   // eslint-disable-next-line no-console
-  console.log(errors?.firstName);
+  console.log((Object.keys(errors).length === 0));
+  // eslint-disable-next-line no-console
+  console.log(!(checkAgree && (Object.keys(errors).length === 0)));
 
   return (
     <Container className={classes.windowForm}>
@@ -50,6 +52,7 @@ function SingInForm() {
         <label>
           UserName
           <input
+            className={cn(errors?.['User name'] && classes.error)}
             type="text"
             placeholder="Username"
             {...register('User name')}
@@ -60,10 +63,10 @@ function SingInForm() {
         <label>
           Email address
           <input
+            className={cn(errors?.['Email address'] && classes.error)}
             type="text"
             placeholder="Email address"
             {...register('Email address')}
-            required
           />
         </label>
         <p>{errors?.['Email address'] && errors?.['Email address']?.message}</p>
@@ -71,6 +74,7 @@ function SingInForm() {
         <label>
           Password
           <input
+            className={cn(errors?.Password && classes.error)}
             type="password"
             placeholder="Password"
             {...register('Password')}
@@ -81,6 +85,7 @@ function SingInForm() {
         <label>
           Repeat Password
           <input
+            className={cn(errors?.['Confirm password'] && classes.error)}
             type="password"
             placeholder="Password"
             {...register('Confirm password')}
@@ -88,14 +93,17 @@ function SingInForm() {
         </label>
         <p>{errors?.['Confirm password'] && errors?.['Confirm password']?.message}</p>
 
+        <hr size={3} />
+
         <FormControlLabel
+          className={classes.labelControl}
           control={
-            <Checkbox {...register('checkAgree')} color="primary" />
+            <Checkbox className={classes.checkboxControl} {...register('checkAgree')} color="primary" />
           }
           label="I agree to the processing of my personal
          information"
         />
-        <input type="submit" />
+        <input className={classes.submitButton} value="Create" type="submit" disabled={!checkAgree} />
       </form>
     </Container>
   );
