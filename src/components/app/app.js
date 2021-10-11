@@ -5,7 +5,8 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import NavBar from '../nav-bar/navbar';
 import ArticleList from '../article-list/article-list';
 import BlogService from '../../services/blog-service';
-import SingInForm from '../form/singInForm';
+import SingUpForm from '../form/singUpForm';
+import { SignInForm } from '../form/signInForm';
 
 // eslint-disable-next-line no-unused-vars
 
@@ -33,7 +34,8 @@ const App = () => {
         <NavBar />
         {/* <ArticleList arrArticles={arrArticles} /> */}
         <Route path="/articles" component={ArticleList} />
-        <Route path="/sing-in" render={() => (<SingInForm isLoggedIn={isLoggedIn} onLogin={onLogIn} />)} />
+        <Route path="/sing-up" render={() => (<SingUpForm isLoggedIn={isLoggedIn} onLogin={onLogIn} />)} />
+        <Route path="/sing-in" render={() => (<SignInForm isLoggedIn={isLoggedIn} onLogin={onLogIn} />)} />
       </Router>
     </>
   );

@@ -1,6 +1,5 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-// import { Formik } from 'formik';
 import * as yup from 'yup';
 import { Container } from 'react-bootstrap';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -18,7 +17,7 @@ const SignInSchema = yup.object().shape({
 });
 
 
-function SingInForm() {
+function SingUpForm() {
   const {
     register,
     handleSubmit,
@@ -109,4 +108,4 @@ function SingInForm() {
   );
 }
 
-export default SingInForm;
+export default SingUpForm;
