@@ -1,12 +1,13 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
-import { Container } from 'react-bootstrap';
+// import { Container } from 'react-bootstrap';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Checkbox, FormControlLabel } from '@material-ui/core';
 import cn from 'classnames';
 
 import classes from './form.module.scss';
+import { FormContainer } from './formContainer';
 
 const SignInSchema = yup.object().shape({
   'User name': yup.string().min(3).max(20).required(),
@@ -44,7 +45,7 @@ function SingUpForm() {
   console.log(!(checkAgree && (Object.keys(errors).length === 0)));
 
   return (
-    <Container className={classes.windowForm}>
+    <FormContainer>
       <h1>Create new account</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* eslint-disable-next-line jsx-a11y/label-has-for */}
@@ -104,7 +105,7 @@ function SingUpForm() {
         />
         <input className={classes.submitButton} value="Create" type="submit" disabled={!checkAgree} />
       </form>
-    </Container>
+    </FormContainer>
   );
 }
 
