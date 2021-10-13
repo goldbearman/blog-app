@@ -33,11 +33,15 @@ function SingUpForm() {
   });
 
   const onSubmit = (data) => {
-    alert(JSON.stringify(data));
+    // eslint-disable-next-line no-console
+    console.log(data);
+
+    // eslint-disable-next-line no-param-reassign
+    data = { username: data['User name'], email: data['Email address'], password: data.Password };
     // eslint-disable-next-line no-console
     console.log(data);
     // eslint-disable-next-line no-console
-    console.log(blogService.registration(data));
+    blogService.registration(data).then(responseBody => console.log(responseBody.user));
   };
 
   // eslint-disable-next-line no-unused-vars

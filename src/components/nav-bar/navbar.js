@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { Avatar } from '@mui/material';
+import { Avatar } from '@material-ui/core';
 import cn from 'classnames';
 import classes from './nav-bar.module.scss';
 import 'bootstrap/dist/css/bootstrap.css';

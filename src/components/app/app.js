@@ -16,7 +16,7 @@ export const BlogContext = React.createContext();
 const App = () => {
   // eslint-disable-next-line no-unused-vars
   const [arrArticles, setArrArticles] = useState([]);
-  const [isLoggedIn, setisLoggedIn] = useState(true);
+  const [isLoggedIn, setisLoggedIn] = useState(false);
 
   const blogService = new BlogService();
 

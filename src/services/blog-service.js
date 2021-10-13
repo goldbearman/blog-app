@@ -26,7 +26,8 @@ export default class BlogService {
   async registration(userData) {
     const res = await fetch(`${this.apiBase}users`, {
       method: 'POST',
-      body: JSON.stringify(userData),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user: userData }),
     });
     const responseBody = res.json();
     // eslint-disable-next-line no-console
