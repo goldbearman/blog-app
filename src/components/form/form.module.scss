@@ -59,14 +59,36 @@ label {
   font-weight: 500;
 }
 
-.submitButton:enabled {
+.submitButton {
+  margin-top: 21px;
+
+  &:enabled {
+    background-color: #1890FF;
+    color: white;
+  }
+}
+
+.submitButtonSingIn {
   background-color: #1890FF;
   color: white;
+  margin-top: 21px;
+}
+
+.formFooter{
+  color:#8C8C8C;
+  text-align: center;
+  margin-top: 6px;
+
+  a{
+    padding-left: 3px;
+    color:#1890FF;
+    text-decoration: none;
+  }
 }
 
 .labelControl {
   display: flex;
-  margin-bottom: 21px;
+  text-decoration: none;
 
 
   span {

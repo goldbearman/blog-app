@@ -5,6 +5,18 @@
   .brand{
     font-size: 18px;
   }
+  .userData{
+    display: flex;
+    text-align: center;
+    align-items: center;
+    margin: 0 13px 0 25px;
+
+    a{
+      margin-right: 13px;
+      text-decoration: none;
+      color: black;
+    }
+  }
 
   .buttonNavBar {
     text-decoration: none;
@@ -19,5 +31,15 @@
       color: #52C41A;
       border: 1px solid #52C41A;
     }
+  }
+  .buttonCreateArticle{
+    font-size: 14px;
+    border: 1px solid #52C41A;
+    padding: 6px 10px;
+    color: #52C41A;
+  }
+
+  .buttonLogOut{
+    border: 1px solid black;
   }
 }

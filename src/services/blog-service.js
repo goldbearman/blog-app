@@ -22,4 +22,15 @@ export default class BlogService {
     console.log(res.articles);
     return res.articles;
   }
+
+  async registration(userData) {
+    const res = await fetch(`${this.apiBase}users`, {
+      method: 'POST',
+      body: JSON.stringify(userData),
+    });
+    const responseBody = res.json();
+    // eslint-disable-next-line no-console
+    console.log(responseBody);
+    return responseBody;
+  }
 }

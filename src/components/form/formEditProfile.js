@@ -1,27 +1,21 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 // import { Container } from 'react-bootstrap';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Checkbox, FormControlLabel } from '@material-ui/core';
 import cn from 'classnames';
-import { Link } from 'react-router-dom';
 import classes from './form.module.scss';
 import { FormContainer } from './formContainer';
-// eslint-disable-next-line import/no-cycle
-import { BlogContext } from '../app/app';
 
 const SignInSchema = yup.object().shape({
   'User name': yup.string().min(3).max(20).required(),
   'Email address': yup.string().email().required(),
   Password: yup.string().min(6).max(40).required('Поле обязательно!'),
-  // eslint-disable-next-line no-undef
-  'Confirm password': yup.string().oneOf([yup.ref('Password')], 'Passwords should match'),
+  'Avatar image': yup.string().url(),
 });
 
 
-function SingUpForm() {
-  const blogService = useContext(BlogContext);
+function EditProfile() {
   const {
     register,
     handleSubmit,
@@ -31,13 +25,8 @@ function SingUpForm() {
     resolver: yupResolver(SignInSchema),
     mode: 'all',
   });
-
   const onSubmit = (data) => {
     alert(JSON.stringify(data));
-    // eslint-disable-next-line no-console
-    console.log(data);
-    // eslint-disable-next-line no-console
-    console.log(blogService.registration(data));
   };
 
   // eslint-disable-next-line no-unused-vars
@@ -54,7 +43,7 @@ function SingUpForm() {
 
   return (
     <FormContainer>
-      <h1>Create new account</h1>
+      <h1>Edit Profile</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* eslint-disable-next-line jsx-a11y/label-has-for */}
         <label>
@@ -80,45 +69,31 @@ function SingUpForm() {
         <p>{errors?.['Email address'] && errors?.['Email address']?.message}</p>
         {/* eslint-disable-next-line jsx-a11y/label-has-for */}
         <label>
-          Password
+          New password
           <input
             className={cn(errors?.Password && classes.error)}
             type="password"
-            placeholder="Password"
+            placeholder="New password"
             {...register('Password')}
           />
         </label>
         <p>{errors?.Password && errors?.Password?.message}</p>
         {/* eslint-disable-next-line jsx-a11y/label-has-for */}
         <label>
-          Repeat Password
+          Avatar image (url)
           <input
-            className={cn(errors?.['Confirm password'] && classes.error)}
+            className={cn(errors?.Password && classes.error)}
             type="password"
-            placeholder="Password"
-            {...register('Confirm password')}
+            placeholder="Avatar image"
+            {...register('Avatar image')}
           />
         </label>
-        <p>{errors?.['Confirm password'] && errors?.['Confirm password']?.message}</p>
+        <p>{errors?.Password && errors?.Password?.message}</p>
 
-        <hr size={3} />
-
-        <FormControlLabel
-          className={classes.labelControl}
-          control={
-            <Checkbox className={classes.checkboxControl} {...register('checkAgree')} color="primary" />
-          }
-          label="I agree to the processing of my personal
-         information"
-        />
-        <input className={classes.submitButton} value="Create" type="submit" disabled={!checkAgree} />
-        <div className={classes.formFooter}>
-          Already have an account?
-          <Link to="/sing-in" className={classes.buttonNavBar}>Sign In</Link>
-        </div>
+        <input className={classes.submitButton} value="Create" type="submit" />
       </form>
     </FormContainer>
   );
 }
 
-export default SingUpForm;
+export default EditProfile;

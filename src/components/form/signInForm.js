@@ -3,16 +3,14 @@ import cn from 'classnames';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { Link } from 'react-router-dom';
 import classes from './form.module.scss';
 import { FormContainer } from './formContainer';
 // import { makeStyles } from '@material-ui/core';
 
 const SignInSchema = yup.object().shape({
-  'User name': yup.string().min(3).max(20).required(),
   'Email address': yup.string().email().required(),
   Password: yup.string().min(6).max(40).required('Поле обязательно!'),
-  // eslint-disable-next-line no-undef
-  'Confirm password': yup.string().oneOf([yup.ref('Password')], 'Passwords should match'),
 });
 
 export const SignInForm = () => {
@@ -56,7 +54,11 @@ export const SignInForm = () => {
         <p>{errors?.Password && errors?.Password?.message}</p>
         {/* eslint-disable-next-line jsx-a11y/label-has-for */}
 
-        <input className={classes.submitButton} value="Create" type="submit" />
+        <input className={classes.submitButtonSingIn} value="Login" type="submit" />
+        <div className={classes.formFooter}>
+          Don’t have an account?
+          <Link to="/sing-up" className={classes.buttonNavBar}>Sign Up</Link>
+        </div>
       </form>
     </FormContainer>
   );
