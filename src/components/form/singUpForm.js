@@ -41,7 +41,7 @@ function SingUpForm() {
     // eslint-disable-next-line no-console
     console.log(data);
     // eslint-disable-next-line no-console
-    blogService.registration(data).then(responseBody => console.log(responseBody.user));
+    blogService.registration(data).then(responseBody => localStorage.setItem('user', responseBody.user));
   };
 
   // eslint-disable-next-line no-unused-vars

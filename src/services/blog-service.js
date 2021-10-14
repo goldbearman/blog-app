@@ -1,5 +1,5 @@
 export default class BlogService {
-  apiBase = 'https://conduit.productionready.io/api/';
+  apiBase = 'https://conduit-api-realworld.herokuapp.com/api/';
 
   // eslint-disable-next-line consistent-return
   async getResources(url) {
@@ -27,6 +27,21 @@ export default class BlogService {
     const res = await fetch(`${this.apiBase}users`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user: userData }),
+    });
+    const responseBody = res.json();
+    // eslint-disable-next-line no-console
+    console.log(responseBody);
+    return responseBody;
+  }
+
+  async editUser(userData, token) {
+    const res = await fetch(`${this.apiBase}users`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        Autorizaton: `Token ${token}`,
+      },
       body: JSON.stringify({ user: userData }),
     });
     const responseBody = res.json();
