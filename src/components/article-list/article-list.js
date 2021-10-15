@@ -10,6 +10,7 @@ const ArticleList = ({ arrArticles }) => {
     const elements = arrArticles.map(data => (
       <Article
         item={data}
+        onItem
         key={key++}
       />
     ));

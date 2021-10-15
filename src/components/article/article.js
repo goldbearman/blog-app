@@ -9,7 +9,7 @@ const Article = (item) => {
   console.log(item);
   const {
     item: {
-      title, body, favoritesCount, tagList, author: { username, image }, createdAt,
+      title, description, favoritesCount, tagList, author: { username, image }, createdAt,
     },
   } = item;
   const date = format(new Date(createdAt), 'MMMM dd, yyyy');
@@ -35,7 +35,7 @@ const Article = (item) => {
           <div />
           <div className={classes.tagList}>{inTagList(tagList)}</div>
           <p>
-            {body}
+            {description}
           </p>
         </Col>
         <Col md={3}>

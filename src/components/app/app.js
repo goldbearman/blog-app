@@ -9,6 +9,7 @@ import BlogService from '../../services/blog-service';
 import SingUpForm from '../form/singUpForm';
 import { SignInForm } from '../form/signInForm';
 import EditProfile from '../form/formEditProfile';
+import Article from '../article/article';
 
 
 export const BlogContext = React.createContext();
@@ -37,8 +38,17 @@ const App = () => {
       <>
         <Router>
           <NavBar isLoggedIn={isLoggedIn} onLogin={onLogIn} />
-          {/* <ArticleList arrArticles={arrArticles} /> */}
-          <Route path="/articles" component={ArticleList} />
+          {/* <ArticleList arrArticles={arrArticles}/> */}
+          <Route path="/" exact render={() => (<ArticleList arrArticles={arrArticles} />)} />
+          <Route path="/articles" exact render={() => (<ArticleList arrArticles={arrArticles} />)} />
+          <Route
+            path="/articles/:slag"
+            render={({ match }) => {
+              // eslint-disable-next-line no-console
+              console.log(match);
+              return <Article />;
+            }}
+          />
           <Route path="/sing-up" render={() => (<SingUpForm isLoggedIn={isLoggedIn} onLogin={onLogIn} />)} />
           <Route path="/sing-in" render={() => (<SignInForm isLoggedIn={isLoggedIn} onLogin={onLogIn} />)} />
           <Route path="/profile" render={() => (<EditProfile isLoggedIn={isLoggedIn} onLogin={onLogIn} />)} />
