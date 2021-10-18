@@ -1,17 +1,29 @@
 import React from 'react';
-import ReactDom from 'react-dom';
+// import ReactDom from 'react-dom';
 import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import Article from "../article/article";
+// import remarkGfm from 'remark-gfm';
+import PropTypes from 'prop-types';
+import Article from '../article/article';
 
-const markdown = 'Just a link: https://reactjs.com.';
-
-export const WholeArticle = () => {
-
+export const WholeArticle = ({ slug, arrArticles }) => {
+  const item = arrArticles.filter(element => element.slug === slug.slag);
+  // eslint-disable-next-line no-console
+  console.log(item);
   return (
     <div>
-      <Article />
-      <ReactMarkdown />
+      <Article item={item[0]} />
+      {/* eslint-disable-next-line react/no-children-prop */}
+      <ReactMarkdown children={item[0].body} />
     </div>
   );
-}
+};
+
+WholeArticle.propTypes = {
+  slug: PropTypes.string,
+  arrArticles: PropTypes.arrayOf(PropTypes.object),
+};
+
+WholeArticle.defaultProps = {
+  slug: 'hi',
+  arrArticles: [],
+};

@@ -1,20 +1,18 @@
 import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { format } from 'date-fns';
+import PropTypes from 'prop-types';
 import classes from './article.module.scss';
 
-
-const Article = (item) => {
+const Article = ({ item, onItemClick }) => {
   // eslint-disable-next-line no-console
   console.log(item);
   const {
-    item: {
-      title, description, favoritesCount, tagList, author: { username, image }, createdAt,
-    },
+    title, description, favoritesCount, tagList, author: { username, image }, createdAt,
   } = item;
   const date = format(new Date(createdAt), 'MMMM dd, yyyy');
   // eslint-disable-next-line no-console
-  console.log(date);
+  // console.log(date);
 
   const inTagList = (arr) => {
     if (arr.length === 0) return null;
@@ -25,7 +23,7 @@ const Article = (item) => {
   };
 
   return (
-    <Container className={classes.articleContainer}>
+    <Container className={classes.articleContainer} onClick={onItemClick}>
       <Row>
         <Col md={9}>
           <div className={classes.h1LikeCount}>
@@ -51,6 +49,17 @@ const Article = (item) => {
       </Row>
     </Container>
   );
+};
+
+Article.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  item: PropTypes.object,
+  onItemClick: PropTypes.func,
+};
+
+Article.defaultProps = {
+  item: {},
+  onItemClick: () => {},
 };
 
 

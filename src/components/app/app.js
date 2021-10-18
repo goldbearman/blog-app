@@ -9,7 +9,7 @@ import BlogService from '../../services/blog-service';
 import SingUpForm from '../form/singUpForm';
 import { SignInForm } from '../form/signInForm';
 import EditProfile from '../form/formEditProfile';
-import Article from '../article/article';
+import { WholeArticle } from '../whole-article/whole-article';
 
 
 export const BlogContext = React.createContext();
@@ -46,7 +46,7 @@ const App = () => {
             render={({ match }) => {
               // eslint-disable-next-line no-console
               console.log(match);
-              return <Article />;
+              return <WholeArticle slug={match.params} arrArticles={arrArticles} />;
             }}
           />
           <Route path="/sing-up" render={() => (<SingUpForm isLoggedIn={isLoggedIn} onLogin={onLogIn} />)} />
