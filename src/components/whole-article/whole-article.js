@@ -1,20 +1,20 @@
 import React from 'react';
-// import ReactDom from 'react-dom';
 import ReactMarkdown from 'react-markdown';
-// import remarkGfm from 'remark-gfm';
 import PropTypes from 'prop-types';
-import Article from '../article/article';
+import { ArticleContainer } from '../article-container/article-container';
+import ArticleContent from '../article/article-content';
+
 
 export const WholeArticle = ({ slug, arrArticles }) => {
   const item = arrArticles.filter(element => element.slug === slug.slag);
   // eslint-disable-next-line no-console
   console.log(item);
   return (
-    <div>
-      <Article item={item[0]} />
+    <ArticleContainer>
+      <ArticleContent item={item[0]} />
       {/* eslint-disable-next-line react/no-children-prop */}
       <ReactMarkdown children={item[0].body} />
-    </div>
+    </ArticleContainer>
   );
 };
 
