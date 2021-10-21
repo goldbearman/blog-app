@@ -25,7 +25,7 @@ const SignInSchema = yup.object().shape({
 
 // eslint-disable-next-line react/prop-types
 function SingUpForm({ history }) {
-  const blogService = useContext(BlogContext);
+  const value = useContext(BlogContext);
   const {
     register,
     handleSubmit,
@@ -58,7 +58,7 @@ function SingUpForm({ history }) {
     // eslint-disable-next-line no-console
     console.log(data);
     // eslint-disable-next-line no-console
-    blogService.registration(data).then((responseBody) => {
+    value.blogService.registration(data).then((responseBody) => {
       // eslint-disable-next-line no-console
       console.log(responseBody);
       history.push('/sing-in');

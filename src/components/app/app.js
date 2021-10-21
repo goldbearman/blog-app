@@ -17,7 +17,7 @@ export const BlogContext = React.createContext();
 const App = () => {
   // eslint-disable-next-line no-unused-vars
   const [arrArticles, setArrArticles] = useState([]);
-  const [isLoggedIn, setisLoggedIn] = useState(false);
+  const [isLoggedIn, setisLoggedIn] = useState(true);
 
   const blogService = new BlogService();
 
@@ -34,7 +34,7 @@ const App = () => {
   };
 
   return (
-    <BlogContext.Provider value={blogService}>
+    <BlogContext.Provider value={{ blogService, isLoggedIn }}>
       <>
         <Router>
           <NavBar isLoggedIn={isLoggedIn} onLogin={onLogIn} />
