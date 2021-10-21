@@ -4,12 +4,15 @@ import * as yup from 'yup';
 // import { Container } from 'react-bootstrap';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Checkbox, FormControlLabel } from '@material-ui/core';
+import { Alert } from '@mui/material';
 import cn from 'classnames';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import classes from './form.module.scss';
 import { FormContainer } from './formContainer';
 // eslint-disable-next-line import/no-cycle
 import { BlogContext } from '../app/app';
+
 
 const SignInSchema = yup.object().shape({
   'User name': yup.string().min(3).max(20).required(),
@@ -20,7 +23,8 @@ const SignInSchema = yup.object().shape({
 });
 
 
-function SingUpForm() {
+// eslint-disable-next-line react/prop-types
+function SingUpForm({ history }) {
   const blogService = useContext(BlogContext);
   const {
     register,
@@ -32,6 +36,19 @@ function SingUpForm() {
     mode: 'all',
   });
 
+  // eslint-disable-next-line no-console
+  console.log(history);
+
+  const alertText = (data) => {
+    // eslint-disable-next-line no-console
+    console.log('alert');
+    // eslint-disable-next-line no-param-reassign,no-unused-vars
+    data = {};
+    return (
+      <Alert severity="error">This is an error alert — check it out!</Alert>
+    );
+  };
+
   const onSubmit = (data) => {
     // eslint-disable-next-line no-console
     console.log(data);
@@ -41,7 +58,12 @@ function SingUpForm() {
     // eslint-disable-next-line no-console
     console.log(data);
     // eslint-disable-next-line no-console
-    blogService.registration(data).then(responseBody => localStorage.setItem('user', responseBody.user));
+    blogService.registration(data).then((responseBody) => {
+      // eslint-disable-next-line no-console
+      console.log(responseBody);
+      history.push('/sing-in');
+      localStorage.setItem('user', responseBody.user);
+    }, alertText(data));
   };
 
   // eslint-disable-next-line no-unused-vars
@@ -126,3 +148,15 @@ function SingUpForm() {
 }
 
 export default SingUpForm;
+
+SingUpForm.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+};
+
+SingUpForm.defaultProps = {
+  history: {
+    push: () => {},
+  },
+};

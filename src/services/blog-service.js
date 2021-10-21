@@ -1,9 +1,9 @@
 export default class BlogService {
-  apiBase = 'https://conduit-api-realworld.herokuapp.com/api/';
+  apiBase = 'https://cirosantilli-realworld-express.herokuapp.com/api/';
 
   // eslint-disable-next-line consistent-return
   async getResources(url) {
-    const res = await fetch(`${this.apiBase}${url}`);
+    const res = await fetch(`${this.apiBase}${url}?limit=10&offset=20`);
     if (!res.ok) {
       throw new Error('Bad response from server');
     }

@@ -49,7 +49,7 @@ const App = () => {
               return <WholeArticle slug={match.params} arrArticles={arrArticles} />;
             }}
           />
-          <Route path="/sing-up" render={() => (<SingUpForm isLoggedIn={isLoggedIn} onLogin={onLogIn} />)} />
+          <Route path="/sing-up" render={({ history }) => (<SingUpForm isLoggedIn={isLoggedIn} history={history} onLogin={onLogIn} />)} />
           <Route path="/sing-in" render={() => (<SignInForm isLoggedIn={isLoggedIn} onLogin={onLogIn} />)} />
           <Route path="/profile" render={() => (<EditProfile isLoggedIn={isLoggedIn} onLogin={onLogIn} />)} />
         </Router>
