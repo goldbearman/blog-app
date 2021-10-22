@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 import classes from './article.module.scss';
 
 const ArticleContent = ({ item }) => {
-  // eslint-disable-next-line no-console
-  console.log(item);
   const {
     title, description, favoritesCount, tagList, author: { username, image }, createdAt,
   } = item;

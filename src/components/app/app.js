@@ -5,21 +5,18 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import NavBar from '../nav-bar/navbar';
 import ArticleList from '../article-list/article-list';
 import BlogService from '../../services/blog-service';
-// eslint-disable-next-line import/no-cycle
+import WholeArticle from '../whole-article/whole-article';
 import SingUpForm from '../form/singUpForm';
-import { SignInForm } from '../form/signInForm';
+import SignInForm from '../form/signInForm';
 import EditProfile from '../form/formEditProfile';
-import { WholeArticle } from '../whole-article/whole-article';
-
-
-export const BlogContext = React.createContext();
+import { BlogContext } from './blog-context';
 
 const App = () => {
   // eslint-disable-next-line no-unused-vars
-  const [arrArticles, setArrArticles] = useState([]);
-  const [isLoggedIn, setisLoggedIn] = useState(true);
-
   const blogService = new BlogService();
+  const [arrArticles, setArrArticles] = useState([]);
+  const [isLoggedIn, setisLoggedIn] = useState(false);
+
 
   useEffect(() => {
     blogService.getAllArticles().then((articles) => {
@@ -49,8 +46,15 @@ const App = () => {
               return <WholeArticle slug={match.params} arrArticles={arrArticles} />;
             }}
           />
-          <Route path="/sing-up" render={({ history }) => (<SingUpForm isLoggedIn={isLoggedIn} history={history} onLogin={onLogIn} />)} />
-          <Route path="/sing-in" render={() => (<SignInForm isLoggedIn={isLoggedIn} onLogin={onLogIn} />)} />
+          <Route
+            path="/sing-up"
+            render={({ history }) => (<SingUpForm isLoggedIn={isLoggedIn} history={history} />)}
+          />
+          <Route
+            path="/sing-in"
+            render={({ history }) => (
+              <SignInForm isLoggedIn={isLoggedIn} history={history} onLogin={onLogIn} />)}
+          />
           <Route path="/profile" render={() => (<EditProfile isLoggedIn={isLoggedIn} onLogin={onLogIn} />)} />
         </Router>
       </>

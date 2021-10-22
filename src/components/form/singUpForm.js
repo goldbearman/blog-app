@@ -10,8 +10,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classes from './form.module.scss';
 import { FormContainer } from './formContainer';
-// eslint-disable-next-line import/no-cycle
-import { BlogContext } from '../app/app';
+import { BlogContext } from '../app/blog-context';
 
 
 const SignInSchema = yup.object().shape({

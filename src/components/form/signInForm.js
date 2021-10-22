@@ -1,19 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import cn from 'classnames';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import classes from './form.module.scss';
 import { FormContainer } from './formContainer';
-// import { makeStyles } from '@material-ui/core';
+import { BlogContext } from '../app/blog-context';
 
 const SignInSchema = yup.object().shape({
   'Email address': yup.string().email().required(),
   Password: yup.string().min(6).max(40).required('Поле обязательно!'),
 });
 
-export const SignInForm = () => {
+const SignInForm = ({ history, onLogin }) => {
+  const value = useContext(BlogContext);
+
   const {
     register,
     handleSubmit,
@@ -23,7 +26,19 @@ export const SignInForm = () => {
     mode: 'all',
   });
   const onSubmit = (data) => {
+    // eslint-disable-next-line no-param-reassign
+    data = { email: data['Email address'], password: data.Password };
+    // eslint-disable-next-line no-console
+    console.log(data);
     alert(JSON.stringify(data));
+    value.blogService.authentication(data).then((responseBody) => {
+      // eslint-disable-next-line no-console
+      console.log(responseBody);
+      onLogin();
+      history.push('/articles');
+      // localStorage.setItem('user', responseBody.user);
+      // eslint-disable-next-line no-console
+    }, error => console.log(error));
   };
 
   return (
@@ -62,4 +77,20 @@ export const SignInForm = () => {
       </form>
     </FormContainer>
   );
+};
+
+export default SignInForm;
+
+SignInForm.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+  onLogin: PropTypes.func,
+};
+
+SignInForm.defaultProps = {
+  history: {
+    push: () => {},
+  },
+  onLogin: () => {},
 };

@@ -35,6 +35,21 @@ export default class BlogService {
     return responseBody;
   }
 
+  async authentication(userData) {
+    const res = await fetch(`${this.apiBase}users/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user: userData }),
+    });
+    if (!res.ok) {
+      throw new Error('Email or password is invalid');
+    }
+    const responseBody = res.json();
+    // eslint-disable-next-line no-console
+    console.log(responseBody);
+    return responseBody;
+  }
+
   async editUser(userData, token) {
     const res = await fetch(`${this.apiBase}users`, {
       method: 'PUT',
@@ -44,6 +59,9 @@ export default class BlogService {
       },
       body: JSON.stringify({ user: userData }),
     });
+    if (!res.ok) {
+      throw new Error(res.json().errors);
+    }
     const responseBody = res.json();
     // eslint-disable-next-line no-console
     console.log(responseBody);

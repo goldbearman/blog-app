@@ -36,7 +36,7 @@ const NavBar = ({ isLoggedIn }) => {
         <Navbar.Brand href="#home" className={classes.brand}>Realworld Blog</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
-          {isLoggedIn ? logIn() : logOut('John Dow')}
+          {isLoggedIn ? logOut('John Dow') : logIn()}
         </Navbar.Collapse>
       </Container>
     </Navbar>
