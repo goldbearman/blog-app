@@ -3,6 +3,7 @@ import { Container, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Avatar } from '@material-ui/core';
 import cn from 'classnames';
+import { Button } from '@mui/material';
 import classes from './nav-bar.module.scss';
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -14,19 +15,24 @@ const logIn = () => (
   </>
 );
 
-const logOut = name => (
+const logOut = (name, onLogin) => (
   <>
     <Link to="/sing-in" className={cn(classes.buttonNavBar, classes.buttonCreateArticle)}>Create article</Link>
     <div className={classes.userData}>
       <Link to="/profile">{name}</Link>
       <Avatar alt="Name" src="./pictures/ava.jpg" variant="circular" sx={{ width: 46, height: 46 }} />
     </div>
-    <Link to="/sing-up" className={cn(classes.buttonNavBar, classes.buttonLogOut)}>Log Out</Link>
+    <Button
+      onClick={() => onLogin(false)}
+      className={cn(classes.buttonNavBar, classes.buttonLogOut)}
+    >
+      Log Out
+    </Button>
   </>
 );
 
 // eslint-disable-next-line react/prop-types
-const NavBar = ({ isLoggedIn }) => {
+const NavBar = ({ isLoggedIn, onLogin }) => {
   // eslint-disable-next-line no-console
   console.log(isLoggedIn);
 
@@ -36,7 +42,7 @@ const NavBar = ({ isLoggedIn }) => {
         <Navbar.Brand href="#home" className={classes.brand}>Realworld Blog</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
-          {isLoggedIn ? logOut('John Dow') : logIn()}
+          {isLoggedIn ? logOut('John Dow', onLogin) : logIn()}
         </Navbar.Collapse>
       </Container>
     </Navbar>

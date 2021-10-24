@@ -25,7 +25,7 @@ module.exports = {
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     indent: ['error', 2, { SwitchCase: 1 }],
     'no-plusplus': 'off',
-    'no-console': 'error',
+    'no-console': 'off',
     'jsx-a11y/label-has-associated-control': [2, {
       labelComponents: ['CustomInputLabel'],
       labelAttributes: ['label'],

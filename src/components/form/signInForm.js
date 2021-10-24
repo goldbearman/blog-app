@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import cn from 'classnames';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -17,6 +17,8 @@ const SignInSchema = yup.object().shape({
 const SignInForm = ({ history, onLogin }) => {
   const value = useContext(BlogContext);
 
+  const [signInError, setSignInError] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -30,15 +32,17 @@ const SignInForm = ({ history, onLogin }) => {
     data = { email: data['Email address'], password: data.Password };
     // eslint-disable-next-line no-console
     console.log(data);
-    alert(JSON.stringify(data));
+    // alert(JSON.stringify(data));
     value.blogService.authentication(data).then((responseBody) => {
       // eslint-disable-next-line no-console
       console.log(responseBody);
-      onLogin();
+      onLogin(true);
       history.push('/articles');
       // localStorage.setItem('user', responseBody.user);
       // eslint-disable-next-line no-console
-    }, error => console.log(error));
+    }, () => (
+      setSignInError(true)
+    ));
   };
 
   return (
@@ -67,7 +71,7 @@ const SignInForm = ({ history, onLogin }) => {
           />
         </label>
         <p>{errors?.Password && errors?.Password?.message}</p>
-        {/* eslint-disable-next-line jsx-a11y/label-has-for */}
+        <p>{(signInError && !errors?.Password) && 'Введен неверный логин или пароль'}</p>
 
         <input className={classes.submitButtonSingIn} value="Login" type="submit" />
         <div className={classes.formFooter}>
