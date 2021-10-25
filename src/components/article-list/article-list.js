@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Pagination } from '@mui/material';
 import PropTypes from 'prop-types';
 import Article from '../article/article';
 import classes from './article-list.module.scss';
-// import SignInForm from '../form/signInForm';
+
 
 const ArticleList = ({ arrArticles, history, articlesCount }) => {
   let key = 100;
+
+  const [pageNumber, setPageNumber] = useState(1);
   // eslint-disable-next-line no-console
   console.log(arrArticles);
 
@@ -29,11 +31,16 @@ const ArticleList = ({ arrArticles, history, articlesCount }) => {
     return elements;
   };
 
+  const onChangePage = (event, page) => {
+    console.log(page);
+    setPageNumber(page);
+  };
+
   return (
     <>
       {createList()}
       <div className={classes.paginationContainer}>
-        <Pagination className={classes.pagination} count={Math.floor(articlesCount / 5)} defaultPage={1} color="primary" />
+        <Pagination className={classes.pagination} onChange={onChangePage} page={pageNumber} shape="rounded" count={Math.floor(articlesCount / 5)} defaultPage={1} color="primary" />
       </div>
     </>
   );
