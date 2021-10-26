@@ -44,7 +44,9 @@ const NavBar = ({ counter, onLogin }) => {
   return (
     <Navbar bg="white">
       <Container className={classes.articleNavbar}>
-        <Navbar.Brand href="#home" className={classes.brand}> Realworld Blog</Navbar.Brand>
+        <Navbar.Brand href="#home" className={classes.brand}>
+          <NavLink to="/"> Realworld Blog</NavLink>
+        </Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           {counter.isLoggedIn ? logOut('John Dow', onLogin) : logIn()}

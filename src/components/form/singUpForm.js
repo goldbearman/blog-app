@@ -22,7 +22,7 @@ const SignInSchema = yup.object().shape({
 
 
 // eslint-disable-next-line react/prop-types
-function SingUpForm({ history, signUp }) {
+function SingUpForm({ history, signUp, counter: { errorRegistration } }) {
   // const value = useContext(BlogContext);
   const {
     register,
@@ -35,16 +35,14 @@ function SingUpForm({ history, signUp }) {
   });
 
   // eslint-disable-next-line no-console
-  console.log(history);
+  console.log(errorRegistration);
 
   const onSubmit = (data) => {
-    // eslint-disable-next-line no-console
-    console.log(data);
     // eslint-disable-next-line no-param-reassign
     data = { username: data['User name'], email: data['Email address'], password: data.Password };
     // eslint-disable-next-line no-console
     console.log(data);
-    signUp(data);
+    signUp(data, history);
   };
 
   // eslint-disable-next-line no-unused-vars
@@ -107,6 +105,7 @@ function SingUpForm({ history, signUp }) {
           />
         </label>
         <p>{errors?.['Confirm password'] && errors?.['Confirm password']?.message}</p>
+        <p>{errorRegistration && 'Invalid email or password'}</p>
 
         <hr size={3} />
 
@@ -141,7 +140,7 @@ SingUpForm.defaultProps = {
 };
 
 const mapDispathToProps = dispatch => ({
-  signUp: data => dispatch(fetchRegistration(data)),
+  signUp: (data, history) => dispatch(fetchRegistration(data, history)),
 });
 
 const mapStateToProps = state => ({

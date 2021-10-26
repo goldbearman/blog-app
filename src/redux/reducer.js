@@ -1,5 +1,5 @@
 import {
-  INITIAL_STATE, ON_LOGIN,
+  INITIAL_STATE, ON_LOGIN, REGISTRATION, ERROR_REGISTRATION,
 } from './actions';
 
 const allState = {
@@ -34,17 +34,17 @@ const reducer = (state = allState, action) => {
       const newStateSheap = Object.assign({}, state, { isLoggedIn: action.bool });
       return newStateSheap;
     }
-    //
-    // case CLICK_FASTEST: {
-    //   const newStateFast = { ...state, button: 2 };
-    //   return sortArr(newStateFast);
-    // }
-    //
-    // case FIVE_MORE_TICKETS: {
-    //   const newStateFiveMoreTickets = { ...state };
-    //   newStateFiveMoreTickets.numberFlight += 5;
-    //   return (newStateFiveMoreTickets);
-    // }
+
+    case REGISTRATION: {
+      const newStateFast = { ...state, button: 2 };
+      return newStateFast;
+    }
+
+    case ERROR_REGISTRATION: {
+      // eslint-disable-next-line no-console
+      console.log('ERROR_REGISTRATION');
+      return { ...state, errorRegistration: true };
+    }
 
     default:
       return state;

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import cn from 'classnames';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -33,7 +33,7 @@ const SignInForm = ({ history, onLogin }) => {
     // eslint-disable-next-line no-param-reassign
     data = { email: data['Email address'], password: data.Password };
     // eslint-disable-next-line no-console
-    console.log(data);
+    console.log(history, onLogin, data);
     // alert(JSON.stringify(data));
   };
 
@@ -63,7 +63,7 @@ const SignInForm = ({ history, onLogin }) => {
           />
         </label>
         <p>{errors?.Password && errors?.Password?.message}</p>
-        <p>{(signInError && !errors?.Password) && 'Введен неверный логин или пароль'}</p>
+        {/* <p>{(signInError && !errors?.Password) && 'Введен неверный логин или пароль'}</p> */}
 
         <input className={classes.submitButtonSingIn} value="Login" type="submit" />
         <div className={classes.formFooter}>
