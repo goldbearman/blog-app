@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import './app.scss';
 // ROUTER
 import { BrowserRouter as Router, Route } from 'react-router-dom';
@@ -30,7 +30,7 @@ const theme = createTheme({
   },
 });
 
-const App = ({ counter, getArticles }) => {
+const App = ({ getArticles }) => {
   // eslint-disable-next-line no-unused-vars
   const blogService = new BlogService();
 
@@ -38,48 +38,48 @@ const App = ({ counter, getArticles }) => {
     getArticles();
   }, []);
 
-  const onLogIn = (bool) => {
-    // eslint-disable-next-line no-console
-    console.log(bool);
-    setIsLoggedIn(bool);
-  };
+  // const onLogIn = (bool) => {
+  //   // eslint-disable-next-line no-console
+  //   console.log(bool);
+  //   setIsLoggedIn(bool);
+  // };
 
   return (
     <ThemeProvider theme={theme}>
       {/* <BlogContext.Provider value={{ blogService, isLoggedIn }}> */}
       <Router>
-        <NavBar isLoggedIn={isLoggedIn} onLogin={onLogIn} />
+        <NavBar />
         {/* <ArticleList arrArticles={arrArticles}/> */}
         <Route
           path="/"
           exact
-          render={() => (
-            <ArticleList arrArticles={arrArticles} articlesCount={articlesCount} />)}
+          render={({ history }) => (
+            <ArticleList history={history} />)}
         />
         <Route
           path="/articles"
           exact
-          render={() => (
-            <ArticleList arrArticles={arrArticles} articlesCount={articlesCount} />)}
+          render={history => (
+            <ArticleList history={history} />)}
         />
         <Route
           path="/articles/:slag"
           render={({ match }) => {
             // eslint-disable-next-line no-console
             console.log(match);
-            return <WholeArticle slug={match.params} arrArticles={arrArticles} />;
+            return <WholeArticle slug={match.params} />;
           }}
         />
         <Route
           path="/sing-up"
-          render={({ history }) => (<SingUpForm isLoggedIn={isLoggedIn} history={history} />)}
+          render={({ history }) => (<SingUpForm history={history} />)}
         />
         <Route
           path="/sing-in"
           render={({ history }) => (
-            <SignInForm isLoggedIn={isLoggedIn} history={history} onLogin={onLogIn} />)}
+            <SignInForm history={history} />)}
         />
-        <Route path="/profile" render={() => (<EditProfile isLoggedIn={isLoggedIn} />)} />
+        <Route path="/profile" render={() => (<EditProfile />)} />
       </Router>
       {/* </BlogContext.Provider> */}
     </ThemeProvider>
@@ -105,6 +105,7 @@ App.defaultProps = {
 const mapDispathToProps = dispatch => ({
   getArticles: () => dispatch(fetchArticles()),
 });
+
 const mapStateToProps = state => ({
   counter: state,
 });

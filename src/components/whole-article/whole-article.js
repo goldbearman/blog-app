@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { ArticleContainer } from '../article-container/article-container';
 import ArticleContent from '../article/article-content';
+import * as actions from '../../redux/actions';
 
-const WholeArticle = ({ slug, arrArticles }) => {
+const WholeArticle = ({ slug, counter: { arrArticles } }) => {
   const item = arrArticles.filter(element => element.slug === slug.slag);
   // eslint-disable-next-line no-console
   console.log(item);
@@ -17,14 +19,23 @@ const WholeArticle = ({ slug, arrArticles }) => {
   );
 };
 
-export default WholeArticle;
 
 WholeArticle.propTypes = {
   slug: PropTypes.string,
-  arrArticles: PropTypes.arrayOf(PropTypes.object),
+  counter: PropTypes.shape({
+    arrArticles: PropTypes.arrayOf(PropTypes.object),
+  }),
 };
 
 WholeArticle.defaultProps = {
   slug: 'hi',
-  arrArticles: [],
+  counter: {
+    arrArticles: [],
+  },
 };
+
+const mapStateToProps = state => ({
+  counter: state,
+});
+
+export default connect(mapStateToProps, actions)(WholeArticle);

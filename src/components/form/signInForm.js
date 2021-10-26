@@ -5,9 +5,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import classes from './form.module.scss';
 import { FormContainer } from './formContainer';
-import { BlogContext } from '../app/blog-context';
+import * as actions from '../../redux/actions';
+// import { BlogContext } from '../app/blog-context';
 
 const SignInSchema = yup.object().shape({
   'Email address': yup.string().email().required(),
@@ -15,9 +17,9 @@ const SignInSchema = yup.object().shape({
 });
 
 const SignInForm = ({ history, onLogin }) => {
-  const value = useContext(BlogContext);
+  // const value = useContext(BlogContext);
 
-  const [signInError, setSignInError] = useState(false);
+  // const [signInError, setSignInError] = useState(false);
 
   const {
     register,
@@ -33,16 +35,6 @@ const SignInForm = ({ history, onLogin }) => {
     // eslint-disable-next-line no-console
     console.log(data);
     // alert(JSON.stringify(data));
-    value.blogService.authentication(data).then((responseBody) => {
-      // eslint-disable-next-line no-console
-      console.log(responseBody);
-      onLogin(true);
-      history.push('/articles');
-      // localStorage.setItem('user', responseBody.user);
-      // eslint-disable-next-line no-console
-    }, () => (
-      setSignInError(true)
-    ));
   };
 
   return (
@@ -83,8 +75,6 @@ const SignInForm = ({ history, onLogin }) => {
   );
 };
 
-export default SignInForm;
-
 SignInForm.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
@@ -98,3 +88,13 @@ SignInForm.defaultProps = {
   },
   onLogin: () => {},
 };
+
+const mapStateToProps = state => ({
+  counter: state,
+});
+
+const mapDispathToProps = dispatch => ({
+  onLogin: bool => dispatch(actions.onLogin(bool)),
+});
+
+export default connect(mapStateToProps, mapDispathToProps)(SignInForm);

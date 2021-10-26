@@ -1,16 +1,15 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
-// import { Container } from 'react-bootstrap';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Checkbox, FormControlLabel } from '@material-ui/core';
-import { Alert } from '@mui/material';
 import cn from 'classnames';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import classes from './form.module.scss';
 import { FormContainer } from './formContainer';
-import { BlogContext } from '../app/blog-context';
+import { fetchRegistration } from '../../redux/asyncAction';
 
 
 const SignInSchema = yup.object().shape({
@@ -23,8 +22,8 @@ const SignInSchema = yup.object().shape({
 
 
 // eslint-disable-next-line react/prop-types
-function SingUpForm({ history }) {
-  const value = useContext(BlogContext);
+function SingUpForm({ history, signUp }) {
+  // const value = useContext(BlogContext);
   const {
     register,
     handleSubmit,
@@ -38,31 +37,14 @@ function SingUpForm({ history }) {
   // eslint-disable-next-line no-console
   console.log(history);
 
-  const alertText = (data) => {
-    // eslint-disable-next-line no-console
-    console.log('alert');
-    // eslint-disable-next-line no-param-reassign,no-unused-vars
-    data = {};
-    return (
-      <Alert severity="error">This is an error alert — check it out!</Alert>
-    );
-  };
-
   const onSubmit = (data) => {
     // eslint-disable-next-line no-console
     console.log(data);
-
     // eslint-disable-next-line no-param-reassign
     data = { username: data['User name'], email: data['Email address'], password: data.Password };
     // eslint-disable-next-line no-console
     console.log(data);
-    // eslint-disable-next-line no-console
-    value.blogService.registration(data).then((responseBody) => {
-      // eslint-disable-next-line no-console
-      console.log(responseBody);
-      history.push('/sing-in');
-      localStorage.setItem('user', responseBody.user);
-    }, alertText(data));
+    signUp(data);
   };
 
   // eslint-disable-next-line no-unused-vars
@@ -146,8 +128,6 @@ function SingUpForm({ history }) {
   );
 }
 
-export default SingUpForm;
-
 SingUpForm.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
@@ -159,3 +139,13 @@ SingUpForm.defaultProps = {
     push: () => {},
   },
 };
+
+const mapDispathToProps = dispatch => ({
+  signUp: data => dispatch(fetchRegistration(data)),
+});
+
+const mapStateToProps = state => ({
+  counter: state,
+});
+
+export default connect(mapStateToProps, mapDispathToProps)(SingUpForm);

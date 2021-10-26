@@ -1,17 +1,25 @@
 import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
-import { Pagination } from '@mui/material';
+// import { withRouter } from 'react-router-dom';
+
 import PropTypes from 'prop-types';
+// UI DESIGN
+import { Pagination } from '@mui/material';
+// REDUX
+import { connect } from 'react-redux';
+import * as actions from '../../redux/actions';
+// COMPONENTS
 import Article from '../article/article';
 import classes from './article-list.module.scss';
 
 
-const ArticleList = ({ arrArticles, history, articlesCount }) => {
+// const ArticleList = ({ arrArticles, history, articlesCount }) => {
+const ArticleList = ({ history, counter: { arrArticles, articlesCount } }) => {
+  console.log(history);
   let key = 100;
 
   const [pageNumber, setPageNumber] = useState(1);
   // eslint-disable-next-line no-console
-  console.log(arrArticles);
+  // console.log(arrArticles);
 
   const createList = () => {
     const elements = arrArticles.map((data) => {
@@ -21,7 +29,7 @@ const ArticleList = ({ arrArticles, history, articlesCount }) => {
           item={data}
           onItemClick={() => {
             // eslint-disable-next-line no-console
-            console.log('click');
+            console.log(slug);
             history.push(`/articles/${slug}`);
           }}
           key={key++}
@@ -40,7 +48,15 @@ const ArticleList = ({ arrArticles, history, articlesCount }) => {
     <>
       {createList()}
       <div className={classes.paginationContainer}>
-        <Pagination className={classes.pagination} onChange={onChangePage} page={pageNumber} shape="rounded" count={Math.floor(articlesCount / 5)} defaultPage={1} color="primary" />
+        <Pagination
+          className={classes.pagination}
+          onChange={onChangePage}
+          page={pageNumber}
+          shape="rounded"
+          count={Math.floor(articlesCount / 5)}
+          defaultPage={1}
+          color="primary"
+        />
       </div>
     </>
   );
@@ -50,16 +66,24 @@ ArticleList.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }),
-  arrArticles: PropTypes.arrayOf(PropTypes.object),
-  articlesCount: PropTypes.number,
+  counter: PropTypes.shape({
+    arrArticles: PropTypes.arrayOf(PropTypes.object),
+    articlesCount: PropTypes.number,
+  }),
 };
 
 ArticleList.defaultProps = {
   history: {
     push: () => {},
   },
-  arrArticles: [],
-  articlesCount: 0,
+  counter: {
+    arrArticles: [],
+    articlesCount: 0,
+  },
 };
 
-export default withRouter(ArticleList);
+const mapStateToProps = state => ({
+  counter: state,
+});
+
+export default connect(mapStateToProps, actions)(ArticleList);

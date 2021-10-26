@@ -1,5 +1,5 @@
 import {
-  INITIALSTATE,
+  INITIAL_STATE, ON_LOGIN,
 } from './actions';
 
 const allState = {
@@ -22,21 +22,18 @@ const reducer = (state = allState, action) => {
   console.log(action);
 
   switch (action.type) {
-    // case ON_CHEKCBOX:
-    //   return checkState(action.number, state);
-
-    case INITIALSTATE: {
-      // eslint-disable-next-line max-len
-      const newState = Object.assign({}, state, { arrArticles: action.articles, articlesCount: action.articlesCount });
+    case INITIAL_STATE: {
+      console.log(action);
+      const newState = Object.assign(
+        {}, state, { arrArticles: action.res.articles, articlesCount: action.res.articlesCount },
+      );
       return newState;
-      // setArrArticles(res.articles);
-      // setArticlesCount(res.articlesCount);
     }
 
-    // case CLICK_CHEAPEST: {
-    //   const newStateSheap = { ...state, button: 1 };
-    //   return sortArr(newStateSheap);
-    // }
+    case ON_LOGIN: {
+      const newStateSheap = Object.assign({}, state, { isLoggedIn: action.bool });
+      return newStateSheap;
+    }
     //
     // case CLICK_FASTEST: {
     //   const newStateFast = { ...state, button: 2 };
