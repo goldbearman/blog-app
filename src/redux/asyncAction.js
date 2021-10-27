@@ -28,5 +28,5 @@ export const fetchRegistration = (data, history) => (dispatch) => {
   blogService.registration(data).then((res) => {
     dispatch(onRegistration(res));
     history.push('/sing-in');
-  }, () => dispatch(onErrorRegistration()));
+  }, () => dispatch(onErrorRegistration(true)));
 };

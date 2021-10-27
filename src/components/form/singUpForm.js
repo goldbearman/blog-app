@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import classes from './form.module.scss';
 import { FormContainer } from './formContainer';
 import { fetchRegistration } from '../../redux/asyncAction';
+import { onErrorRegistration } from '../../redux/actions';
 
 
 const SignInSchema = yup.object().shape({
@@ -22,7 +23,9 @@ const SignInSchema = yup.object().shape({
 
 
 // eslint-disable-next-line react/prop-types
-function SingUpForm({ history, signUp, counter: { errorRegistration } }) {
+function SingUpForm({
+  history, signUp, counter: { errorRegistration }, onErrorRegistration,
+}) {
   // const value = useContext(BlogContext);
   const {
     register,
@@ -56,6 +59,11 @@ function SingUpForm({ history, signUp, counter: { errorRegistration } }) {
   console.log((Object.keys(errors).length === 0));
   // eslint-disable-next-line no-console
   console.log(!(checkAgree && (Object.keys(errors).length === 0)));
+
+  useEffect(() => {
+    const timeOut = setTimeout(() => onErrorRegistration(false), 2000);
+    return () => clearTimeout(timeOut);
+  }, []);
 
   return (
     <FormContainer>
@@ -105,7 +113,7 @@ function SingUpForm({ history, signUp, counter: { errorRegistration } }) {
           />
         </label>
         <p>{errors?.['Confirm password'] && errors?.['Confirm password']?.message}</p>
-        <p>{errorRegistration && 'Invalid email or password'}</p>
+        <p className={classes.errorRegistration}>{(Object.keys(errors).length === 0 && errorRegistration) && 'Invalid email or password'}</p>
 
         <hr size={3} />
 
@@ -131,12 +139,14 @@ SingUpForm.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }),
+  onErrorRegistration: PropTypes.func,
 };
 
 SingUpForm.defaultProps = {
   history: {
     push: () => {},
   },
+  onErrorRegistration: () => {},
 };
 
 const mapDispathToProps = dispatch => ({
