@@ -24,7 +24,7 @@ const SignInSchema = yup.object().shape({
 
 // eslint-disable-next-line react/prop-types
 function SingUpForm({
-  history, signUp, counter: { errorRegistration }, onErrorRegistration,
+  history, signUp, counter: { errorRegistration }, isRegistration,
 }) {
   // const value = useContext(BlogContext);
   const {
@@ -61,7 +61,7 @@ function SingUpForm({
   console.log(!(checkAgree && (Object.keys(errors).length === 0)));
 
   useEffect(() => {
-    const timeOut = setTimeout(() => onErrorRegistration(false), 2000);
+    const timeOut = setTimeout(() => isRegistration(false), 2000);
     return () => clearTimeout(timeOut);
   }, []);
 
@@ -140,6 +140,9 @@ SingUpForm.propTypes = {
     push: PropTypes.func,
   }),
   onErrorRegistration: PropTypes.func,
+  signUp: PropTypes.bool,
+  counter: PropTypes.shape({ errorRegistration: PropTypes.bool }),
+  isRegistration: PropTypes.bool,
 };
 
 SingUpForm.defaultProps = {
@@ -147,10 +150,14 @@ SingUpForm.defaultProps = {
     push: () => {},
   },
   onErrorRegistration: () => {},
+  signUp: false,
+  counter: PropTypes.shape({ errorRegistration: false }),
+  isRegistration: false,
 };
 
 const mapDispathToProps = dispatch => ({
   signUp: (data, history) => dispatch(fetchRegistration(data, history)),
+  isRegistration: bool => dispatch(onErrorRegistration(bool)),
 });
 
 const mapStateToProps = state => ({

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './app.scss';
 // ROUTER
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { HashRouter as Router, Route } from 'react-router-dom';
 // MATERIAL-UI
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 // PROPTYPES
@@ -18,6 +18,7 @@ import WholeArticle from '../whole-article/whole-article';
 import SingUpForm from '../form/singUpForm';
 import SignInForm from '../form/signInForm';
 import EditProfile from '../form/formEditProfile';
+import GetArticlesComponent from './getArticles-component';
 
 const theme = createTheme({
   palette: {
@@ -52,15 +53,15 @@ const App = ({ getArticles }) => {
         {/* <ArticleList arrArticles={arrArticles}/> */}
         <Route
           path="/"
-          exact
-          render={({ history }) => (
-            <ArticleList history={history} />)}
+          // exact
+          // render={({ history }) => (
+          //   <ArticleList history={history} />)}
+          component={GetArticlesComponent}
         />
         <Route
           path="/articles"
           exact
-          render={history => (
-            <ArticleList history={history} />)}
+          component={ArticleList}
         />
         <Route
           path="/articles/:slag"

@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import { Pagination } from '@mui/material';
 // REDUX
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 import * as actions from '../../redux/actions';
 // COMPONENTS
 import Article from '../article/article';
@@ -14,7 +16,7 @@ import classes from './article-list.module.scss';
 
 // const ArticleList = ({ arrArticles, history, articlesCount }) => {
 const ArticleList = ({ history, counter: { arrArticles, articlesCount } }) => {
-  console.log(history);
+  console.log('ArticleList');
   let key = 100;
 
   const [pageNumber, setPageNumber] = useState(1);
@@ -86,4 +88,8 @@ const mapStateToProps = state => ({
   counter: state,
 });
 
-export default connect(mapStateToProps, actions)(ArticleList);
+// export default connect(mapStateToProps, actions)(ArticleList);
+
+export default compose(
+  withRouter, connect(mapStateToProps, actions),
+)(ArticleList);

@@ -2,11 +2,15 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 import { ArticleContainer } from '../article-container/article-container';
 import ArticleContent from '../article/article-content';
 import * as actions from '../../redux/actions';
 
 const WholeArticle = ({ slug, counter: { arrArticles } }) => {
+  console.log(arrArticles);
+
   const item = arrArticles.filter(element => element.slug === slug.slag);
   // eslint-disable-next-line no-console
   console.log(item);
@@ -38,4 +42,6 @@ const mapStateToProps = state => ({
   counter: state,
 });
 
-export default connect(mapStateToProps, actions)(WholeArticle);
+export default compose(
+  withRouter, connect(mapStateToProps, actions),
+)(WholeArticle);
