@@ -1,41 +1,53 @@
-import React from 'react';
-import ReactMarkdown from 'react-markdown';
+import React, { useEffect } from 'react';
+// import ReactMarkdown from 'react-markdown';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { ArticleContainer } from '../article-container/article-container';
-import ArticleContent from '../article/article-content';
-import * as actions from '../../redux/actions';
+import { useDispatch, useStore } from 'react-redux';
+// import { compose } from 'redux';
+// import { withRouter } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
+// import { ArticleContainer } from '../article-container/article-container';
+// import ArticleContent from '../article/article-content';
+import { fetchArticle } from '../../redux/asyncAction';
+// import * as actions from '../../redux/actions';
 
-const WholeArticle = ({ slug, counter: { arrArticles } }) => {
-  const item = arrArticles.filter(element => element.slug === slug.slag);
-  // eslint-disable-next-line no-console
-  console.log(item);
+const WholeArticle = () => {
+  const dispatch = useDispatch();
+  const store = useStore();
+  const location = useLocation();
+  const { slag } = useParams();
+
+  useEffect(() => {
+    console.log('useEffect');
+    dispatch(fetchArticle(slag));
+  }, [location]);
+
+  console.log(store.article);
   return (
-    <ArticleContainer>
-      <ArticleContent item={item[0]} />
-      {/* eslint-disable-next-line react/no-children-prop */}
-      <ReactMarkdown children={item[0].body} />
-    </ArticleContainer>
+    <div>
+      {store.article}
+    </div>
   );
 };
 
 
 WholeArticle.propTypes = {
-  slug: PropTypes.string,
+  slug: PropTypes.shape({
+    slag: PropTypes.string,
+  }),
   counter: PropTypes.shape({
-    arrArticles: PropTypes.arrayOf(PropTypes.object),
+    article: PropTypes.shape({
+      body: PropTypes.string,
+    }),
   }),
 };
 
 WholeArticle.defaultProps = {
-  slug: 'hi',
+  slug: {
+    slag: '',
+  },
   counter: {
-    arrArticles: [],
+    article: {},
   },
 };
 
-const mapStateToProps = state => ({
-  counter: state,
-});
-
-export default connect(mapStateToProps, actions)(WholeArticle);
+export default WholeArticle;

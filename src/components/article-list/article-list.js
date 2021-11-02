@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 // import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 // UI DESIGN
@@ -13,13 +14,13 @@ import classes from './article-list.module.scss';
 
 
 // const ArticleList = ({ arrArticles, history, articlesCount }) => {
-const ArticleList = ({ history, counter: { arrArticles, articlesCount } }) => {
-  console.log(history);
-  let key = 100;
+const ArticleList = ({ counter: { arrArticles, articlesCount } }) => {
+  console.log(arrArticles);
+  // let key = 100;
+  const history = useHistory();
 
   const [pageNumber, setPageNumber] = useState(1);
   // eslint-disable-next-line no-console
-  // console.log(arrArticles);
 
   const createList = () => {
     const elements = arrArticles.map((data) => {
@@ -27,12 +28,13 @@ const ArticleList = ({ history, counter: { arrArticles, articlesCount } }) => {
       return (
         <Article
           item={data}
+          key={slug}
           onItemClick={() => {
             // eslint-disable-next-line no-console
             console.log(slug);
+            console.log(history);
             history.push(`/articles/${slug}`);
           }}
-          key={key++}
         />
       );
     });
@@ -74,7 +76,8 @@ ArticleList.propTypes = {
 
 ArticleList.defaultProps = {
   history: {
-    push: () => {},
+    push: () => {
+    },
   },
   counter: {
     arrArticles: [],
