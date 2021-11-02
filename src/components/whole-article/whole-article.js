@@ -1,14 +1,8 @@
 import React, { useEffect } from 'react';
-// import ReactMarkdown from 'react-markdown';
 import PropTypes from 'prop-types';
 import { useDispatch, useStore } from 'react-redux';
-// import { compose } from 'redux';
-// import { withRouter } from 'react-router-dom';
 import { useLocation, useParams } from 'react-router-dom';
-// import { ArticleContainer } from '../article-container/article-container';
-// import ArticleContent from '../article/article-content';
 import { fetchArticle } from '../../redux/asyncAction';
-// import * as actions from '../../redux/actions';
 
 const WholeArticle = () => {
   const dispatch = useDispatch();
