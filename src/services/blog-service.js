@@ -17,6 +17,13 @@ export default class BlogService {
     return res;
   }
 
+  async getArticle(slug) {
+    const res = await this.getResources(`articles/${slug}`);
+    // eslint-disable-next-line no-console
+    console.log(res);
+    return res;
+  }
+
   async registration(userData) {
     const res = await fetch(`${this.apiBase}users`, {
       method: 'POST',

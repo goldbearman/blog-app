@@ -1,5 +1,5 @@
 import {
-  INITIAL_STATE, ON_LOGIN, REGISTRATION, ERROR_REGISTRATION,
+  INITIAL_STATE, ON_LOGIN, REGISTRATION, ERROR_REGISTRATION, ON_GET_ARTICLE,
 } from './actions';
 
 const allState = {
@@ -44,6 +44,10 @@ const reducer = (state = allState, action) => {
       // eslint-disable-next-line no-console
       console.log('ERROR_REGISTRATION');
       return { ...state, errorRegistration: true };
+    }
+
+    case ON_GET_ARTICLE: {
+      return { ...state, article: action.article };
     }
 
     default:

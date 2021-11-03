@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/named
 import {
-  onInitialState, onAuthentication, onRegistration, onErrorRegistration,
+  onInitialState, onAuthentication, onRegistration, onErrorRegistration, onGetArticle,
 } from './actions';
 import BlogService from '../services/blog-service';
 
@@ -11,6 +11,14 @@ export const fetchArticles = () => (dispatch) => {
     // eslint-disable-next-line no-console
     console.log(res);
     dispatch(onInitialState(res));
+  });
+};
+
+export const fetchArticle = slug => (dispatch) => {
+  blogService.getArticle(slug).then((res) => {
+    // eslint-disable-next-line no-console
+    console.log(res);
+    dispatch(onGetArticle(res));
   });
 };
 
