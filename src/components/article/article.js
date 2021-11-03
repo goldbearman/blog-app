@@ -5,10 +5,9 @@ import ArticleContent from './article-content';
 
 const Article = ({ item, onItemClick }) => {
   console.log(item);
-  let key = 1200;
   return (
     <ArticleContainer onClick={onItemClick}>
-      <ArticleContent item={item} key={key++} />
+      <ArticleContent item={item} key={document.location.href} />
     </ArticleContainer>
   );
 };

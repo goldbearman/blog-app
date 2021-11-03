@@ -10,4 +10,4 @@ export const onInitialState = res => ({ type: INITIAL_STATE, res });
 export const onRegistration = res => ({ type: REGISTRATION, res });
 export const onAuthentication = res => ({ type: AUTHENTICATION, res });
 export const onErrorRegistration = () => ({ type: ERROR_REGISTRATION });
-export const onGetArticle = article => ({ type: ERROR_REGISTRATION, article });
+export const onGetArticle = article => ({ type: ON_GET_ARTICLE, article });

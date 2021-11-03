@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import classes from './form.module.scss';
 import { FormContainer } from './formContainer';
 import { fetchRegistration } from '../../redux/asyncAction';
+import { onErrorRegistration } from '../../redux/actions';
 
 
 const SignInSchema = yup.object().shape({
