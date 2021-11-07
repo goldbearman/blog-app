@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
+import { Container } from '@mui/material';
 import classes from '../article/article.module.scss';
 
 // eslint-disable-next-line react/prop-types

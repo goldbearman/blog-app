@@ -1,17 +1,17 @@
 export default class BlogService {
-  apiBase = 'https://cirosantilli-realworld-express.herokuapp.com/api/';
+  apiBase = 'https://api.realworld.io/api/';
 
-  // eslint-disable-next-line consistent-return
-  async getResources(url) {
-    const res = await fetch(`${this.apiBase}${url}?limit=5&offset=20`);
+  // eslint-disable-next-line consistent-return,no-unused-vars
+  async getResources(url, page = 1) {
+    const res = await fetch(`${this.apiBase}${url}?limit=5&offset=${page * 5}`);
     if (!res.ok) {
       throw new Error('Bad response from server');
     }
     return res.json();
   }
 
-  async getAllArticles() {
-    const res = await this.getResources('articles');
+  async getAllArticles(page) {
+    const res = await this.getResources('articles', page);
     // eslint-disable-next-line no-console
     console.log(res);
     return res;

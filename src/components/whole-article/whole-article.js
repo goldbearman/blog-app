@@ -1,51 +1,38 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { useDispatch, useStore } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
-// import { Container } from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 import { fetchArticle } from '../../redux/asyncAction';
 import { ArticleContainer } from '../article-container/article-container';
-// import { NewArticleContainer } from '../article-container/new-article-container';
 import ArticleContent from '../article/article-content';
+import { onGetArticleFalse } from '../../redux/actions';
+
 
 const WholeArticle = () => {
   const dispatch = useDispatch();
-  const store = useStore();
-  const location = useLocation();
+  const article = useSelector(state => state.article);
+  const getArticle = useSelector(state => state.getArticle);
   const { slag } = useParams();
 
   useEffect(() => {
     console.log('useEffect');
     dispatch(fetchArticle(slag));
-  }, [location]);
+  }, []);
 
-  console.log(store.getState());
+  useEffect(() => () => dispatch(onGetArticleFalse()), []);
+
+  console.log(getArticle);
   return (
-    <ArticleContainer>
-      <ArticleContent item={store.getState().article} key={document.location.href} />
-    </ArticleContainer>
+    <>
+      {getArticle
+      && (
+        <ArticleContainer>
+          <ArticleContent item={article} key={document.location.href} />
+          <ReactMarkdown>{article.body}</ReactMarkdown>
+        </ArticleContainer>
+      )}
+    </>
   );
-};
-
-
-WholeArticle.propTypes = {
-  slug: PropTypes.shape({
-    slag: PropTypes.string,
-  }),
-  counter: PropTypes.shape({
-    article: PropTypes.shape({
-      body: PropTypes.string,
-    }),
-  }),
-};
-
-WholeArticle.defaultProps = {
-  slug: {
-    slag: '',
-  },
-  counter: {
-    article: {},
-  },
 };
 
 export default WholeArticle;

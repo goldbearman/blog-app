@@ -1,5 +1,6 @@
 import {
-  INITIAL_STATE, ON_LOGIN, REGISTRATION, ERROR_REGISTRATION, ON_GET_ARTICLE,
+  INITIAL_STATE, ON_LOGIN, REGISTRATION, ERROR_REGISTRATION,
+  ON_GET_ARTICLE, ON_GET_ARTICLE_FALSE, AUTHENTICATION, ON_EDIT_USER, ON_EDIT_USER_NAME,
 } from './actions';
 
 const allState = {
@@ -36,8 +37,27 @@ const reducer = (state = allState, action) => {
     }
 
     case REGISTRATION: {
-      const newStateFast = { ...state, button: 2 };
+      const newStateFast = { ...state, button: 2, user: action.res };
       return newStateFast;
+    }
+
+    case AUTHENTICATION: {
+      console.log(action.res);
+      return {
+        ...state, isLoggedIn: true, user: action.res,
+      };
+    }
+
+    case ON_EDIT_USER: {
+      console.log(action.res);
+      return { ...state, user: action.res };
+    }
+
+    case ON_EDIT_USER_NAME: {
+      console.log(action.res);
+      const newState = { ...state };
+      newState.user.name = action.name;
+      return newState;
     }
 
     case ERROR_REGISTRATION: {
@@ -47,7 +67,11 @@ const reducer = (state = allState, action) => {
     }
 
     case ON_GET_ARTICLE: {
-      return { ...state, article: action.article };
+      return { ...state, article: action.article, getArticle: true };
+    }
+
+    case ON_GET_ARTICLE_FALSE: {
+      return { ...state, getArticle: false };
     }
 
     default:

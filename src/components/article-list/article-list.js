@@ -1,39 +1,37 @@
 import React, { useState } from 'react';
 // import { withRouter } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 // UI DESIGN
 import { Pagination } from '@mui/material';
 // REDUX
-import { connect } from 'react-redux';
-import * as actions from '../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+// import * as actions from '../../redux/actions';
 // COMPONENTS
 import Article from '../article/article';
 import classes from './article-list.module.scss';
+import { fetchArticles } from '../../redux/asyncAction';
 
+const ArticleList = ({ history }) => {
+  const store = useSelector(state => state);
+  const dispatch = useDispatch();
 
-// const ArticleList = ({ arrArticles, history, articlesCount }) => {
-const ArticleList = ({ counter: { arrArticles, articlesCount } }) => {
-  console.log(arrArticles);
-  // let key = 100;
-  const history = useHistory();
+  console.log(store);
 
   const [pageNumber, setPageNumber] = useState(1);
-  // eslint-disable-next-line no-console
 
   const createList = () => {
-    const elements = arrArticles.map((data) => {
+    const elements = store.arrArticles.map((data) => {
       const { slug } = data;
       return (
         <Article
           item={data}
           key={slug}
           onItemClick={() => {
-            // eslint-disable-next-line no-console
             console.log(slug);
             console.log(history);
-            history.push(`/articles/${slug}`);
+            history.push(`articles/${slug}`);
           }}
         />
       );
@@ -44,6 +42,7 @@ const ArticleList = ({ counter: { arrArticles, articlesCount } }) => {
   const onChangePage = (event, page) => {
     console.log(page);
     setPageNumber(page);
+    dispatch(fetchArticles(page));
   };
 
   return (
@@ -55,7 +54,7 @@ const ArticleList = ({ counter: { arrArticles, articlesCount } }) => {
           onChange={onChangePage}
           page={pageNumber}
           shape="rounded"
-          count={Math.floor(articlesCount / 5)}
+          count={Math.floor(store.articlesCount / 5)}
           defaultPage={1}
           color="primary"
         />
@@ -84,9 +83,9 @@ ArticleList.defaultProps = {
     articlesCount: 0,
   },
 };
+//
+// const mapStateToProps = state => ({
+//   counter: state,
+// });
 
-const mapStateToProps = state => ({
-  counter: state,
-});
-
-export default connect(mapStateToProps, actions)(ArticleList);
+export default withRouter(ArticleList);

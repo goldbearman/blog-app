@@ -4,8 +4,11 @@ import * as yup from 'yup';
 // import { Container } from 'react-bootstrap';
 import { yupResolver } from '@hookform/resolvers/yup';
 import cn from 'classnames';
+import { useDispatch, useSelector } from 'react-redux';
 import classes from './form.module.scss';
 import { FormContainer } from './formContainer';
+import { fetchEditUser } from '../../redux/asyncAction';
+import { onEditUserName } from '../../redux/actions';
 
 const SignInSchema = yup.object().shape({
   'User name': yup.string().min(3).max(20).required(),
@@ -16,6 +19,10 @@ const SignInSchema = yup.object().shape({
 
 
 function EditProfile() {
+  console.log('editProfile');
+  const user = useSelector(state => state.user);
+  const dispatch = useDispatch();
+  // const [name, setName] = useState('');
   const {
     register,
     handleSubmit,
@@ -25,21 +32,22 @@ function EditProfile() {
     resolver: yupResolver(SignInSchema),
     mode: 'all',
   });
+
   const onSubmit = (data) => {
-    alert(JSON.stringify(data));
+    console.log(data);
+    // eslint-disable-next-line no-param-reassign
+    data = { username: data['User name'], email: data['Email address'], password: data.Password };
+    dispatch(fetchEditUser(data));
   };
 
   // eslint-disable-next-line no-unused-vars
   const checkAgree = watch('checkAgree');
 
-  // eslint-disable-next-line no-console
-  console.log(checkAgree);
-  // eslint-disable-next-line no-console
-  console.log(errors);
-  // eslint-disable-next-line no-console
-  console.log((Object.keys(errors).length === 0));
-  // eslint-disable-next-line no-console
-  console.log(!(checkAgree && (Object.keys(errors).length === 0)));
+  const handleChange = (e) => {
+    console.log(e.target.value);
+    dispatch(onEditUserName(e.target.value));
+    // newUser.username
+  };
 
   return (
     <FormContainer>
@@ -49,6 +57,8 @@ function EditProfile() {
         <label>
           UserName
           <input
+            value={user.username}
+            onChange={handleChange()}
             className={cn(errors?.['User name'] && classes.error)}
             type="text"
             placeholder="Username"
@@ -60,6 +70,7 @@ function EditProfile() {
         <label>
           Email address
           <input
+            value={user.email}
             className={cn(errors?.['Email address'] && classes.error)}
             type="text"
             placeholder="Email address"
@@ -90,7 +101,7 @@ function EditProfile() {
         </label>
         <p>{errors?.Password && errors?.Password?.message}</p>
 
-        <input className={classes.submitButton} value="Create" type="submit" />
+        <input className={classes.submitButton} value="Save" type="submit" />
       </form>
     </FormContainer>
   );

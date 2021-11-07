@@ -3,12 +3,13 @@ import cn from 'classnames';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import classes from './form.module.scss';
 import { FormContainer } from './formContainer';
 import * as actions from '../../redux/actions';
+import { fetchAuthentication } from '../../redux/asyncAction';
 // import { BlogContext } from '../app/blog-context';
 
 const SignInSchema = yup.object().shape({
@@ -16,11 +17,9 @@ const SignInSchema = yup.object().shape({
   Password: yup.string().min(6).max(40).required('Поле обязательно!'),
 });
 
-const SignInForm = ({ history, onLogin }) => {
-  // const value = useContext(BlogContext);
-
-  // const [signInError, setSignInError] = useState(false);
-
+const SignInForm = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const {
     register,
     handleSubmit,
@@ -33,8 +32,9 @@ const SignInForm = ({ history, onLogin }) => {
     // eslint-disable-next-line no-param-reassign
     data = { email: data['Email address'], password: data.Password };
     // eslint-disable-next-line no-console
-    console.log(history, onLogin, data);
+    console.log(data);
     // alert(JSON.stringify(data));
+    dispatch(fetchAuthentication(data, history));
   };
 
   return (

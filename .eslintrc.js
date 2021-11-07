@@ -32,12 +32,10 @@ module.exports = {
       controlComponents: ['CustomInput'],
       depth: 3,
     }],
-    'jsx-a11y/label-has-for': [2, {
-      components: ['Label'],
-      required: {
-        every: ['nesting', 'id'],
-      },
-      allowChildren: false,
+    'jsx-a11y/img-redundant-alt': [2, {
+      components: ['Image'],
+      words: ['Bild', 'Foto'],
     }],
+    'jsx-a11y/alt-text': [0],
   },
 };

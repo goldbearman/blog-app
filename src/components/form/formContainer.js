@@ -1,5 +1,7 @@
 import React from 'react';
 import { Container, makeStyles } from '@material-ui/core';
+import cn from 'classnames';
+import classes from './form.module.scss';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,7 +22,7 @@ export const FormContainer = ({ children, ...props }) => {
   const styles = useStyles();
 
   return (
-    <Container className={styles.root} container="main" maxWidth="xs" {...props}>
+    <Container className={cn(styles.root, classes.formContainer)} container="main" maxWidth="xs" {...props}>
       {children}
     </Container>
   );

@@ -2,9 +2,11 @@ import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
+import { Avatar } from '@material-ui/core';
 import classes from './article.module.scss';
 
 const ArticleContent = ({ item }) => {
+  console.log(item);
   const {
     title, description, favoritesCount, tagList, author: { username, image }, createdAt,
   } = item;
@@ -37,8 +39,7 @@ const ArticleContent = ({ item }) => {
             <div className={classes.authorName}>{username}</div>
             <div className={classes.authorDate}>{date}</div>
           </div>
-          {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
-          <img className={classes.author__poster} src={image} alt="image" />
+          <Avatar alt="image" src={image} variant="circular" sx={{ width: 46, height: 46 }} />
         </div>
       </Col>
     </Row>

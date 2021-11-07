@@ -10,14 +10,15 @@
 //  0 22px 106px 0 rgba(0, 0, 0, 0.07),
 //  0 9px 44px 0 rgba(0, 0, 0, 0.05);
 
-.formContainer {
 
-  h1 {
-    margin-top: 16px;
-    font-size: 20px;
-    text-align: center;
-    margin-bottom: 21px;
-  }
+.titleNewArticle {
+  font-size: 20px;
+  text-align: center;
+  margin: 21px 0;
+  color: #262626;
+}
+
+.formBlog {
 
   p {
     font-size: 14px;
@@ -30,17 +31,38 @@
     margin-bottom: -10px;
   }
 
-  input, label {
+  input, label, textarea {
+    margin-bottom: 21px;
     display: block;
   }
 
-  input {
+  input, textarea {
     font-size: 16px;
     width: 100%;
     padding: 8px 12px;
     border: 1px solid #BFBFBF;
     margin-top: 3px;
     border-radius: 4px;
+  }
+
+  .inputTags{
+    margin-bottom: 5px;
+  }
+
+  textarea {
+    height: 168px;
+  }
+
+  ul {
+    padding: 0;
+  }
+
+  ul li {
+    display: inline-block;
+    input {
+      width: 300px;
+      display: inline-block;
+    }
   }
 
   input:active {
@@ -62,10 +84,44 @@
 
   .submitButton {
     margin-top: 21px;
+    width: 320px;
 
     &:enabled {
       background-color: #1890FF;
       color: white;
+    }
+  }
+
+  .button {
+    padding: 8px 36px;
+    border-radius: 5px;
+    margin-left: 17px;
+    height: 40px;
+    margin-top: -6px;
+    text-transform: none;
+    font-size: 15px;
+  }
+
+  .buttonDel {
+    color: #F5222D;
+    border: 1px solid #F5222D;
+
+    &:hover {
+      color: white;
+      border: 1px solid #F5222D;
+      background-color: #F5222D;
+    }
+  }
+
+  .buttonAdd {
+    display: inline-block;
+    color: #1890FF;
+    border: 1px solid #1890FF;
+
+    &:hover {
+      color: white;
+      border: 1px solid #1890FF;
+      background-color: #1890FF;
     }
   }
 
