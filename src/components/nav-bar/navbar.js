@@ -15,14 +15,14 @@ import classes from './nav-bar.module.scss';
 import defaultImg from '../../pictures/avatar.png';
 
 
-const logIn = () => (
+const logOut = () => (
   <>
     <Link to="/sing-in" className={classes.buttonNavBar}>Sign In</Link>
     <Link to="/sing-up" className={classes.buttonNavBar}>Sign Up</Link>
   </>
 );
 
-const logOut = (user, onLogin) => (
+const logIn = (user, onLogin) => (
   <>
     <Link to="/new-article" className={cn(classes.buttonNavBar, classes.buttonCreateArticle)}>Create article</Link>
     <div className={classes.userData}>
@@ -52,7 +52,7 @@ const NavBar = ({ counter, onLogin }) => {
         </Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
-          {counter.isLoggedIn ? logOut(user, onLogin) : logIn()}
+          {counter.isLoggedIn ? logIn(user, onLogin) : logOut()}
         </Navbar.Collapse>
       </Container>
     </Navbar>

@@ -68,4 +68,19 @@ export default class BlogService {
     console.log(responseBody);
     return responseBody;
   }
+
+  async createArticle(articleData, token) {
+    const res = await fetch(`${this.apiBase}users`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset = utf-8',
+        Authorization: `Token ${token}`,
+      },
+      body: JSON.stringify({ article: articleData }),
+    });
+    const responseBody = res.json();
+    // eslint-disable-next-line no-console
+    console.log(responseBody);
+    return responseBody;
+  }
 }

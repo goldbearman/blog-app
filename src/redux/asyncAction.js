@@ -44,3 +44,10 @@ export const fetchEditUser = data => (dispatch) => {
     dispatch(onEditUser(res.user));
   }, () => dispatch(onErrorRegistration()));
 };
+
+export const fetchCreateArticle = (data, token, history) => (dispatch) => {
+  blogService.createArticle(data, token).then(() => {
+    // dispatch(onEditUser(res.user));
+    history.push('/articles');
+  }, () => dispatch(onErrorRegistration()));
+};

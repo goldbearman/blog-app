@@ -5,11 +5,18 @@ import {
 } from 'react-hook-form';
 import { Button } from '@mui/material';
 import cn from 'classnames';
+// import { useHistory } from 'react-router-dom';
+// import { useDispatch, useSelector } from 'react-redux';
 import { ArticleContainer } from '../article-container/article-container';
 import classes from './new-article.module.scss';
+// import { fetchCreateArticle } from '../../redux/asyncAction';
 
 
 const NewArticle = () => {
+  // const dispatch = useDispatch();
+  // const history = useHistory();
+  // const token = useSelector(state => state.user.token);
+
   const { register, control, handleSubmit } = useForm({
     defaultValues: {
       test: [{ tag: '' }],
@@ -19,6 +26,7 @@ const NewArticle = () => {
     fields,
     remove,
     append,
+    push,
   } = useFieldArray({
     control,
     name: 'test',
@@ -27,6 +35,10 @@ const NewArticle = () => {
 
   const onSubmit = (data) => {
     console.log(data.test);
+    console.log(data.test.title);
+    const a = push({ tag: '' });
+    console.log(a);
+    // dispatch(fetchCreateArticle(data, token, history));
   };
 
   return (
@@ -68,14 +80,20 @@ const NewArticle = () => {
           <ul>
             {fields.map((item, index) => (
               <li key={item.id}>
-                <input placeholder="Tag" className={classes.inputTags} {...register(`test.${index}.tag`)} />
+                <input placeholder="Tag" className={classes.inputTags} {...register(`scores[${index}]`)} />
 
                 {/* <Controller */}
                 {/*  render={({ field }) => <input {...field} />} */}
                 {/*  name={`test.${index}.lastName`} */}
                 {/*  control={control} */}
                 {/* /> */}
-                <Button className={cn(classes.button, classes.buttonDel)} type="button" onClick={() => remove(index)}>Delete</Button>
+                <Button
+                  className={cn(classes.button, classes.buttonDel)}
+                  type="button"
+                  onClick={() => remove(index)}
+                >
+                  Delete
+                </Button>
               </li>
             ))}
             <Button
