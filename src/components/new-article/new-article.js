@@ -5,28 +5,27 @@ import {
 } from 'react-hook-form';
 import { Button } from '@mui/material';
 import cn from 'classnames';
-// import { useHistory } from 'react-router-dom';
-// import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { ArticleContainer } from '../article-container/article-container';
 import classes from './new-article.module.scss';
-// import { fetchCreateArticle } from '../../redux/asyncAction';
+import { fetchCreateArticle } from '../../redux/asyncAction';
 
 
 const NewArticle = () => {
-  // const dispatch = useDispatch();
-  // const history = useHistory();
-  // const token = useSelector(state => state.user.token);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const user = useSelector(state => state.user);
 
   const { register, control, handleSubmit } = useForm({
     defaultValues: {
-      test: [{ tag: '' }],
+      test: [{ body: ' ' }],
     },
   });
   const {
     fields,
     remove,
     append,
-    push,
   } = useFieldArray({
     control,
     name: 'test',
@@ -35,10 +34,8 @@ const NewArticle = () => {
 
   const onSubmit = (data) => {
     console.log(data.test);
-    console.log(data.test.title);
-    const a = push({ tag: '' });
-    console.log(a);
-    // dispatch(fetchCreateArticle(data, token, history));
+    console.log(data.test.body);
+    dispatch(fetchCreateArticle(data, user.token, history));
   };
 
   return (
@@ -80,7 +77,7 @@ const NewArticle = () => {
           <ul>
             {fields.map((item, index) => (
               <li key={item.id}>
-                <input placeholder="Tag" className={classes.inputTags} {...register(`scores[${index}]`)} />
+                <input placeholder="Tag" className={classes.inputTags} {...register(`test.tagList[${index}]`)} />
 
                 {/* <Controller */}
                 {/*  render={({ field }) => <input {...field} />} */}
@@ -99,8 +96,9 @@ const NewArticle = () => {
             <Button
               className={cn(classes.button, classes.buttonAdd)}
               type="button"
-              onClick={() => {
-                append({ tag: '' });
+              onClick={(e) => {
+                e.preventDefault();
+                append({});
               }}
             >
               Add tag
