@@ -5,21 +5,21 @@ import {
 } from 'react-hook-form';
 import { Button } from '@mui/material';
 import cn from 'classnames';
-import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+// import { useHistory } from 'react-router-dom';
+// import { useDispatch, useSelector } from 'react-redux';
 import { ArticleContainer } from '../article-container/article-container';
 import classes from './new-article.module.scss';
-import { fetchCreateArticle } from '../../redux/asyncAction';
+// import { fetchCreateArticle } from '../../redux/asyncAction';
 
 
 const NewArticle = () => {
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const user = useSelector(state => state.user);
+  // const dispatch = useDispatch();
+  // const history = useHistory();
+  // const user = useSelector(state => state.user);
 
   const { register, control, handleSubmit } = useForm({
     defaultValues: {
-      test: [{ body: ' ' }],
+      tagList: [],
     },
   });
   const {
@@ -28,14 +28,18 @@ const NewArticle = () => {
     append,
   } = useFieldArray({
     control,
-    name: 'test',
+    name: 'tagList',
   });
 
 
   const onSubmit = (data) => {
-    console.log(data.test);
-    console.log(data.test.body);
-    dispatch(fetchCreateArticle(data, user.token, history));
+    console.log(data);
+    // console.log(data.task);
+    // console.log(data.tagList.ht);
+    // eslint-disable-next-line no-param-reassign
+    data = Object.assign(data.article, { tagList: data.tagList.hp, body: data.tagList.body });
+    console.log(data);
+    // dispatch(fetchCreateArticle(Object.assign(data.task, {}), user.token, history));
   };
 
   return (
@@ -49,7 +53,7 @@ const NewArticle = () => {
             // className={cn(errors?.['Email address'] && classes.error)}
             type="text"
             placeholder="Title"
-            {...register('test.title')}
+            {...register('article.title')}
           />
         </label>
         {/* eslint-disable-next-line jsx-a11y/label-has-for */}
@@ -59,7 +63,7 @@ const NewArticle = () => {
             // className={cn(errors?.Password && classes.error)}
             type="text"
             placeholder="Title"
-            {...register('test.description')}
+            {...register('article.description')}
           />
         </label>
         {/* eslint-disable-next-line jsx-a11y/label-has-for */}
@@ -68,7 +72,7 @@ const NewArticle = () => {
           <textarea
             type="text"
             placeholder="Text"
-            {...register('test.body')}
+            {...register('tagList.body')}
           />
         </label>
         {/* eslint-disable-next-line jsx-a11y/label-has-for */}
@@ -77,7 +81,7 @@ const NewArticle = () => {
           <ul>
             {fields.map((item, index) => (
               <li key={item.id}>
-                <input placeholder="Tag" className={classes.inputTags} {...register(`test.tagList[${index}]`)} />
+                <input placeholder="Tag" className={classes.inputTags} {...register(`tagList.hp[${index}]`)} />
 
                 {/* <Controller */}
                 {/*  render={({ field }) => <input {...field} />} */}
@@ -96,8 +100,7 @@ const NewArticle = () => {
             <Button
               className={cn(classes.button, classes.buttonAdd)}
               type="button"
-              onClick={(e) => {
-                e.preventDefault();
+              onClick={() => {
                 append({});
               }}
             >
