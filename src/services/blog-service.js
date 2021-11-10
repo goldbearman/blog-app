@@ -7,7 +7,8 @@ export default class BlogService {
     if (!res.ok) {
       throw new Error('Bad response from server');
     }
-    return res.json();
+    const response = await res.json();
+    return response;
   }
 
   async getAllArticles(page) {
@@ -63,14 +64,14 @@ export default class BlogService {
     if (!res.ok) {
       throw new Error(res.json().errors);
     }
-    const responseBody = res.json();
+    const responseBody = await res.json();
     // eslint-disable-next-line no-console
     console.log(responseBody);
     return responseBody;
   }
 
   async createArticle(articleData, token) {
-    const res = await fetch(`${this.apiBase}users`, {
+    const res = await fetch(`${this.apiBase}articles`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset = utf-8',
@@ -78,9 +79,9 @@ export default class BlogService {
       },
       body: JSON.stringify({ article: articleData }),
     });
-    const responseBody = res.json();
+    const responseBody = await res.json();
     // eslint-disable-next-line no-console
-    console.log(responseBody);
-    return responseBody;
+    console.log(responseBody.article);
+    return responseBody.article;
   }
 }

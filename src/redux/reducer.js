@@ -1,6 +1,7 @@
 import {
   INITIAL_STATE, ON_LOGIN, REGISTRATION, ERROR_REGISTRATION,
   ON_GET_ARTICLE, ON_GET_ARTICLE_FALSE, AUTHENTICATION, ON_EDIT_USER, ON_EDIT_USER_NAME,
+  ADD_ARTICLE,
 } from './actions';
 
 const allState = {
@@ -55,6 +56,13 @@ const reducer = (state = allState, action) => {
 
     case ON_EDIT_USER_NAME: {
       console.log(action.res);
+      const newState = { ...state };
+      newState.user.name = action.name;
+      return newState;
+    }
+
+    case ADD_ARTICLE: {
+      console.log(action.article);
       const newState = { ...state };
       newState.user.name = action.name;
       return newState;

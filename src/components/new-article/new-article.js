@@ -5,17 +5,17 @@ import {
 } from 'react-hook-form';
 import { Button } from '@mui/material';
 import cn from 'classnames';
-// import { useHistory } from 'react-router-dom';
-// import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { ArticleContainer } from '../article-container/article-container';
 import classes from './new-article.module.scss';
-// import { fetchCreateArticle } from '../../redux/asyncAction';
+import { fetchCreateArticle } from '../../redux/asyncAction';
 
 
 const NewArticle = () => {
-  // const dispatch = useDispatch();
-  // const history = useHistory();
-  // const user = useSelector(state => state.user);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const user = useSelector(state => state.user);
 
   const { register, control, handleSubmit } = useForm({
     defaultValues: {
@@ -39,7 +39,7 @@ const NewArticle = () => {
     // eslint-disable-next-line no-param-reassign
     data = Object.assign(data.article, { tagList: data.tagList.hp, body: data.tagList.body });
     console.log(data);
-    // dispatch(fetchCreateArticle(Object.assign(data.task, {}), user.token, history));
+    dispatch(fetchCreateArticle(data, user.token, history));
   };
 
   return (

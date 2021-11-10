@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/named
 import {
-  onInitialState, onAuthentication, onRegistration, onErrorRegistration, onGetArticle, onEditUser,
+  onInitialState, onAuthentication, onRegistration, onErrorRegistration, onGetArticle,
+  onEditUser, addArticle,
 } from './actions';
 import BlogService from '../services/blog-service';
 
@@ -46,8 +47,8 @@ export const fetchEditUser = data => (dispatch) => {
 };
 
 export const fetchCreateArticle = (data, token, history) => (dispatch) => {
-  blogService.createArticle(data, token).then(() => {
-    // dispatch(onEditUser(res.user));
+  blogService.createArticle(data, token).then((article) => {
+    dispatch(addArticle(article));
     history.push('/articles');
   }, () => dispatch(onErrorRegistration()));
 };
