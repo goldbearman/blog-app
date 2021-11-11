@@ -1,18 +1,24 @@
 // eslint-disable-next-line import/named
 import {
   onInitialState, onAuthentication, onRegistration, onErrorRegistration, onGetArticle,
-  onEditUser, addArticle,
+  onEditUser,
 } from './actions';
 import BlogService from '../services/blog-service';
 
 const blogService = new BlogService();
 
-export const fetchArticles = page => (dispatch) => {
-  blogService.getAllArticles(page).then((res) => {
-    // eslint-disable-next-line no-console
+
+export const fetchArticles = (page, token, history) => (dispatch) => {
+  // blogService.getAllArticles(page).then((res) => {
+  //   // eslint-disable-next-line no-console
+  //   console.log(res);
+  //   dispatch(onInitialState(res));
+  // });
+  blogService.getUserArticles(page, token).then((res) => {
     console.log(res);
     dispatch(onInitialState(res));
-  });
+    if (history) history.push('/articles');
+  }, () => dispatch(onErrorRegistration()));
 };
 
 export const fetchArticle = slug => (dispatch) => {
@@ -47,8 +53,11 @@ export const fetchEditUser = data => (dispatch) => {
 };
 
 export const fetchCreateArticle = (data, token, history) => (dispatch) => {
-  blogService.createArticle(data, token).then((article) => {
-    dispatch(addArticle(article));
-    history.push('/articles');
-  }, () => dispatch(onErrorRegistration()));
+  blogService.createArticle(data, token).then(() => {
+    blogService.getUserArticles(0, token).then((res) => {
+      console.log(res);
+      dispatch(onInitialState(res));
+      history.push('/articles');
+    }, () => dispatch(onErrorRegistration()));
+  });
 };

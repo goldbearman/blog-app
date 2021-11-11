@@ -42,7 +42,7 @@ const ArticleList = ({ history }) => {
   const onChangePage = (event, page) => {
     console.log(page);
     setPageNumber(page);
-    dispatch(fetchArticles(page));
+    dispatch(fetchArticles(page, store.user.token));
   };
 
   return (
