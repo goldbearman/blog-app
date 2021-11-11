@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 // import { withRouter } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 
@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Article from '../article/article';
 import classes from './article-list.module.scss';
 import { fetchArticles } from '../../redux/asyncAction';
+import { setPage } from '../../redux/actions';
 
 const ArticleList = ({ history }) => {
   const store = useSelector(state => state);
@@ -19,7 +20,7 @@ const ArticleList = ({ history }) => {
 
   console.log(store);
 
-  const [pageNumber, setPageNumber] = useState(1);
+  // const [pageNumber, setPageNumber] = useState(1);
 
   const createList = () => {
     const elements = store.arrArticles.map((data) => {
@@ -41,7 +42,7 @@ const ArticleList = ({ history }) => {
 
   const onChangePage = (event, page) => {
     console.log(page);
-    setPageNumber(page);
+    dispatch(setPage(page));
     dispatch(fetchArticles(page, store.user.token));
   };
 
@@ -52,7 +53,7 @@ const ArticleList = ({ history }) => {
         <Pagination
           className={classes.pagination}
           onChange={onChangePage}
-          page={pageNumber}
+          page={store.page}
           shape="rounded"
           count={Math.floor(store.articlesCount / 5)}
           defaultPage={1}

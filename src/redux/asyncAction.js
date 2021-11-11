@@ -9,11 +9,6 @@ const blogService = new BlogService();
 
 
 export const fetchArticles = (page, token, history) => (dispatch) => {
-  // blogService.getAllArticles(page).then((res) => {
-  //   // eslint-disable-next-line no-console
-  //   console.log(res);
-  //   dispatch(onInitialState(res));
-  // });
   blogService.getUserArticles(page, token).then((res) => {
     console.log(res);
     dispatch(onInitialState(res));
@@ -29,11 +24,12 @@ export const fetchArticle = slug => (dispatch) => {
   });
 };
 
-export const fetchAuthentication = (data, history) => (dispatch) => {
+export const fetchAuthentication = (data, token, history) => (dispatch) => {
   blogService.authentication(data).then((res) => {
     // eslint-disable-next-line no-console
     console.log(res);
     dispatch(onAuthentication(res.user));
+    dispatch(fetchArticles(0, token, history));
     // onLogin(true);
     history.push('/articles');
   });

@@ -8,6 +8,7 @@ export const ON_GET_ARTICLE = 'ON_GET_ARTICLE';
 export const ON_GET_ARTICLE_FALSE = 'ON_GET_ARTICLE_FALSE';
 export const ON_EDIT_USER_NAME = 'ON_EDIT_USER_NAME';
 export const ADD_ARTICLE = 'ADD_ARTICLE';
+export const SET_PAGE = 'SET_PAGE';
 
 export const onLogin = bool => ({ type: ON_LOGIN, bool });
 export const onInitialState = res => ({ type: INITIAL_STATE, res });
@@ -20,3 +21,4 @@ export const onGetArticleFalse = () => ({ type: ON_GET_ARTICLE_FALSE });
 
 export const onEditUserName = name => ({ type: ON_EDIT_USER_NAME, name });
 export const addArticle = article => ({ type: ADD_ARTICLE, article });
+export const setPage = page => ({ type: SET_PAGE, page });

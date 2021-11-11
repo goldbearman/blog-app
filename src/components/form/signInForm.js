@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Link, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import classes from './form.module.scss';
 import { FormContainer } from './formContainer';
 import * as actions from '../../redux/actions';
@@ -20,6 +20,7 @@ const SignInSchema = yup.object().shape({
 const SignInForm = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const user = useSelector(state => state.user);
   const {
     register,
     handleSubmit,
@@ -33,8 +34,9 @@ const SignInForm = () => {
     data = { email: data['Email address'], password: data.Password };
     // eslint-disable-next-line no-console
     console.log(data);
+    console.log(user.token);
     // alert(JSON.stringify(data));
-    dispatch(fetchAuthentication(data, history));
+    dispatch(fetchAuthentication(data, user.token, history));
   };
 
   return (

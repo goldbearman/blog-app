@@ -1,7 +1,7 @@
 import {
   INITIAL_STATE, ON_LOGIN, REGISTRATION, ERROR_REGISTRATION,
   ON_GET_ARTICLE, ON_GET_ARTICLE_FALSE, AUTHENTICATION, ON_EDIT_USER, ON_EDIT_USER_NAME,
-  ADD_ARTICLE,
+  ADD_ARTICLE, SET_PAGE,
 } from './actions';
 
 const allState = {
@@ -35,6 +35,11 @@ const reducer = (state = allState, action) => {
     case ON_LOGIN: {
       const newStateSheap = Object.assign({}, state, { isLoggedIn: action.bool });
       return newStateSheap;
+    }
+
+    case SET_PAGE: {
+      console.log(action.page);
+      return { ...state, page: action.page };
     }
 
     case REGISTRATION: {
