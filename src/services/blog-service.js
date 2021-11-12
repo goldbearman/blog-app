@@ -11,12 +11,12 @@ export default class BlogService {
     return response;
   }
 
-  async getAllArticles(page) {
-    const res = await this.getResources('articles', page);
-    // eslint-disable-next-line no-console
-    console.log(res);
-    return res;
-  }
+  // async getAllArticles(page) {
+  //   const res = await this.getResources('articles', page);
+  //   // eslint-disable-next-line no-console
+  //   console.log(res);
+  //   return res;
+  // }
 
   async getArticle(slug) {
     const res = await this.getResources(`articles/${slug}`);

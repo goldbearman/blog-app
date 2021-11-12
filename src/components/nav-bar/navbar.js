@@ -1,14 +1,13 @@
 import React from 'react';
 import { Container, Navbar } from 'react-bootstrap';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useHistory } from 'react-router-dom';
 import cn from 'classnames';
 // MATERIAL UI
 import { Avatar } from '@material-ui/core';
 import { Button } from '@mui/material';
 import 'bootstrap/dist/css/bootstrap.css';
-import PropTypes from 'prop-types';
 // REDUX UI
-import { connect, useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../redux/actions';
 import classes from './nav-bar.module.scss';
 
@@ -39,10 +38,17 @@ const logIn = (user, onLogin) => (
 );
 
 // eslint-disable-next-line react/prop-types
-const NavBar = ({ counter, onLogin }) => {
+const NavBar = () => {
   // eslint-disable-next-line no-console
-  const user = useSelector(state => state.user);
-  console.log(user);
+  const dispatch = useDispatch();
+  const counter = useSelector(state => state);
+  const history = useHistory();
+
+  const onLogin = (bool) => {
+    localStorage.removeItem('token');
+    dispatch(actions.onLogin(bool));
+    history.push('/articles');
+  };
 
   return (
     <Navbar bg="white">
@@ -52,41 +58,11 @@ const NavBar = ({ counter, onLogin }) => {
         </Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
-          {counter.isLoggedIn ? logIn(user, onLogin) : logOut()}
+          {counter.isLoggedIn ? logIn(counter.user, onLogin) : logOut()}
         </Navbar.Collapse>
       </Container>
     </Navbar>
   );
 };
 
-NavBar.propTypes = {
-  // history: PropTypes.shape({
-  //   push: PropTypes.func,
-  // }),
-  counter: PropTypes.shape({
-    arrArticles: PropTypes.arrayOf(PropTypes.object),
-    isLoggedIn: PropTypes.bool,
-  }),
-  onLogin: PropTypes.func,
-};
-
-NavBar.defaultProps = {
-  // history: {
-  //   push: () => {},
-  // },
-  counter: {
-    arrArticles: [],
-    isLoggedIn: false,
-  },
-  onLogin: () => {},
-};
-
-const mapStateToProps = state => ({
-  counter: state,
-});
-
-const mapDispathToProps = dispatch => ({
-  onLogin: bool => dispatch(actions.onLogin(bool)),
-});
-
-export default connect(mapStateToProps, mapDispathToProps)(NavBar);
+export default NavBar;

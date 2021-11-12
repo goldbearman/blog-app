@@ -48,9 +48,9 @@ const reducer = (state = allState, action) => {
     }
 
     case AUTHENTICATION: {
-      console.log(action.res);
+      console.log(action.user);
       return {
-        ...state, isLoggedIn: true, user: action.res,
+        ...state, isLoggedIn: true, user: action.user,
       };
     }
 

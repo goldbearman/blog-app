@@ -9,6 +9,7 @@ const blogService = new BlogService();
 
 
 export const fetchArticles = (page, token, history) => (dispatch) => {
+  console.log(token);
   blogService.getUserArticles(page, token).then((res) => {
     console.log(res);
     dispatch(onInitialState(res));
@@ -24,19 +25,19 @@ export const fetchArticle = slug => (dispatch) => {
   });
 };
 
-export const fetchAuthentication = (data, token, history) => (dispatch) => {
+export const fetchAuthentication = (data, history) => (dispatch) => {
   blogService.authentication(data).then((res) => {
     // eslint-disable-next-line no-console
-    console.log(res);
+    console.log(res.user.token);
+    localStorage.setItem('token', res.user.token);
     dispatch(onAuthentication(res.user));
-    dispatch(fetchArticles(0, token, history));
-    // onLogin(true);
     history.push('/articles');
   });
 };
 
 export const fetchRegistration = (data, history) => (dispatch) => {
   blogService.registration(data).then((res) => {
+    // localStorage.setItem('user', res.user);
     dispatch(onRegistration(res.user));
     history.push('/sing-in');
   }, () => dispatch(onErrorRegistration()));

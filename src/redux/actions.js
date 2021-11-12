@@ -14,7 +14,7 @@ export const onLogin = bool => ({ type: ON_LOGIN, bool });
 export const onInitialState = res => ({ type: INITIAL_STATE, res });
 export const onRegistration = res => ({ type: REGISTRATION, res });
 export const onEditUser = res => ({ type: ON_EDIT_USER, res });
-export const onAuthentication = res => ({ type: AUTHENTICATION, res });
+export const onAuthentication = user => ({ type: AUTHENTICATION, user });
 export const onErrorRegistration = () => ({ type: ERROR_REGISTRATION });
 export const onGetArticle = article => ({ type: ON_GET_ARTICLE, article });
 export const onGetArticleFalse = () => ({ type: ON_GET_ARTICLE_FALSE });

@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
 import './app.scss';
 // ROUTER
-import { Route, withRouter } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 // import { compose } from 'redux';
 // MATERIAL-UI
 // import { createTheme, ThemeProvider } from '@mui/material/styles';
 // PROPTYPES
-import PropTypes from 'prop-types';
 // REDUX
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchArticles } from '../../redux/asyncAction';
 
 // CUSTOM COMPONENTS
@@ -36,15 +35,19 @@ const App = () => {
   // eslint-disable-next-line no-unused-vars
   const blogService = new BlogService();
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector(state => state.isLoggedIn);
   // const store = useStore()
 
   useEffect(() => {
     console.log('useEffect');
-    dispatch(fetchArticles(1));
-  }, []);
-
-  console.log('app');
-
+    const token = localStorage.getItem('token');
+    console.log(token);
+    let userToken;
+    if (token) userToken = token;
+    else userToken = undefined;
+    console.log(userToken);
+    dispatch(fetchArticles(0, userToken));
+  }, [isLoggedIn]);
 
   return (
     <>
@@ -76,19 +79,4 @@ const App = () => {
   );
 };
 
-App.propTypes = {
-  counter: PropTypes.shape({
-    stop: PropTypes.bool,
-    progressBar: PropTypes.number,
-  }),
-  // getArticles: PropTypes.func,
-};
-App.defaultProps = {
-  counter: {
-    stop: false,
-    progressBar: 0,
-  },
-  // getArticles: () => {},
-};
-
-export default withRouter(App);
+export default App;
