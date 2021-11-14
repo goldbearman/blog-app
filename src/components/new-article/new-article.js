@@ -20,18 +20,19 @@ const NewArticle = () => {
   const params = useParams();
   console.log(params.slug);
 
-  let defaultArticle = { tagList: [] };
+  let defaultArticle = { objArticle: [{}] };
 
   if (params.slug) {
+    console.log('if');
     const [needArticle] = counter.arrArticles.filter(item => item.slug === params.slug);
     console.log(needArticle);
     defaultArticle = {
-      article: {
+      obj: {
         title: needArticle.title,
         description: needArticle.description,
         body: needArticle.body,
       },
-      tagList: [5, 8, 12],
+      objArticle: [5, 8, 12],
     };
   }
 
@@ -44,18 +45,17 @@ const NewArticle = () => {
     append,
   } = useFieldArray({
     control,
-    name: 'tagList',
+    name: 'objArticle',
   });
 
 
   const onSubmit = (data) => {
     console.log(data);
     console.log(data.tagList);
-    console.log(data.tagList.body);
     // console.log(data.task);
     // console.log(data.tagList.ht);
     // eslint-disable-next-line no-param-reassign
-    data = Object.assign(data.article, { tagList: data.tagList.hp, body: data.tagList.body });
+    data = Object.assign(data.obj, { tagList: data.objArticle.tagList });
     console.log(data);
     dispatch(fetchCreateArticle(data, counter, history));
   };
@@ -72,7 +72,7 @@ const NewArticle = () => {
               // className={cn(errors?.['Email address'] && classes.error)}
               type="text"
               placeholder="Title"
-              {...register('article.title')}
+              {...register('obj.title')}
             />
           </label>
           {/* eslint-disable-next-line jsx-a11y/label-has-for */}
@@ -82,7 +82,7 @@ const NewArticle = () => {
               // className={cn(errors?.Password && classes.error)}
               type="text"
               placeholder="Title"
-              {...register('article.description')}
+              {...register('obj.description')}
             />
           </label>
           {/* eslint-disable-next-line jsx-a11y/label-has-for */}
@@ -91,7 +91,7 @@ const NewArticle = () => {
             <textarea
               type="text"
               placeholder="Text"
-              {...register('tagList.body')}
+              {...register('obj.body')}
             />
           </label>
           {/* eslint-disable-next-line jsx-a11y/label-has-for */}
@@ -101,17 +101,19 @@ const NewArticle = () => {
               {fields.map((item, index) => (
                 <li key={item.id}>
                   {console.log(item)}
-                  <input defaultValue={defaultArticle.tagList[index]} placeholder="Tag" className={classes.inputTags} {...register(`tagList.hp[${index}]`)} />
+                  <input defaultValue={Object.keys(defaultArticle).length === 1 ? '' : defaultArticle.tagList[index]} placeholder="Tag" className={classes.inputTags} {...register(`objArticle.tagList[${index}]`)} />
                   {index > 0
+                    // eslint-disable-next-line no-mixed-spaces-and-tabs,no-tabs
                     ? (
                       <Button
                         className={cn(classes.button, classes.buttonDel)}
                         type="button"
                         onClick={() => remove(index)}
                       >
-                    Delete
+                        Delete
                       </Button>
                     ) : null}
+                  <div className={classes.emptyDiv} />
                 </li>
               ))}
               <Button

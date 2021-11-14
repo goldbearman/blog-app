@@ -74,7 +74,7 @@ const reducer = (state = allState, action) => {
     }
 
     case ERROR_REGISTRATION: {
-      // eslint-disable-next-line no-console
+    // eslint-disable-next-line no-console
       console.log('ERROR_REGISTRATION');
       return { ...state, errorRegistration: true };
     }

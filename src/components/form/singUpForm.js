@@ -65,6 +65,8 @@ function SingUpForm({ history, signUp, counter: { errorRegistration } }) {
         {/* eslint-disable-next-line jsx-a11y/label-has-for */}
         <label>
           UserName
+
+
           <input
             className={cn(errors?.['User name'] && classes.error)}
             type="text"
@@ -76,6 +78,8 @@ function SingUpForm({ history, signUp, counter: { errorRegistration } }) {
         {/* eslint-disable-next-line jsx-a11y/label-has-for */}
         <label>
           Email address
+
+
           <input
             className={cn(errors?.['Email address'] && classes.error)}
             type="text"
@@ -87,6 +91,8 @@ function SingUpForm({ history, signUp, counter: { errorRegistration } }) {
         {/* eslint-disable-next-line jsx-a11y/label-has-for */}
         <label>
           Password
+
+
           <input
             className={cn(errors?.Password && classes.error)}
             type="password"
@@ -98,6 +104,8 @@ function SingUpForm({ history, signUp, counter: { errorRegistration } }) {
         {/* eslint-disable-next-line jsx-a11y/label-has-for */}
         <label>
           Repeat Password
+
+
           <input
             className={cn(errors?.['Confirm password'] && classes.error)}
             type="password"
@@ -121,6 +129,8 @@ function SingUpForm({ history, signUp, counter: { errorRegistration } }) {
         <input className={classes.submitButton} value="Create" type="submit" disabled={!checkAgree} />
         <div className={classes.formFooter}>
           Already have an account?
+
+
           <Link to="/sing-in" className={classes.buttonNavBar}>Sign In</Link>
         </div>
       </form>
@@ -136,7 +146,8 @@ SingUpForm.propTypes = {
 
 SingUpForm.defaultProps = {
   history: {
-    push: () => {},
+    push: () => {
+    },
   },
 };
 

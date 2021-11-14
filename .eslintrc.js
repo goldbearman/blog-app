@@ -24,6 +24,7 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     indent: ['error', 2, { SwitchCase: 1 }],
+    // indent: ['error', 2, { ignoredNodes: ['JSXElement'] }],
     'no-plusplus': 'off',
     'no-console': 'off',
     'jsx-a11y/label-has-associated-control': [2, {

@@ -68,12 +68,16 @@ const ArticleContent = ({ item }) => {
           className={cn(classes.buttonNavBar, classes.buttonLogOut)}
         >
           Delete
+
+
         </Button>
         <Button
           onClick={() => editArticle()}
           className={cn(classes.buttonNavBar, classes.buttonLogOut)}
         >
           Edit
+
+
         </Button>
       </Col>
     </Row>

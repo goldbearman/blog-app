@@ -46,6 +46,8 @@ const SignInForm = () => {
         {/* eslint-disable-next-line jsx-a11y/label-has-for */}
         <label>
           Email address
+
+
           <input
             className={cn(errors?.['Email address'] && classes.error)}
             type="text"
@@ -57,6 +59,8 @@ const SignInForm = () => {
         {/* eslint-disable-next-line jsx-a11y/label-has-for */}
         <label>
           Password
+
+
           <input
             className={cn(errors?.Password && classes.error)}
             type="password"
@@ -70,6 +74,8 @@ const SignInForm = () => {
         <input className={classes.submitButtonSingIn} value="Login" type="submit" />
         <div className={classes.formFooter}>
           Don’t have an account?
+
+
           <Link to="/sing-up" className={classes.buttonNavBar}>Sign Up</Link>
         </div>
       </form>
@@ -86,9 +92,11 @@ SignInForm.propTypes = {
 
 SignInForm.defaultProps = {
   history: {
-    push: () => {},
+    push: () => {
+    },
   },
-  onLogin: () => {},
+  onLogin: () => {
+  },
 };
 
 const mapStateToProps = state => ({

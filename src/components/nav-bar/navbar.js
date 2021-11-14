@@ -33,6 +33,8 @@ const logIn = (user, onLogin) => (
       className={cn(classes.buttonNavBar, classes.buttonLogOut)}
     >
       Log Out
+
+
     </Button>
   </>
 );

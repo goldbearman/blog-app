@@ -66,6 +66,8 @@ function EditProfile() {
         {/* eslint-disable-next-line jsx-a11y/label-has-for */}
         <label>
           UserName
+
+
           <input
             defaultValue={user.username}
             onBlur={() => handleChange()}
@@ -79,6 +81,8 @@ function EditProfile() {
         {/* eslint-disable-next-line jsx-a11y/label-has-for */}
         <label>
           Email address
+
+
           <input
             defaultValue={user.email}
             onChange={() => handleChange()}
@@ -92,6 +96,8 @@ function EditProfile() {
         {/* eslint-disable-next-line jsx-a11y/label-has-for */}
         <label>
           New password
+
+
           <input
             onChange={() => handleChange()}
             className={cn(errors?.Password && classes.error)}
@@ -104,6 +110,8 @@ function EditProfile() {
         {/* eslint-disable-next-line jsx-a11y/label-has-for */}
         <label>
           Avatar image (url)
+
+
           <input
             defaultValue={user.image}
             onChange={() => handleChange()}
