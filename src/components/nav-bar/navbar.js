@@ -10,7 +10,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../redux/actions';
 import classes from './nav-bar.module.scss';
-
+// ICON
 import defaultImg from '../../pictures/avatar.png';
 
 
@@ -45,7 +45,8 @@ const NavBar = () => {
   const history = useHistory();
 
   const onLogin = (bool) => {
-    localStorage.removeItem('token');
+    console.log(bool);
+    localStorage.removeItem('user');
     dispatch(actions.onLogin(bool));
     history.push('/articles');
   };

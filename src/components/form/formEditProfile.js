@@ -8,21 +8,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import classes from './form.module.scss';
 import { FormContainer } from './formContainer';
 import { fetchEditUser } from '../../redux/asyncAction';
-import { onEditUserName } from '../../redux/actions';
+// import { onEditUserName } from '../../redux/actions';
 
 const SignInSchema = yup.object().shape({
-  'User name': yup.string().min(3).max(20).required(),
-  'Email address': yup.string().email().required(),
-  Password: yup.string().min(6).max(40).required('Поле обязательно!'),
-  'Avatar image': yup.string().url(),
+  'User name': yup.string().min(3).max(20).nullable(),
+  'Email address': yup.string().email().nullable(),
+  Password: yup.string().min(6).max(40).nullable(),
+  'Avatar image': yup.string().url().nullable(),
 });
-
 
 function EditProfile() {
   console.log('editProfile');
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
-  // const [name, setName] = useState('');
+
   const {
     register,
     handleSubmit,
@@ -36,18 +35,29 @@ function EditProfile() {
   const onSubmit = (data) => {
     console.log(data);
     // eslint-disable-next-line no-param-reassign
-    data = { username: data['User name'], email: data['Email address'], password: data.Password };
-    dispatch(fetchEditUser(data));
+    data = {
+      username: data['User name'],
+      email: data['Email address'],
+      image: data.image,
+      password: data.Password,
+      bio: 'I like to skateboard',
+    };
+    console.log(data);
+    console.log(user.token);
+    dispatch(fetchEditUser(data, user.token));
   };
 
   // eslint-disable-next-line no-unused-vars
   const checkAgree = watch('checkAgree');
 
   const handleChange = (e) => {
+    console.log('in');
     console.log(e.target.value);
-    dispatch(onEditUserName(e.target.value));
+    // dispatch(onEditUserName(e.target.value));
     // newUser.username
   };
+
+  console.log(errors);
 
   return (
     <FormContainer>
@@ -57,12 +67,12 @@ function EditProfile() {
         <label>
           UserName
           <input
-            value={user.username}
-            onChange={handleChange()}
+            defaultValue={user.username}
+            onBlur={() => handleChange()}
             className={cn(errors?.['User name'] && classes.error)}
             type="text"
             placeholder="Username"
-            {...register('User name')}
+            {...register('User name', { required: false })}
           />
         </label>
         <p>{errors?.['User name'] && errors?.['User name']?.message}</p>
@@ -70,11 +80,12 @@ function EditProfile() {
         <label>
           Email address
           <input
-            value={user.email}
+            defaultValue={user.email}
+            onChange={() => handleChange()}
             className={cn(errors?.['Email address'] && classes.error)}
             type="text"
             placeholder="Email address"
-            {...register('Email address')}
+            {...register('Email address', { required: false })}
           />
         </label>
         <p>{errors?.['Email address'] && errors?.['Email address']?.message}</p>
@@ -82,10 +93,11 @@ function EditProfile() {
         <label>
           New password
           <input
+            onChange={() => handleChange()}
             className={cn(errors?.Password && classes.error)}
             type="password"
             placeholder="New password"
-            {...register('Password')}
+            {...register('Password', { required: false })}
           />
         </label>
         <p>{errors?.Password && errors?.Password?.message}</p>
@@ -93,10 +105,12 @@ function EditProfile() {
         <label>
           Avatar image (url)
           <input
+            defaultValue={user.image}
+            onChange={() => handleChange()}
             className={cn(errors?.Password && classes.error)}
-            type="password"
+            type="text"
             placeholder="Avatar image"
-            {...register('Avatar image')}
+            {...register('Avatar image', { required: false })}
           />
         </label>
         <p>{errors?.Password && errors?.Password?.message}</p>

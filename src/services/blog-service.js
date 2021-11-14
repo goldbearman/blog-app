@@ -52,22 +52,22 @@ export default class BlogService {
     return responseBody;
   }
 
-  async editUser(userData, token) {
-    const res = await fetch(`${this.apiBase}users`, {
-      method: 'PUT',
+  async fetchDeleteArticle(slug, token) {
+    console.log(token);
+    console.log(slug);
+    const res = await fetch(`${this.apiBase}articles/${slug}`, {
+      method: 'DELETE',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
-        Autorizaton: `Token ${token}`,
+        Authorization: `Token ${token}`,
       },
-      body: JSON.stringify({ user: userData }),
     });
-    if (!res.ok) {
-      throw new Error(res.json().errors);
-    }
-    const responseBody = await res.json();
+    // if (!res.ok) {
+    //   throw new Error(res.json().errors);
+    // }
     // eslint-disable-next-line no-console
-    console.log(responseBody);
-    return responseBody;
+    console.log(res);
+    return res;
   }
 
   async createArticle(articleData, token) {
@@ -105,18 +105,18 @@ export default class BlogService {
   //   return responseBody;
   // }
 
-  async getUserArticles(page = 0, token) {
+  async getUserArticles(page = 1, token) {
     console.log(token);
     let res;
     if (token) {
-      res = await fetch(`${this.apiBase}articles?limit=5&offset=${page * 5}`, {
+      res = await fetch(`${this.apiBase}articles?limit=5&offset=${(page - 1) * 5}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json; charset = utf-8',
           Authorization: `Token ${token}`,
         },
       });
-    } else res = await fetch(`${this.apiBase}articles?limit=5&offset=${page * 5}`);
+    } else res = await fetch(`${this.apiBase}articles?limit=5&offset=${(page - 1) * 5}`);
     const responseBody = await res.json();
     // eslint-disable-next-line no-console
     console.log(responseBody);

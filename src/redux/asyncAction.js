@@ -28,8 +28,8 @@ export const fetchArticle = slug => (dispatch) => {
 export const fetchAuthentication = (data, history) => (dispatch) => {
   blogService.authentication(data).then((res) => {
     // eslint-disable-next-line no-console
-    console.log(res.user.token);
-    localStorage.setItem('token', res.user.token);
+    console.log(res.user);
+    localStorage.setItem('user', JSON.stringify(res.user));
     dispatch(onAuthentication(res.user));
     history.push('/articles');
   });
@@ -43,15 +43,15 @@ export const fetchRegistration = (data, history) => (dispatch) => {
   }, () => dispatch(onErrorRegistration()));
 };
 
-export const fetchEditUser = data => (dispatch) => {
-  blogService.editUser(data).then((res) => {
+export const fetchEditUser = (data, token) => (dispatch) => {
+  blogService.editUser(data, token).then((res) => {
     dispatch(onEditUser(res.user));
   }, () => dispatch(onErrorRegistration()));
 };
 
-export const fetchCreateArticle = (data, token, history) => (dispatch) => {
-  blogService.createArticle(data, token).then(() => {
-    blogService.getUserArticles(0, token).then((res) => {
+export const fetchCreateArticle = (data, counter, history) => (dispatch) => {
+  blogService.createArticle(data, counter.user.token).then(() => {
+    blogService.getUserArticles(counter.page, counter.user.token).then((res) => {
       console.log(res);
       dispatch(onInitialState(res));
       history.push('/articles');

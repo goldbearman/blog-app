@@ -1,26 +1,22 @@
 import React from 'react';
-// import { withRouter } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
-
-import PropTypes from 'prop-types';
+// REACT-ROUTER-DOM
+import { withRouter, useHistory } from 'react-router-dom';
 // UI DESIGN
 import { Pagination } from '@mui/material';
 // REDUX
 import { useDispatch, useSelector } from 'react-redux';
-// import * as actions from '../../redux/actions';
 // COMPONENTS
 import Article from '../article/article';
 import classes from './article-list.module.scss';
 import { fetchArticles } from '../../redux/asyncAction';
 import { setPage } from '../../redux/actions';
 
-const ArticleList = ({ history }) => {
+const ArticleList = () => {
   const store = useSelector(state => state);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   console.log(store);
-
-  // const [pageNumber, setPageNumber] = useState(1);
 
   const createList = () => {
     const elements = store.arrArticles.map((data) => {
@@ -43,6 +39,7 @@ const ArticleList = ({ history }) => {
   const onChangePage = (event, page) => {
     console.log(page);
     dispatch(setPage(page));
+    localStorage.setItem('page', page);
     dispatch(fetchArticles(page, store.user.token));
   };
 
@@ -55,7 +52,7 @@ const ArticleList = ({ history }) => {
           onChange={onChangePage}
           page={store.page}
           shape="rounded"
-          count={Math.floor(store.articlesCount / 5)}
+          count={Math.ceil(store.articlesCount / 5)}
           defaultPage={1}
           color="primary"
         />
@@ -63,30 +60,5 @@ const ArticleList = ({ history }) => {
     </>
   );
 };
-
-ArticleList.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }),
-  counter: PropTypes.shape({
-    arrArticles: PropTypes.arrayOf(PropTypes.object),
-    articlesCount: PropTypes.number,
-  }),
-};
-
-ArticleList.defaultProps = {
-  history: {
-    push: () => {
-    },
-  },
-  counter: {
-    arrArticles: [],
-    articlesCount: 0,
-  },
-};
-//
-// const mapStateToProps = state => ({
-//   counter: state,
-// });
 
 export default withRouter(ArticleList);

@@ -5,7 +5,7 @@ import {
 } from 'react-hook-form';
 import { Button } from '@mui/material';
 import cn from 'classnames';
-import { useHistory, Redirect } from 'react-router-dom';
+import { useHistory, Redirect, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { ArticleContainer } from '../article-container/article-container';
 import classes from './new-article.module.scss';
@@ -15,13 +15,28 @@ import { fetchCreateArticle } from '../../redux/asyncAction';
 const NewArticle = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const user = useSelector(state => state.user);
+  const counter = useSelector(state => state);
   const isLoggedIn = useSelector(state => state.isLoggedIn);
+  const params = useParams();
+  console.log(params.slug);
+
+  let defaultArticle = { tagList: [] };
+
+  if (params.slug) {
+    const [needArticle] = counter.arrArticles.filter(item => item.slug === params.slug);
+    console.log(needArticle);
+    defaultArticle = {
+      article: {
+        title: needArticle.title,
+        description: needArticle.description,
+        body: needArticle.body,
+      },
+      tagList: [5, 8, 12],
+    };
+  }
 
   const { register, control, handleSubmit } = useForm({
-    defaultValues: {
-      tagList: [],
-    },
+    defaultValues: defaultArticle,
   });
   const {
     fields,
@@ -35,12 +50,14 @@ const NewArticle = () => {
 
   const onSubmit = (data) => {
     console.log(data);
+    console.log(data.tagList);
+    console.log(data.tagList.body);
     // console.log(data.task);
     // console.log(data.tagList.ht);
     // eslint-disable-next-line no-param-reassign
     data = Object.assign(data.article, { tagList: data.tagList.hp, body: data.tagList.body });
     console.log(data);
-    dispatch(fetchCreateArticle(data, user.token, history));
+    dispatch(fetchCreateArticle(data, counter, history));
   };
 
   if (isLoggedIn) {
@@ -83,20 +100,18 @@ const NewArticle = () => {
             <ul>
               {fields.map((item, index) => (
                 <li key={item.id}>
-                  <input placeholder="Tag" className={classes.inputTags} {...register(`tagList.hp[${index}]`)} />
-
-                  {/* <Controller */}
-                  {/*  render={({ field }) => <input {...field} />} */}
-                  {/*  name={`test.${index}.lastName`} */}
-                  {/*  control={control} */}
-                  {/* /> */}
-                  <Button
-                    className={cn(classes.button, classes.buttonDel)}
-                    type="button"
-                    onClick={() => remove(index)}
-                  >
+                  {console.log(item)}
+                  <input defaultValue={defaultArticle.tagList[index]} placeholder="Tag" className={classes.inputTags} {...register(`tagList.hp[${index}]`)} />
+                  {index > 0
+                    ? (
+                      <Button
+                        className={cn(classes.button, classes.buttonDel)}
+                        type="button"
+                        onClick={() => remove(index)}
+                      >
                     Delete
-                  </Button>
+                      </Button>
+                    ) : null}
                 </li>
               ))}
               <Button

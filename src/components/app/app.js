@@ -20,6 +20,8 @@ import SignInForm from '../form/signInForm';
 import EditProfile from '../form/formEditProfile';
 import NewArticle from '../new-article/new-article';
 
+import { onAuthentication } from '../../redux/actions';
+
 // const theme = createTheme({
 //   palette: {
 //     primary: {
@@ -40,13 +42,15 @@ const App = () => {
 
   useEffect(() => {
     console.log('useEffect');
-    const token = localStorage.getItem('token');
-    console.log(token);
+    const user = JSON.parse(localStorage.getItem('user'));
+    console.log(user);
     let userToken;
-    if (token) userToken = token;
-    else userToken = undefined;
+    if (user) {
+      userToken = user.token;
+      dispatch(onAuthentication(user));
+    } else userToken = undefined;
     console.log(userToken);
-    dispatch(fetchArticles(0, userToken));
+    dispatch(fetchArticles(1, userToken));
   }, [isLoggedIn]);
 
   return (
@@ -58,8 +62,13 @@ const App = () => {
         component={ArticleList}
       />
       <Route
+        exact
         path="/articles/:slag"
         component={WholeArticle}
+      />
+      <Route
+        path="/articles/:slug/edit"
+        component={NewArticle}
       />
       <Route
         path="/new-article"
