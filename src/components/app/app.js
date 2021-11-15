@@ -58,13 +58,13 @@ const App = () => {
     <>
       <NavBar />
       <Route
-        path={['/', '/articles']}
+        path={['/', '/articles/']}
         exact
         component={ArticleList}
       />
       <Route
         exact
-        path="/articles/:slag"
+        path="/articles/:slug"
         component={WholeArticle}
       />
       <Route

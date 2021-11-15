@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
 import { Button } from '@mui/material';
 import cn from 'classnames';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import classes from './article.module.scss';
 import BlogService from '../../services/blog-service';
@@ -18,6 +18,8 @@ const ArticleContent = ({ item }) => {
   const user = useSelector(state => state.user);
   const page = useSelector(state => state.page);
   const history = useHistory();
+  const params = useParams();
+  console.log(params);
   console.log(item);
   const {
     title, description, favoritesCount, tagList, author: { username, image }, createdAt,
@@ -39,7 +41,7 @@ const ArticleContent = ({ item }) => {
     });
   };
   const editArticle = () => {
-    history.push('/edit');
+    history.push('edit');
   };
 
   return (
@@ -63,22 +65,24 @@ const ArticleContent = ({ item }) => {
           </div>
           <Avatar alt="image" src={image} variant="circular" sx={{ width: 46, height: 46 }} />
         </div>
-        <Button
-          onClick={() => deleteArticle()}
-          className={cn(classes.buttonNavBar, classes.buttonLogOut)}
-        >
-          Delete
-
-
-        </Button>
-        <Button
-          onClick={() => editArticle()}
-          className={cn(classes.buttonNavBar, classes.buttonLogOut)}
-        >
-          Edit
-
-
-        </Button>
+        {params.slug
+        && (
+          <div className={classes.buttonSmallContainer}>
+            <Button
+              onClick={() => deleteArticle()}
+              className={cn(classes.buttonSmall, classes.buttonDelete)}
+            >
+              Delete
+            </Button>
+            <Button
+              onClick={() => editArticle()}
+              className={cn(classes.buttonSmall, classes.buttonEdit)}
+            >
+              Edit
+            </Button>
+          </div>
+        )
+        }
       </Col>
     </Row>
   );

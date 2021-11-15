@@ -9,16 +9,19 @@ import { useHistory, Redirect, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { ArticleContainer } from '../article-container/article-container';
 import classes from './new-article.module.scss';
-import { fetchCreateArticle } from '../../redux/asyncAction';
+import { fetchArticles, fetchCreateArticle } from '../../redux/asyncAction';
+import BlogService from '../../services/blog-service';
 
 
 const NewArticle = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const counter = useSelector(state => state);
+  const user = useSelector(state => state.user);
   const isLoggedIn = useSelector(state => state.isLoggedIn);
   const params = useParams();
   console.log(params.slug);
+  const blogService = new BlogService();
 
   let defaultArticle = { objArticle: [{}] };
 
@@ -52,12 +55,16 @@ const NewArticle = () => {
   const onSubmit = (data) => {
     console.log(data);
     console.log(data.tagList);
-    // console.log(data.task);
-    // console.log(data.tagList.ht);
     // eslint-disable-next-line no-param-reassign
     data = Object.assign(data.obj, { tagList: data.objArticle.tagList });
     console.log(data);
-    dispatch(fetchCreateArticle(data, counter, history));
+    if (params.slug) {
+      blogService.fetchDeleteArticle(params.slug, user.token).then(() => {
+        console.log('deleteArticle');
+        dispatch(fetchCreateArticle(data, counter, history));
+        dispatch(fetchArticles(1, user.token, history));
+      });
+    } else dispatch(fetchCreateArticle(data, counter, history));
   };
 
   if (isLoggedIn) {

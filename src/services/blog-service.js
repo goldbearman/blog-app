@@ -70,6 +70,25 @@ export default class BlogService {
     return res;
   }
 
+  async fetchUpdateArticle(slug, token, articleData) {
+    console.log(token);
+    console.log(slug);
+    const res = await fetch(`${this.apiBase}articles/${slug}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        Authorization: `Token ${token}`,
+      },
+      body: JSON.stringify({ article: articleData }),
+    });
+    // if (!res.ok) {
+    //   throw new Error(res.json().errors);
+    // }
+    // eslint-disable-next-line no-console
+    console.log(res);
+    return res;
+  }
+
   async createArticle(articleData, token) {
     const res = await fetch(`${this.apiBase}articles`, {
       method: 'POST',
@@ -85,25 +104,6 @@ export default class BlogService {
     return responseBody.article;
   }
 
-  // async getUserArticles(page = 1, token) {
-  //   console.log(token);
-  //   let heder = null;
-  //   if (token) {
-  //     console.log('if');
-  //     heder = {
-  //       method: 'GET',
-  //       headers: {
-  //         'Content-Type': 'application/json; charset = utf-8',
-  //         Authorization: `Token ${token}`,
-  //       },
-  //     };
-  //   }
-  //   const res = await fetch(`${this.apiBase}articles?limit=5&offset=${page * 5}`, heder);
-  //   const responseBody = await res.json();
-  //   // eslint-disable-next-line no-console
-  //   console.log(responseBody);
-  //   return responseBody;
-  // }
 
   async getUserArticles(page = 1, token) {
     console.log(token);

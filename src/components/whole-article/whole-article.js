@@ -12,11 +12,11 @@ const WholeArticle = () => {
   const dispatch = useDispatch();
   const article = useSelector(state => state.article);
   const getArticle = useSelector(state => state.getArticle);
-  const { slag } = useParams();
+  const { slug } = useParams();
 
   useEffect(() => {
     console.log('useEffect');
-    dispatch(fetchArticle(slag));
+    dispatch(fetchArticle(slug));
   }, []);
 
   useEffect(() => () => dispatch(onGetArticleFalse()), []);

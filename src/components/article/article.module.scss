@@ -28,6 +28,30 @@
     }
   }
 
+  .buttonSmallContainer{
+    text-align: right;
+    margin-top: 30px;
+
+
+    .buttonSmall{
+      font-size: 14px;
+      padding: 3px 17px;
+      border-radius: 5px;
+      text-transform: none;
+      margin-left: 12px;
+    }
+
+    .buttonDelete{
+      border: 1px solid #F5222D;
+      color: #F5222D;
+    }
+    .buttonEdit{
+      border: 1px solid #52C41A;
+      color: #52C41A;
+    }
+  }
+
+
   .tagList {
     display: flex;
     margin: 4px 0;
