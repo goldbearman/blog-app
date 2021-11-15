@@ -32,7 +32,7 @@ const NewArticle = () => {
         description: needArticle.description,
         body: needArticle.body,
       },
-      objArticle: [5, 8, 12],
+      objArticle: needArticle.tagList,
     };
   }
 
@@ -101,7 +101,7 @@ const NewArticle = () => {
               {fields.map((item, index) => (
                 <li key={item.id}>
                   {console.log(item)}
-                  <input defaultValue={Object.keys(defaultArticle).length === 1 ? '' : defaultArticle.tagList[index]} placeholder="Tag" className={classes.inputTags} {...register(`objArticle.tagList[${index}]`)} />
+                  <input defaultValue={Object.keys(defaultArticle).length === 1 ? '' : defaultArticle.objArticle[index]} placeholder="Tag" className={classes.inputTags} {...register(`objArticle.tagList[${index}]`)} />
                   {index > 0
                     // eslint-disable-next-line no-mixed-spaces-and-tabs,no-tabs
                     ? (

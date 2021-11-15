@@ -39,7 +39,7 @@ const ArticleContent = ({ item }) => {
     });
   };
   const editArticle = () => {
-    history.push(`/articles/${item.slug}/edit`);
+    history.push('/edit');
   };
 
   return (

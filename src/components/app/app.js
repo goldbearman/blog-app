@@ -42,10 +42,11 @@ const App = () => {
 
   useEffect(() => {
     console.log('useEffect');
-    const user = JSON.parse(localStorage.getItem('user'));
-    console.log(user);
+    const localUser = localStorage.getItem('user');
+    console.log(localUser);
     let userToken;
-    if (user) {
+    if (localUser) {
+      const user = JSON.parse(localUser);
       userToken = user.token;
       dispatch(onAuthentication(user));
     } else userToken = undefined;
