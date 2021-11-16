@@ -9,7 +9,7 @@ import { useHistory, Redirect, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { ArticleContainer } from '../article-container/article-container';
 import classes from './new-article.module.scss';
-import { fetchArticles, fetchCreateArticle } from '../../redux/asyncAction';
+import { fetchCreateArticle } from '../../redux/asyncAction';
 import BlogService from '../../services/blog-service';
 
 
@@ -44,8 +44,8 @@ const NewArticle = () => {
   });
   const {
     fields,
-    remove,
     append,
+    remove,
   } = useFieldArray({
     control,
     name: 'objArticle',
@@ -54,15 +54,19 @@ const NewArticle = () => {
 
   const onSubmit = (data) => {
     console.log(data);
-    console.log(data.tagList);
+    console.log(data.objArticle);
+    const taglist = data.objArticle.reduce((start, item) => {
+      start.push(item.firstName);
+      return start;
+    }, []);
+    console.log(taglist);
     // eslint-disable-next-line no-param-reassign
-    data = Object.assign(data.obj, { tagList: data.objArticle.tagList });
+    data = Object.assign(data.obj, { tagList: taglist });
     console.log(data);
     if (params.slug) {
       blogService.fetchDeleteArticle(params.slug, user.token).then(() => {
         console.log('deleteArticle');
         dispatch(fetchCreateArticle(data, counter, history));
-        dispatch(fetchArticles(1, user.token, history));
       });
     } else dispatch(fetchCreateArticle(data, counter, history));
   };
@@ -108,14 +112,22 @@ const NewArticle = () => {
               {fields.map((item, index) => (
                 <li key={item.id}>
                   {console.log(item)}
-                  <input defaultValue={Object.keys(defaultArticle).length === 1 ? '' : defaultArticle.objArticle[index]} placeholder="Tag" className={classes.inputTags} {...register(`objArticle.tagList[${index}]`)} />
+                  {console.log(fields)}
+                  <input defaultValue={Object.keys(defaultArticle).length === 1 ? '' : defaultArticle.objArticle[index]} placeholder="Tag" className={classes.inputTags} {...register(`objArticle.${index}.firstName`)} />
                   {index > 0
                     // eslint-disable-next-line no-mixed-spaces-and-tabs,no-tabs
                     ? (
                       <Button
                         className={cn(classes.button, classes.buttonDel)}
                         type="button"
-                        onClick={() => remove(index)}
+                        name={index}
+                        onClick={() => {
+                          console.log(index);
+                          // console.log(defaultArticle.objArticle);
+                          remove(index);
+                          // fields.splice(index, 1);
+                          // defaultArticle.objArticle.splice(index, 1);
+                        }}
                       >
                         Delete
                       </Button>

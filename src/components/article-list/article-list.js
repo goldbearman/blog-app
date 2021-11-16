@@ -28,7 +28,7 @@ const ArticleList = () => {
           onItemClick={() => {
             console.log(slug);
             console.log(history);
-            history.push(`articles/${slug}/`);
+            history.push(`/articles/${slug}/`);
           }}
         />
       );

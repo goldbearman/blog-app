@@ -26,8 +26,22 @@ const ArticleContent = ({ item }) => {
   } = item;
   const date = format(new Date(createdAt), 'MMMM dd, yyyy');
 
+
+  const checkTagList = (arr) => {
+    let showTagList = true;
+    if (arr.length === 0) {
+      showTagList = false;
+    }
+    if (arr.length === 1 && arr[0] === '') {
+      showTagList = false;
+    }
+    return showTagList;
+  };
+
   const inTagList = (arr) => {
-    if (arr.length === 0) return null;
+    if (arr.length === 0) {
+      return null;
+    }
     const list = arr.map(tagName => (
       <div className={classes.tagList__tag}>{tagName}</div>
     ));
@@ -52,7 +66,7 @@ const ArticleContent = ({ item }) => {
           <div className={classes.likeCount}>{favoritesCount}</div>
         </div>
         <div />
-        <div className={classes.tagList}>{inTagList(tagList)}</div>
+        {checkTagList(tagList) && <div className={classes.tagList}>{inTagList(tagList)}</div>}
         <p>
           {description}
         </p>

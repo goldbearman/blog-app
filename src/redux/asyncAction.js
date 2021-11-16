@@ -53,8 +53,8 @@ export const fetchCreateArticle = (data, counter, history) => (dispatch) => {
   blogService.createArticle(data, counter.user.token).then(() => {
     blogService.getUserArticles(counter.page, counter.user.token).then((res) => {
       console.log(res);
-      dispatch(onInitialState(res));
       history.push('/articles');
+      dispatch(onInitialState(res));
     }, () => dispatch(onErrorRegistration()));
   });
 };
