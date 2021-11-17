@@ -26,6 +26,8 @@ const ArticleContent = ({ item }) => {
   } = item;
   const date = format(new Date(createdAt), 'MMMM dd, yyyy');
 
+  console.log(image);
+
 
   const checkTagList = (arr) => {
     let showTagList = true;

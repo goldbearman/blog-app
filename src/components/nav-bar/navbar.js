@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../redux/actions';
 import classes from './nav-bar.module.scss';
 // ICON
-import defaultImg from '../../pictures/avatar.png';
+import defaultImg from '../../pictures/smiley-cyrus.jpeg';
 
 
 const logOut = () => (
@@ -33,8 +33,6 @@ const logIn = (user, onLogin) => (
       className={cn(classes.buttonNavBar, classes.buttonLogOut)}
     >
       Log Out
-
-
     </Button>
   </>
 );
