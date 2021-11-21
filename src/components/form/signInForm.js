@@ -1,16 +1,21 @@
 import React from 'react';
+// OTHER LIBRARIES
 import cn from 'classnames';
+import PropTypes from 'prop-types';
+// REACT HOOK FORM
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+// REACT ROUTER DOM
 import { Link, useHistory } from 'react-router-dom';
-import PropTypes from 'prop-types';
+// REDUX
 import { connect, useDispatch } from 'react-redux';
-import classes from './form.module.scss';
-import { FormContainer } from './formContainer';
 import * as actions from '../../redux/actions';
 import { fetchAuthentication } from '../../redux/asyncAction';
-// import { BlogContext } from '../app/blog-context';
+// CUSTOM COMPONENTS
+import { FormContainer } from './formContainer';
+
+import classes from './form.module.scss';
 
 const SignInSchema = yup.object().shape({
   'Email address': yup.string().email().required(),
@@ -30,25 +35,19 @@ const SignInForm = () => {
     mode: 'all',
   });
   const onSubmit = (data) => {
-    // eslint-disable-next-line no-param-reassign
-    data = { email: data['Email address'], password: data.Password };
-    // eslint-disable-next-line no-console
-    console.log(data);
-    // console.log(user.token);
-    // alert(JSON.stringify(data));
-    dispatch(fetchAuthentication(data, history));
+    let result = { ...data };
+    result = { email: data['Email address'], password: data.Password };
+    dispatch(fetchAuthentication(result, history));
   };
 
   return (
     <FormContainer>
       <h1>Sign In</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {/* eslint-disable-next-line jsx-a11y/label-has-for */}
-        <label>
+        <label htmlFor="email address">
           Email address
-
-
           <input
+            id="email address"
             className={cn(errors?.['Email address'] && classes.error)}
             type="text"
             placeholder="Email address"
@@ -56,12 +55,10 @@ const SignInForm = () => {
           />
         </label>
         <p>{errors?.['Email address'] && errors?.['Email address']?.message}</p>
-        {/* eslint-disable-next-line jsx-a11y/label-has-for */}
-        <label>
+        <label htmlFor="password">
           Password
-
-
           <input
+            id="password"
             className={cn(errors?.Password && classes.error)}
             type="password"
             placeholder="Password"
@@ -74,8 +71,6 @@ const SignInForm = () => {
         <input className={classes.submitButtonSingIn} value="Login" type="submit" />
         <div className={classes.formFooter}>
           Don’t have an account?
-
-
           <Link to="/sing-up" className={classes.buttonNavBar}>Sign Up</Link>
         </div>
       </form>

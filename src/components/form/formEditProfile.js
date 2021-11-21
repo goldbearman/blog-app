@@ -1,14 +1,17 @@
 import React from 'react';
+// REACT HOOK FORM
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
-// import { Container } from 'react-bootstrap';
 import { yupResolver } from '@hookform/resolvers/yup';
+// OTHER LIBRARIES
 import cn from 'classnames';
+// REDUX
 import { useDispatch, useSelector } from 'react-redux';
-import classes from './form.module.scss';
-import { FormContainer } from './formContainer';
 import { fetchEditUser } from '../../redux/asyncAction';
-// import { onEditUserName } from '../../redux/actions';
+// CUSTOM COMPONENTS
+import { FormContainer } from './formContainer';
+
+import classes from './form.module.scss';
 
 const SignInSchema = yup.object().shape({
   'User name': yup.string().min(3).max(20).nullable(),
@@ -34,17 +37,17 @@ function EditProfile() {
 
   const onSubmit = (data) => {
     console.log(data);
-    // eslint-disable-next-line no-param-reassign
-    data = {
+    let result = { ...data };
+    result = {
       username: data['User name'],
       email: data['Email address'],
       image: data.image,
       password: data.Password,
       bio: 'I like to skateboard',
     };
-    console.log(data);
+    console.log(result);
     console.log(user.token);
-    dispatch(fetchEditUser(data, user.token));
+    dispatch(fetchEditUser(result, user.token));
   };
 
   // eslint-disable-next-line no-unused-vars

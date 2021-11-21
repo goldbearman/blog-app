@@ -2,8 +2,17 @@
   padding: 8px 0;
   font-size: 18px;
 
+  a{
+    text-decoration: none;
+    color: black;
+    &:hover{
+      color: #52C41A;
+    }
+  }
+
   .brand{
     font-size: 18px;
+
   }
   .userData{
     display: flex;
@@ -13,8 +22,6 @@
 
     a{
       margin-right: 13px;
-      text-decoration: none;
-      color: black;
     }
   }
 

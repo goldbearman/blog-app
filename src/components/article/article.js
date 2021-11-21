@@ -1,5 +1,7 @@
 import React from 'react';
+// OTHER LIBRARIES
 import PropTypes from 'prop-types';
+// CUSTOM COMPONENTS
 import { ArticleContainer } from '../article-container/article-container';
 import ArticleContent from './article-content';
 
@@ -13,8 +15,7 @@ const Article = ({ item, onItemClick }) => {
 };
 
 Article.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  item: PropTypes.object,
+  item: PropTypes.objectOf(PropTypes.object),
   onItemClick: PropTypes.func,
 };
 

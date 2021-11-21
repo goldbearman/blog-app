@@ -1,15 +1,16 @@
 import React from 'react';
 // REACT-ROUTER-DOM
-import { withRouter, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 // UI DESIGN
 import { Pagination } from '@mui/material';
 // REDUX
 import { useDispatch, useSelector } from 'react-redux';
-// COMPONENTS
-import Article from '../article/article';
-import classes from './article-list.module.scss';
 import { fetchArticles } from '../../redux/asyncAction';
 import { setPage } from '../../redux/actions';
+// CUSTOM COMPONENTS
+import Article from '../article/article';
+
+import classes from './article-list.module.scss';
 
 const ArticleList = () => {
   const store = useSelector(state => state);
@@ -61,4 +62,4 @@ const ArticleList = () => {
   );
 };
 
-export default withRouter(ArticleList);
+export default ArticleList;

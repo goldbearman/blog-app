@@ -1,15 +1,22 @@
 import React from 'react';
-import { Col, Row } from 'react-bootstrap';
+// OTHER LIBRARIES
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
+// MATERIAL UI
 import { Avatar } from '@material-ui/core';
 import { Button } from '@mui/material';
-import cn from 'classnames';
+// REACT BOOTSTRAP
+import { Col, Row } from 'react-bootstrap';
+// REACT ROUTER DOM
 import { useHistory, useParams } from 'react-router-dom';
+// CLASSNAMES
+import cn from 'classnames';
+// REDUX
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchArticles } from '../../redux/asyncAction';
+
 import classes from './article.module.scss';
 import BlogService from '../../services/blog-service';
-import { fetchArticles } from '../../redux/asyncAction';
 
 const blogService = new BlogService();
 
@@ -22,12 +29,10 @@ const ArticleContent = ({ item }) => {
   console.log(params);
   console.log(item);
   const {
-    title, description, favoritesCount, tagList, author: { username, image }, createdAt,
+    title, description, favoritesCount, tagList, author: { username, image }, createdAt, slug,
   } = item;
+  console.log(createdAt);
   const date = format(new Date(createdAt), 'MMMM dd, yyyy');
-
-  console.log(image);
-
 
   const checkTagList = (arr) => {
     let showTagList = true;
@@ -51,7 +56,7 @@ const ArticleContent = ({ item }) => {
   };
 
   const deleteArticle = () => {
-    blogService.fetchDeleteArticle(item.slug, user.token).then(() => {
+    blogService.fetchDeleteArticle(slug, user.token).then(() => {
       console.log('deleteArticle');
       dispatch(fetchArticles(page, user.token, history));
     });
@@ -81,7 +86,7 @@ const ArticleContent = ({ item }) => {
           </div>
           <Avatar alt="image" src={image} variant="circular" sx={{ width: 46, height: 46 }} />
         </div>
-        {params.slug
+        {params.slug && username === user.username
         && (
           <div className={classes.buttonSmallContainer}>
             <Button
@@ -105,12 +110,29 @@ const ArticleContent = ({ item }) => {
 };
 
 ArticleContent.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  item: PropTypes.object,
+  item: PropTypes.shape({
+    title: PropTypes.string,
+    description: PropTypes.string,
+    favoritesCount: PropTypes.number,
+    tagList: PropTypes.arrayOf(PropTypes.string),
+    createdAt: PropTypes.number,
+    slug: PropTypes.string,
+    author: PropTypes.shape({
+      username: PropTypes.string,
+      image: PropTypes.string,
+    }),
+  }),
 };
 
 ArticleContent.defaultProps = {
-  item: {},
+  item: {
+    title: '',
+    description: '',
+    favoritesCount: 0,
+    tagList: [],
+    slug: '',
+    createdAt: 0,
+  },
 };
 
 export default ArticleContent;

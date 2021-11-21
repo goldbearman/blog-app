@@ -1,18 +1,21 @@
 import React from 'react';
-import { Container, Navbar } from 'react-bootstrap';
-import { Link, NavLink, useHistory } from 'react-router-dom';
+// OTHER LIBRARIES
 import cn from 'classnames';
+// REACT BOOTSTRAP
+import { Container, Navbar } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.css';
+// REACT ROUTER DOM
+import { Link, NavLink, useHistory } from 'react-router-dom';
 // MATERIAL UI
 import { Avatar } from '@material-ui/core';
 import { Button } from '@mui/material';
-import 'bootstrap/dist/css/bootstrap.css';
 // REDUX UI
 import { useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../redux/actions';
-import classes from './nav-bar.module.scss';
 // ICON
 import defaultImg from '../../pictures/smiley-cyrus.jpeg';
 
+import classes from './nav-bar.module.scss';
 
 const logOut = () => (
   <>

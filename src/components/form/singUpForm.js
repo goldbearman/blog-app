@@ -1,17 +1,21 @@
 import React from 'react';
+// OTHER LIBRARIES
+import cn from 'classnames';
+// REACT HOOK FORM
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+// MATERIAL UI
 import { Checkbox, FormControlLabel } from '@material-ui/core';
-import cn from 'classnames';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import classes from './form.module.scss';
-import { FormContainer } from './formContainer';
+// REACT ROUTER DOM
+import { Link, useHistory } from 'react-router-dom';
+// REDUX
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchRegistration } from '../../redux/asyncAction';
-import { onErrorRegistration } from '../../redux/actions';
+// CUSTOM COMPONENTS
+import { FormContainer } from './formContainer';
 
+import classes from './form.module.scss';
 
 const SignInSchema = yup.object().shape({
   'User name': yup.string().min(3).max(20).required(),
@@ -22,9 +26,10 @@ const SignInSchema = yup.object().shape({
 });
 
 
-// eslint-disable-next-line react/prop-types
-function SingUpForm({ history, signUp, counter: { errorRegistration } }) {
-  // const value = useContext(BlogContext);
+function SingUpForm() {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const errorRegistration = useSelector(state => state.errorRegistration);
   const {
     register,
     handleSubmit,
@@ -35,15 +40,12 @@ function SingUpForm({ history, signUp, counter: { errorRegistration } }) {
     mode: 'all',
   });
 
-  // eslint-disable-next-line no-console
   console.log(errorRegistration);
 
   const onSubmit = (data) => {
-    // eslint-disable-next-line no-param-reassign
-    data = { username: data['User name'], email: data['Email address'], password: data.Password };
-    // eslint-disable-next-line no-console
-    console.log(data);
-    signUp(data, history);
+    let result = { ...data };
+    result = { username: data['User name'], email: data['Email address'], password: data.Password };
+    dispatch(fetchRegistration(result, history));
   };
 
   // eslint-disable-next-line no-unused-vars
@@ -62,12 +64,10 @@ function SingUpForm({ history, signUp, counter: { errorRegistration } }) {
     <FormContainer>
       <h1>Create new account</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {/* eslint-disable-next-line jsx-a11y/label-has-for */}
-        <label>
+        <label htmlFor="user name">
           UserName
-
-
           <input
+            id="user name"
             className={cn(errors?.['User name'] && classes.error)}
             type="text"
             placeholder="Username"
@@ -75,12 +75,10 @@ function SingUpForm({ history, signUp, counter: { errorRegistration } }) {
           />
         </label>
         <p>{errors?.['User name'] && errors?.['User name']?.message}</p>
-        {/* eslint-disable-next-line jsx-a11y/label-has-for */}
-        <label>
+        <label htmlFor="email address">
           Email address
-
-
           <input
+            id="email address"
             className={cn(errors?.['Email address'] && classes.error)}
             type="text"
             placeholder="Email address"
@@ -88,12 +86,10 @@ function SingUpForm({ history, signUp, counter: { errorRegistration } }) {
           />
         </label>
         <p>{errors?.['Email address'] && errors?.['Email address']?.message}</p>
-        {/* eslint-disable-next-line jsx-a11y/label-has-for */}
-        <label>
+        <label htmlFor="password">
           Password
-
-
           <input
+            id="password"
             className={cn(errors?.Password && classes.error)}
             type="password"
             placeholder="Password"
@@ -101,12 +97,10 @@ function SingUpForm({ history, signUp, counter: { errorRegistration } }) {
           />
         </label>
         <p>{errors?.Password && errors?.Password?.message}</p>
-        {/* eslint-disable-next-line jsx-a11y/label-has-for */}
-        <label>
+        <label htmlFor="repeat password">
           Repeat Password
-
-
           <input
+            id="repeat password"
             className={cn(errors?.['Confirm password'] && classes.error)}
             type="password"
             placeholder="Password"
@@ -129,8 +123,6 @@ function SingUpForm({ history, signUp, counter: { errorRegistration } }) {
         <input className={classes.submitButton} value="Create" type="submit" disabled={!checkAgree} />
         <div className={classes.formFooter}>
           Already have an account?
-
-
           <Link to="/sing-in" className={classes.buttonNavBar}>Sign In</Link>
         </div>
       </form>
@@ -138,26 +130,4 @@ function SingUpForm({ history, signUp, counter: { errorRegistration } }) {
   );
 }
 
-SingUpForm.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }),
-};
-
-SingUpForm.defaultProps = {
-  history: {
-    push: () => {
-    },
-  },
-};
-
-const mapDispathToProps = dispatch => ({
-  signUp: (data, history) => dispatch(fetchRegistration(data, history)),
-  isRegistration: bool => dispatch(onErrorRegistration(bool)),
-});
-
-const mapStateToProps = state => ({
-  counter: state,
-});
-
-export default connect(mapStateToProps, mapDispathToProps)(SingUpForm);
+export default SingUpForm;

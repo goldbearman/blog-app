@@ -1,6 +1,10 @@
 import React from 'react';
+// MATERIAL UI
 import { Container, makeStyles } from '@material-ui/core';
+// OTHER LIBRARIES
 import cn from 'classnames';
+import PropTypes from 'prop-types';
+
 import classes from './form.module.scss';
 
 const useStyles = makeStyles(theme => ({
@@ -17,7 +21,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-// eslint-disable-next-line react/prop-types,no-unused-vars
 export const FormContainer = ({ children, ...props }) => {
   const styles = useStyles();
 
@@ -26,4 +29,8 @@ export const FormContainer = ({ children, ...props }) => {
       {children}
     </Container>
   );
+};
+
+FormContainer.propTypes = {
+  children: PropTypes.node.isRequired,
 };
