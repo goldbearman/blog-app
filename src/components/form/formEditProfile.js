@@ -5,6 +5,8 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 // OTHER LIBRARIES
 import cn from 'classnames';
+// REACT ROUTER DOM
+import { useHistory } from 'react-router-dom';
 // REDUX
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchEditUser } from '../../redux/asyncAction';
@@ -14,14 +16,43 @@ import { FormContainer } from './formContainer';
 import classes from './form.module.scss';
 
 const SignInSchema = yup.object().shape({
-  'User name': yup.string().min(3).max(20).nullable(),
-  'Email address': yup.string().email().nullable(),
-  Password: yup.string().min(6).max(40).nullable(),
+  // 'User name': yup.string().min(3).max(20).nullable(),
+  'User name': yup
+    .string()
+    .nullable()
+    .notRequired()
+    .when('User name', {
+      is: value => value?.length,
+      then: rule => rule.min(3),
+    }),
+  // 'Email address': yup.string().email().nullable(),
+  'Email address': yup
+    .string()
+    .nullable()
+    .notRequired()
+    .when('Email address', {
+      is: value => value?.length,
+      then: rule => rule.min(6),
+    }),
+  // Password: yup.string().min(6).max(40).nullable(),
+  Password: yup
+    .string()
+    .nullable()
+    .notRequired()
+    .when('Password', {
+      is: value => value?.length,
+      then: rule => rule.min(6),
+    }),
   'Avatar image': yup.string().url().nullable(),
-});
+},
+[
+  // Add Cyclic deps here because when require itself
+  ['User name', 'User name'], ['Email address', 'Email address'], ['Password', 'Password'],
+]);
 
 function EditProfile() {
   console.log('editProfile');
+  const history = useHistory();
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
 
@@ -37,28 +68,20 @@ function EditProfile() {
 
   const onSubmit = (data) => {
     console.log(data);
-    let result = { ...data };
-    result = {
+    const result = {
       username: data['User name'],
       email: data['Email address'],
-      image: data.image,
-      password: data.Password,
-      bio: 'I like to skateboard',
+      // image: data.image,
+      // password: data.Password,
+      // bio: 'I like to skateboard',
     };
     console.log(result);
     console.log(user.token);
-    dispatch(fetchEditUser(result, user.token));
+    dispatch(fetchEditUser(result, user.token, history));
   };
 
   // eslint-disable-next-line no-unused-vars
   const checkAgree = watch('checkAgree');
-
-  const handleChange = (e) => {
-    console.log('in');
-    console.log(e.target.value);
-    // dispatch(onEditUserName(e.target.value));
-    // newUser.username
-  };
 
   console.log(errors);
 
@@ -66,14 +89,10 @@ function EditProfile() {
     <FormContainer>
       <h1>Edit Profile</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {/* eslint-disable-next-line jsx-a11y/label-has-for */}
-        <label>
+        <label htmlFor="user name">
           UserName
-
-
           <input
-            defaultValue={user.username}
-            onBlur={() => handleChange()}
+            id="user name"
             className={cn(errors?.['User name'] && classes.error)}
             type="text"
             placeholder="Username"
@@ -81,14 +100,10 @@ function EditProfile() {
           />
         </label>
         <p>{errors?.['User name'] && errors?.['User name']?.message}</p>
-        {/* eslint-disable-next-line jsx-a11y/label-has-for */}
-        <label>
+        <label htmlFor="email address">
           Email address
-
-
           <input
-            defaultValue={user.email}
-            onChange={() => handleChange()}
+            id="email address"
             className={cn(errors?.['Email address'] && classes.error)}
             type="text"
             placeholder="Email address"
@@ -96,13 +111,10 @@ function EditProfile() {
           />
         </label>
         <p>{errors?.['Email address'] && errors?.['Email address']?.message}</p>
-        {/* eslint-disable-next-line jsx-a11y/label-has-for */}
-        <label>
+        <label htmlFor="password">
           New password
-
-
           <input
-            onChange={() => handleChange()}
+            id="password"
             className={cn(errors?.Password && classes.error)}
             type="password"
             placeholder="New password"
@@ -110,21 +122,17 @@ function EditProfile() {
           />
         </label>
         <p>{errors?.Password && errors?.Password?.message}</p>
-        {/* eslint-disable-next-line jsx-a11y/label-has-for */}
-        <label>
+        <label htmlFor="avatar">
           Avatar image (url)
-
-
           <input
-            defaultValue={user.image}
-            onChange={() => handleChange()}
+            id="avatar"
             className={cn(errors?.Password && classes.error)}
             type="text"
             placeholder="Avatar image"
             {...register('Avatar image', { required: false })}
           />
         </label>
-        <p>{errors?.Password && errors?.Password?.message}</p>
+        <p>{errors?.['Avatar image'] && errors?.['Avatar image']?.message}</p>
 
         <input className={classes.submitButton} value="Save" type="submit" />
       </form>

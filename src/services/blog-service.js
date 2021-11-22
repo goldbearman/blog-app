@@ -11,16 +11,8 @@ export default class BlogService {
     return response;
   }
 
-  // async getAllArticles(page) {
-  //   const res = await this.getResources('articles', page);
-  //   // eslint-disable-next-line no-console
-  //   console.log(res);
-  //   return res;
-  // }
-
   async getArticle(slug) {
     const res = await this.getResources(`articles/${slug}`);
-    // eslint-disable-next-line no-console
     console.log(res);
     return res;
   }
@@ -32,7 +24,6 @@ export default class BlogService {
       body: JSON.stringify({ user: userData }),
     });
     const responseBody = res.json();
-    // eslint-disable-next-line no-console
     console.log(responseBody);
     return responseBody;
   }
@@ -47,7 +38,6 @@ export default class BlogService {
       throw new Error('Email or password is invalid');
     }
     const responseBody = res.json();
-    // eslint-disable-next-line no-console
     console.log(responseBody);
     return responseBody;
   }
@@ -117,6 +107,26 @@ export default class BlogService {
         },
       });
     } else res = await fetch(`${this.apiBase}articles?limit=5&offset=${(page - 1) * 5}`);
+    const responseBody = await res.json();
+    // eslint-disable-next-line no-console
+    console.log(responseBody);
+    return responseBody;
+  }
+
+  async editUser(userData, token) {
+    console.log(userData);
+    console.log(token);
+    const res = await fetch(`${this.apiBase}user`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        Authorization: `Token ${token}`,
+      },
+      body: JSON.stringify({ user: userData }),
+    });
+    if (!res.ok) {
+      throw new Error(res.json().errors);
+    }
     const responseBody = await res.json();
     // eslint-disable-next-line no-console
     console.log(responseBody);

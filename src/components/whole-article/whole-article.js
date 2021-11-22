@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+// OTHER LIBRARIES
 import ReactMarkdown from 'react-markdown';
+// REACT ROUTER DOM
+import { useParams } from 'react-router-dom';
+// REDUX
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchArticle } from '../../redux/asyncAction';
+import { onGetArticleFalse } from '../../redux/actions';
+// CUSTOM COMPONENTS
 import { ArticleContainer } from '../article-container/article-container';
 import ArticleContent from '../article/article-content';
-import { onGetArticleFalse } from '../../redux/actions';
-
 
 const WholeArticle = () => {
   const dispatch = useDispatch();

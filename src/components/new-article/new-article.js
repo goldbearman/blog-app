@@ -1,17 +1,22 @@
 import React from 'react';
-// import classes from '../form/form.module.scss';
+// OTHER LIBRARIES
+import cn from 'classnames';
+// REACT HOOK FORM
 import {
   useForm, useFieldArray,
 } from 'react-hook-form';
+// MATERIAL UI
 import { Button } from '@mui/material';
-import cn from 'classnames';
+// REACT ROUTER DOM
 import { useHistory, Redirect, useParams } from 'react-router-dom';
+// REDUX
 import { useDispatch, useSelector } from 'react-redux';
-import { ArticleContainer } from '../article-container/article-container';
-import classes from './new-article.module.scss';
 import { fetchCreateArticle } from '../../redux/asyncAction';
-import BlogService from '../../services/blog-service';
+// CUSTOM COMPONENTS
+import { ArticleContainer } from '../article-container/article-container';
 
+import BlogService from '../../services/blog-service';
+import classes from './new-article.module.scss';
 
 const NewArticle = () => {
   const dispatch = useDispatch();
