@@ -13,7 +13,6 @@ export default class BlogService {
 
   async getArticle(slug) {
     const res = await this.getResources(`articles/${slug}`);
-    console.log(res);
     return res;
   }
 
@@ -24,7 +23,6 @@ export default class BlogService {
       body: JSON.stringify({ user: userData }),
     });
     const responseBody = res.json();
-    console.log(responseBody);
     return responseBody;
   }
 
@@ -38,13 +36,10 @@ export default class BlogService {
       throw new Error('Email or password is invalid');
     }
     const responseBody = res.json();
-    console.log(responseBody);
     return responseBody;
   }
 
   async fetchDeleteArticle(slug, token) {
-    console.log(token);
-    console.log(slug);
     const res = await fetch(`${this.apiBase}articles/${slug}`, {
       method: 'DELETE',
       headers: {
@@ -56,7 +51,6 @@ export default class BlogService {
     //   throw new Error(res.json().errors);
     // }
     // eslint-disable-next-line no-console
-    console.log(res);
     return res;
   }
 

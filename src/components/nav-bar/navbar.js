@@ -48,7 +48,6 @@ const NavBar = () => {
   const history = useHistory();
 
   const onLogin = (bool) => {
-    console.log(bool);
     localStorage.removeItem('user');
     dispatch(actions.onLogin(bool));
     history.push('/articles');

@@ -22,16 +22,13 @@ const App = () => {
   // const store = useStore()
 
   useEffect(() => {
-    console.log('useEffect');
     const localUser = localStorage.getItem('user');
-    console.log(localUser);
     let userToken;
     if (localUser) {
       const user = JSON.parse(localUser);
       userToken = user.token;
       dispatch(onAuthentication(user));
     } else userToken = undefined;
-    console.log(userToken);
     dispatch(fetchArticles(1, userToken));
   }, [isLoggedIn]);
 

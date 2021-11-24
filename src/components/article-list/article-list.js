@@ -17,8 +17,6 @@ const ArticleList = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  console.log(store);
-
   const createList = () => {
     const elements = store.arrArticles.map((data) => {
       const { slug } = data;
@@ -27,8 +25,6 @@ const ArticleList = () => {
           item={data}
           key={slug}
           onItemClick={() => {
-            console.log(slug);
-            console.log(history);
             history.push(`/articles/${slug}/`);
           }}
         />
@@ -38,9 +34,7 @@ const ArticleList = () => {
   };
 
   const onChangePage = (event, page) => {
-    console.log(page);
     dispatch(setPage(page));
-    localStorage.setItem('page', page);
     dispatch(fetchArticles(page, store.user.token));
   };
 

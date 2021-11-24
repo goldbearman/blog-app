@@ -51,7 +51,6 @@ const SignInSchema = yup.object().shape({
 ]);
 
 function EditProfile() {
-  console.log('editProfile');
   const history = useHistory();
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
@@ -71,9 +70,8 @@ function EditProfile() {
     const result = {
       username: data['User name'],
       email: data['Email address'],
-      // image: data.image,
-      // password: data.Password,
-      // bio: 'I like to skateboard',
+      image: data['Avatar image'],
+      password: data.Password,
     };
     console.log(result);
     console.log(user.token);

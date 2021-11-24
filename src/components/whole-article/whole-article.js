@@ -18,13 +18,10 @@ const WholeArticle = () => {
   const { slug } = useParams();
 
   useEffect(() => {
-    console.log('useEffect');
     dispatch(fetchArticle(slug));
   }, []);
 
   useEffect(() => () => dispatch(onGetArticleFalse()), []);
-
-  console.log(getArticle);
   return (
     <>
       {getArticle

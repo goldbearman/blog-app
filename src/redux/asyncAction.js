@@ -46,6 +46,7 @@ export const fetchRegistration = (data, history) => (dispatch) => {
 export const fetchEditUser = (data, token, history) => (dispatch) => {
   blogService.editUser(data, token).then((res) => {
     console.log(res);
+    localStorage.setItem('user', JSON.stringify(res.user));
     dispatch(onEditUser(res.user));
     history.push('/articles');
   }, () => dispatch(onErrorRegistration()));
