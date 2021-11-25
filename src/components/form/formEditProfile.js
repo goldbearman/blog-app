@@ -16,24 +16,16 @@ import { FormContainer } from './formContainer';
 import classes from './form.module.scss';
 
 const SignInSchema = yup.object().shape({
-  // 'User name': yup.string().min(3).max(20).nullable(),
-  'User name': yup
-    .string()
-    .nullable()
-    .notRequired()
-    .when('User name', {
-      is: value => value?.length,
-      then: rule => rule.min(3),
-    }),
-  // 'Email address': yup.string().email().nullable(),
-  'Email address': yup
-    .string()
-    .nullable()
-    .notRequired()
-    .when('Email address', {
-      is: value => value?.length,
-      then: rule => rule.min(6),
-    }),
+  'User name': yup.string().min(3).max(20).required(),
+  'Email address': yup.string().email().required(),
+  // 'Email address': yup
+  //   .string()
+  //   .nullable()
+  //   .notRequired()
+  //   .when('Email address', {
+  //     is: value => value?.length,
+  //     then: rule => rule.min(6),
+  //   }),
   // Password: yup.string().min(6).max(40).nullable(),
   Password: yup
     .string()
@@ -91,10 +83,11 @@ function EditProfile() {
           UserName
           <input
             id="user name"
+            defaultValue={user.username}
             className={cn(errors?.['User name'] && classes.error)}
             type="text"
             placeholder="Username"
-            {...register('User name', { required: false })}
+            {...register('User name')}
           />
         </label>
         <p>{errors?.['User name'] && errors?.['User name']?.message}</p>
@@ -102,10 +95,11 @@ function EditProfile() {
           Email address
           <input
             id="email address"
+            defaultValue={user.email}
             className={cn(errors?.['Email address'] && classes.error)}
             type="text"
             placeholder="Email address"
-            {...register('Email address', { required: false })}
+            {...register('Email address')}
           />
         </label>
         <p>{errors?.['Email address'] && errors?.['Email address']?.message}</p>
@@ -124,7 +118,7 @@ function EditProfile() {
           Avatar image (url)
           <input
             id="avatar"
-            className={cn(errors?.Password && classes.error)}
+            className={cn(errors?.['Avatar image'] && classes.error)}
             type="text"
             placeholder="Avatar image"
             {...register('Avatar image', { required: false })}

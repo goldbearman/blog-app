@@ -81,46 +81,44 @@ const NewArticle = () => {
       <ArticleContainer>
         <h1 className={classes.titleNewArticle}>Create new article</h1>
         <form className={classes.formBlog} onSubmit={handleSubmit(onSubmit)}>
-          {/* eslint-disable-next-line jsx-a11y/label-has-for */}
-          <label>
+
+          <label htmlFor="title">
             Title
             <input
-              // className={cn(errors?.['Email address'] && classes.error)}
+              id="title"
               type="text"
               placeholder="Title"
-              {...register('obj.title')}
+              {...register('obj.title', { required: true })}
             />
           </label>
-          {/* eslint-disable-next-line jsx-a11y/label-has-for */}
-          <label>
+          <label htmlFor="description">
             Short description
             <input
-              // className={cn(errors?.Password && classes.error)}
+              id="description"
               type="text"
               placeholder="Title"
-              {...register('obj.description')}
+              {...register('obj.description', { required: true })}
             />
           </label>
-          {/* eslint-disable-next-line jsx-a11y/label-has-for */}
-          <label>
+          <label htmlFor="textarea">
             Text
             <textarea
+              id="textarea"
               type="text"
               placeholder="Text"
-              {...register('obj.body')}
+              {...register('obj.body', { required: true })}
             />
           </label>
           {/* eslint-disable-next-line jsx-a11y/label-has-for */}
-          <label>
+          <label htmlFor="tag">
             Tags
             <ul>
               {fields.map((item, index) => (
                 <li key={item.id}>
                   {console.log(item)}
                   {console.log(fields)}
-                  <input defaultValue={Object.keys(defaultArticle).length === 1 ? '' : defaultArticle.objArticle[index]} placeholder="Tag" className={classes.inputTags} {...register(`objArticle.${index}.firstName`)} />
+                  <input id="tag" defaultValue={Object.keys(defaultArticle).length === 1 ? '' : defaultArticle.objArticle[index]} placeholder="Tag" className={classes.inputTags} {...register(`objArticle.${index}.firstName`)} />
                   {index > 0
-                    // eslint-disable-next-line no-mixed-spaces-and-tabs,no-tabs
                     ? (
                       <Button
                         className={cn(classes.button, classes.buttonDel)}
@@ -128,10 +126,7 @@ const NewArticle = () => {
                         name={index}
                         onClick={() => {
                           console.log(index);
-                          // console.log(defaultArticle.objArticle);
                           remove(index);
-                          // fields.splice(index, 1);
-                          // defaultArticle.objArticle.splice(index, 1);
                         }}
                       >
                         Delete
