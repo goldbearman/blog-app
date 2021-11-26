@@ -9,7 +9,7 @@ import * as yup from 'yup';
 // REACT ROUTER DOM
 import { Link, useHistory } from 'react-router-dom';
 // REDUX
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import * as actions from '../../redux/actions';
 import { fetchAuthentication } from '../../redux/asyncAction';
 // CUSTOM COMPONENTS
@@ -25,6 +25,7 @@ const SignInSchema = yup.object().shape({
 const SignInForm = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const errorAuthentication = useSelector(state => state.errorAuthentication);
 
   const {
     register,
@@ -40,6 +41,11 @@ const SignInForm = () => {
     dispatch(fetchAuthentication(result, history));
   };
 
+  const onSingInChange = () => {
+    console.log('onSingInChange');
+    dispatch(actions.onErrorAuthentication(false));
+  };
+
   return (
     <FormContainer>
       <h1>Sign In</h1>
@@ -51,7 +57,9 @@ const SignInForm = () => {
             className={cn(errors?.['Email address'] && classes.error)}
             type="text"
             placeholder="Email address"
-            {...register('Email address')}
+            {...register('Email address', {
+              onBlur: () => onSingInChange(),
+            })}
           />
         </label>
         <p>{errors?.['Email address'] && errors?.['Email address']?.message}</p>
@@ -62,11 +70,13 @@ const SignInForm = () => {
             className={cn(errors?.Password && classes.error)}
             type="password"
             placeholder="Password"
-            {...register('Password')}
+            {...register('Password', {
+              onBlur: () => onSingInChange(),
+            })}
           />
         </label>
         <p>{errors?.Password && errors?.Password?.message}</p>
-        {/* <p>{(signInError && !errors?.Password) && 'Введен неверный логин или пароль'}</p> */}
+        <p>{errorAuthentication && 'Email or password is invalid'}</p>
 
         <input className={classes.submitButtonSingIn} value="Login" type="submit" />
         <div className={classes.formFooter}>

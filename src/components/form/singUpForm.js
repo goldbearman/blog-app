@@ -64,6 +64,7 @@ function SingUpForm() {
     <FormContainer>
       <h1>Create new account</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
+        <p>{errorRegistration && 'Invalid email or password'}</p>
         <label htmlFor="user name">
           UserName
           <input
@@ -75,6 +76,7 @@ function SingUpForm() {
           />
         </label>
         <p>{errors?.['User name'] && errors?.['User name']?.message}</p>
+        <p>{errorRegistration && 'Invalid email or password'}</p>
         <label htmlFor="email address">
           Email address
           <input
@@ -108,7 +110,7 @@ function SingUpForm() {
           />
         </label>
         <p>{errors?.['Confirm password'] && errors?.['Confirm password']?.message}</p>
-        <p>{errorRegistration && 'Invalid email or password'}</p>
+
 
         <hr size={3} />
 

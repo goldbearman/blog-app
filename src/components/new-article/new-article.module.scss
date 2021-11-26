@@ -30,6 +30,10 @@
     border: 1px solid #BFBFBF;
     margin-top: 3px;
     border-radius: 4px;
+
+    &:focus{
+      outline-color: #1890FF;
+    }
   }
 
   .inputTags{

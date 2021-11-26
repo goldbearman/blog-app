@@ -22,6 +22,11 @@ export default class BlogService {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ user: userData }),
     });
+    // if (!res.ok) {
+    //   console.log(res);
+    //   console.log(res.json());
+    //   throw new Error(res.json().toString());
+    // }
     const responseBody = res.json();
     return responseBody;
   }

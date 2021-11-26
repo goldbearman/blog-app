@@ -4,6 +4,7 @@ export const INITIAL_STATE = 'INITIAL_STATE';
 export const REGISTRATION = 'REGISTRATION';
 export const AUTHENTICATION = 'AUTHENTICATION';
 export const ERROR_REGISTRATION = 'ERROR_REGISTRATION';
+export const ERROR_AUTHENTICATION = 'ERROR_AUTHENTICATION';
 export const ON_GET_ARTICLE = 'ON_GET_ARTICLE';
 export const ON_GET_ARTICLE_FALSE = 'ON_GET_ARTICLE_FALSE';
 export const ON_EDIT_USER_NAME = 'ON_EDIT_USER_NAME';
@@ -16,6 +17,7 @@ export const onRegistration = res => ({ type: REGISTRATION, res });
 export const onEditUser = res => ({ type: ON_EDIT_USER, res });
 export const onAuthentication = user => ({ type: AUTHENTICATION, user });
 export const onErrorRegistration = () => ({ type: ERROR_REGISTRATION });
+export const onErrorAuthentication = bool => ({ type: ERROR_AUTHENTICATION, bool });
 export const onGetArticle = article => ({ type: ON_GET_ARTICLE, article });
 export const onGetArticleFalse = () => ({ type: ON_GET_ARTICLE_FALSE });
 

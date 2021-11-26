@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/named
 import {
   onInitialState, onAuthentication, onRegistration, onErrorRegistration, onGetArticle,
-  onEditUser,
+  onEditUser, onErrorAuthentication,
 } from './actions';
 import BlogService from '../services/blog-service';
 
@@ -12,8 +12,8 @@ export const fetchArticles = (page, token, history) => (dispatch) => {
   console.log(token);
   blogService.getUserArticles(page, token).then((res) => {
     console.log(res);
-    dispatch(onInitialState(res));
     if (history) history.push('/articles');
+    dispatch(onInitialState(res));
   }, () => dispatch(onErrorRegistration()));
 };
 
@@ -27,20 +27,25 @@ export const fetchArticle = slug => (dispatch) => {
 
 export const fetchAuthentication = (data, history) => (dispatch) => {
   blogService.authentication(data).then((res) => {
-    // eslint-disable-next-line no-console
     console.log(res.user);
     localStorage.setItem('user', JSON.stringify(res.user));
     dispatch(onAuthentication(res.user));
     history.push('/articles');
-  });
+  }, () => dispatch(onErrorAuthentication(true)));
 };
 
 export const fetchRegistration = (data, history) => (dispatch) => {
   blogService.registration(data).then((res) => {
     // localStorage.setItem('user', res.user);
+    console.log(res);
     dispatch(onRegistration(res.user));
     history.push('/sing-in');
-  }, () => dispatch(onErrorRegistration()));
+  }, (e) => {
+    console.log(e.name);
+    console.log(e.message);
+    // e.message.then(res => console.log(res));
+    dispatch(onErrorRegistration());
+  });
 };
 
 export const fetchEditUser = (data, token, history) => (dispatch) => {
@@ -48,16 +53,17 @@ export const fetchEditUser = (data, token, history) => (dispatch) => {
     console.log(res);
     localStorage.setItem('user', JSON.stringify(res.user));
     dispatch(onEditUser(res.user));
-    history.push('/articles');
+    dispatch(fetchArticles(1, res.user.token, history));
   }, () => dispatch(onErrorRegistration()));
 };
 
 export const fetchCreateArticle = (data, counter, history) => (dispatch) => {
   blogService.createArticle(data, counter.user.token).then(() => {
-    blogService.getUserArticles(counter.page, counter.user.token).then((res) => {
-      console.log(res);
-      history.push('/articles');
-      dispatch(onInitialState(res));
-    }, () => dispatch(onErrorRegistration()));
+    dispatch(fetchArticles(counter.page, counter.user.token, history));
+    // blogService.getUserArticles(counter.page, counter.user.token).then((res) => {
+    //   console.log(res);
+    //   history.push('/articles');
+    //   dispatch(onInitialState(res));
+    // }, () => dispatch(onErrorRegistration()));
   });
 };

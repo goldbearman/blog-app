@@ -1,7 +1,7 @@
 import {
   INITIAL_STATE, ON_LOGIN, REGISTRATION, ERROR_REGISTRATION,
   ON_GET_ARTICLE, ON_GET_ARTICLE_FALSE, AUTHENTICATION, ON_EDIT_USER, ON_EDIT_USER_NAME,
-  ADD_ARTICLE, SET_PAGE,
+  ADD_ARTICLE, SET_PAGE, ERROR_AUTHENTICATION,
 } from './actions';
 
 const allState = {
@@ -77,6 +77,12 @@ const reducer = (state = allState, action) => {
     // eslint-disable-next-line no-console
       console.log('ERROR_REGISTRATION');
       return { ...state, errorRegistration: true };
+    }
+
+    case ERROR_AUTHENTICATION: {
+      // eslint-disable-next-line no-console
+      console.log(`ERROR_AUTHENTICATION ${action.bool}`);
+      return { ...state, errorAuthentication: action.bool };
     }
 
     case ON_GET_ARTICLE: {
