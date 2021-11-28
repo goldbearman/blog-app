@@ -76,7 +76,7 @@ const SignInForm = () => {
           />
         </label>
         <p>{errors?.Password && errors?.Password?.message}</p>
-        <p>{errorAuthentication && 'Email or password is invalid'}</p>
+        <p className={classes.singInError}>{errorAuthentication && 'Email or password is invalid'}</p>
 
         <input className={classes.submitButtonSingIn} value="Login" type="submit" />
         <div className={classes.formFooter}>

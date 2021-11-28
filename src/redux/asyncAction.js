@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/named
 import {
   onInitialState, onAuthentication, onRegistration, onErrorRegistration, onGetArticle,
-  onEditUser, onErrorAuthentication,
+  onEditUser, onErrorAuthentication, onButtonActive,
 } from './actions';
 import BlogService from '../services/blog-service';
 
@@ -30,6 +30,7 @@ export const fetchAuthentication = (data, history) => (dispatch) => {
     console.log(res.user);
     localStorage.setItem('user', JSON.stringify(res.user));
     dispatch(onAuthentication(res.user));
+    dispatch(onButtonActive(''));
     history.push('/articles');
   }, () => dispatch(onErrorAuthentication(true)));
 };
@@ -38,13 +39,16 @@ export const fetchRegistration = (data, history) => (dispatch) => {
   blogService.registration(data).then((res) => {
     // localStorage.setItem('user', res.user);
     console.log(res);
-    dispatch(onRegistration(res.user));
-    history.push('/sing-in');
+    console.log(res.errors);
+    if (res.errors) {
+      dispatch(onErrorRegistration(res.errors));
+    } else {
+      dispatch(onRegistration(res.user));
+      dispatch(onButtonActive('in'));
+      history.push('/sing-in');
+    }
   }, (e) => {
-    console.log(e.name);
     console.log(e.message);
-    // e.message.then(res => console.log(res));
-    dispatch(onErrorRegistration());
   });
 };
 

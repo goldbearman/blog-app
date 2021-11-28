@@ -1,14 +1,4 @@
-//.windowForm {
-//  width: 384px;
-//  padding: 32px;
-//
-//  background-color: white;
-//  margin-top: 60px;
-//  border-radius: 6px;
-//
-//  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.15),
-//  0 22px 106px 0 rgba(0, 0, 0, 0.07),
-//  0 9px 44px 0 rgba(0, 0, 0, 0.05);
+
 
 .formContainer {
 
@@ -16,12 +6,13 @@
     margin-top: 16px;
     font-size: 20px;
     text-align: center;
-    margin-bottom: 21px;
+    margin-bottom: 9px;
   }
 
   p {
     font-size: 14px;
     color: #F5222D;
+    margin: 0;
   }
 
   hr {
@@ -61,6 +52,7 @@
   label {
     font-size: 14px;
     font-weight: 500;
+    margin-top: 12px;
   }
 
   .submitButton {
@@ -88,6 +80,11 @@
       color: #1890FF;
       text-decoration: none;
     }
+  }
+
+  .singInError{
+    text-align: center;
+    margin-top: 10px;
   }
 
   .labelControl {

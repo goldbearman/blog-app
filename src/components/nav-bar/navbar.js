@@ -5,7 +5,9 @@ import cn from 'classnames';
 import { Container, Navbar } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 // REACT ROUTER DOM
-import { Link, NavLink, useHistory } from 'react-router-dom';
+import {
+  Link, NavLink, useHistory,
+} from 'react-router-dom';
 // MATERIAL UI
 import { Avatar } from '@material-ui/core';
 import { Button } from '@mui/material';
@@ -17,10 +19,22 @@ import defaultImg from '../../pictures/smiley-cyrus.jpeg';
 
 import classes from './nav-bar.module.scss';
 
-const logOut = () => (
+const logOut = (buttonActive, dispatch) => (
   <>
-    <Link to="/sing-in" className={classes.buttonNavBar}>Sign In</Link>
-    <Link to="/sing-up" className={classes.buttonNavBar}>Sign Up</Link>
+    <Link
+      to="/sing-in"
+      onClick={() => dispatch(actions.onButtonActive('in'))}
+      className={cn(classes.buttonNavBar, { [classes.buttonActive]: buttonActive === 'in' })}
+    >
+      Sign In
+    </Link>
+    <Link
+      to="/sing-up"
+      onClick={() => dispatch(actions.onButtonActive('up'))}
+      className={cn(classes.buttonNavBar, { [classes.buttonActive]: buttonActive === 'up' })}
+    >
+      Sign Up
+    </Link>
   </>
 );
 
@@ -42,10 +56,12 @@ const logIn = (user, onLogin) => (
 
 // eslint-disable-next-line react/prop-types
 const NavBar = () => {
-  // eslint-disable-next-line no-console
   const dispatch = useDispatch();
   const counter = useSelector(state => state);
   const history = useHistory();
+  // const params = useParams();
+  // console.log(params);
+  console.log(counter.buttonActive);
 
   const onLogin = (bool) => {
     localStorage.removeItem('user');
@@ -57,11 +73,13 @@ const NavBar = () => {
     <Navbar bg="white">
       <Container className={classes.articleNavbar}>
         <Navbar.Brand href="#home" className={classes.brand}>
-          <NavLink to="/"> Realworld Blog</NavLink>
+          <NavLink to="/" onClick={() => dispatch(actions.onButtonActive(''))}> Realworld Blog</NavLink>
         </Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
-          {counter.isLoggedIn ? logIn(counter.user, onLogin) : logOut()}
+          {counter.isLoggedIn
+            ? logIn(counter.user, onLogin)
+            : logOut(counter.buttonActive, dispatch)}
         </Navbar.Collapse>
       </Container>
     </Navbar>

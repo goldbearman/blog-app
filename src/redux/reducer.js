@@ -1,7 +1,7 @@
 import {
   INITIAL_STATE, ON_LOGIN, REGISTRATION, ERROR_REGISTRATION,
   ON_GET_ARTICLE, ON_GET_ARTICLE_FALSE, AUTHENTICATION, ON_EDIT_USER, ON_EDIT_USER_NAME,
-  ADD_ARTICLE, SET_PAGE, ERROR_AUTHENTICATION,
+  ADD_ARTICLE, SET_PAGE, ERROR_AUTHENTICATION, ON_CHANGE_FIELD, ON_BUTTON_ACTIVE,
 } from './actions';
 
 const allState = {
@@ -35,6 +35,11 @@ const reducer = (state = allState, action) => {
     case ON_LOGIN: {
       const newStateSheap = Object.assign({}, state, { isLoggedIn: action.bool });
       return newStateSheap;
+    }
+
+    case ON_BUTTON_ACTIVE: {
+      console.log(action.name);
+      return { ...state, buttonActive: action.name };
     }
 
     case SET_PAGE: {
@@ -75,8 +80,18 @@ const reducer = (state = allState, action) => {
 
     case ERROR_REGISTRATION: {
     // eslint-disable-next-line no-console
-      console.log('ERROR_REGISTRATION');
-      return { ...state, errorRegistration: true };
+      console.log(`ERROR_REGISTRATION ${action.objError}`);
+      return { ...state, errorRegistration: action.objError };
+    }
+
+    case ON_CHANGE_FIELD: {
+      console.log(`ON_CHANGE_FIELD ${action.field}`);
+      const newState = { ...state };
+      if (newState.errorRegistration) {
+        console.log(state.errorRegistration[action.field]);
+        newState.errorRegistration[action.field] = undefined;
+      }
+      return newState;
     }
 
     case ERROR_AUTHENTICATION: {
