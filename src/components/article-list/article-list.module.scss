@@ -1,3 +1,22 @@
+.progressContainer{
+  text-align: center;
+  margin: 200px 0;
+}
+
+.alertPosition{
+  text-align: center;
+  margin-top: 20px;
+  border: 1px solid #2196f3;
+  color: #2196f3;
+}
+
+.markdown{
+  font-size: 14px;
+  color: black;
+  margin-top: 15px;
+}
+
+
 .paginationContainer{
   display: flex;
   justify-content: center;
@@ -5,9 +24,5 @@
 
   .pagination {
     display: inline-block;
-  }
-
-  li button{
-    //background-color: #52C41A;
   }
 }

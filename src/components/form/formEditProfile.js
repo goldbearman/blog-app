@@ -18,15 +18,6 @@ import classes from './form.module.scss';
 const SignInSchema = yup.object().shape({
   'User name': yup.string().min(3).max(20).required(),
   'Email address': yup.string().email().required(),
-  // 'Email address': yup
-  //   .string()
-  //   .nullable()
-  //   .notRequired()
-  //   .when('Email address', {
-  //     is: value => value?.length,
-  //     then: rule => rule.min(6),
-  //   }),
-  // Password: yup.string().min(6).max(40).nullable(),
   Password: yup
     .string()
     .nullable()
@@ -38,7 +29,6 @@ const SignInSchema = yup.object().shape({
   'Avatar image': yup.string().url().nullable(),
 },
 [
-  // Add Cyclic deps here because when require itself
   ['User name', 'User name'], ['Email address', 'Email address'], ['Password', 'Password'],
 ]);
 
@@ -50,7 +40,6 @@ function EditProfile() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(SignInSchema),
@@ -58,22 +47,14 @@ function EditProfile() {
   });
 
   const onSubmit = (data) => {
-    console.log(data);
     const result = {
       username: data['User name'],
       email: data['Email address'],
       image: data['Avatar image'],
       password: data.Password,
     };
-    console.log(result);
-    console.log(user.token);
     dispatch(fetchEditUser(result, user.token, history));
   };
-
-  // eslint-disable-next-line no-unused-vars
-  const checkAgree = watch('checkAgree');
-
-  console.log(errors);
 
   return (
     <FormContainer>

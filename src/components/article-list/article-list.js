@@ -2,7 +2,7 @@ import React from 'react';
 // REACT-ROUTER-DOM
 import { useHistory } from 'react-router-dom';
 // UI DESIGN
-import { Pagination } from '@mui/material';
+import { Pagination, CircularProgress, Alert } from '@mui/material';
 // REDUX
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchArticles } from '../../redux/asyncAction';
@@ -14,6 +14,8 @@ import classes from './article-list.module.scss';
 
 const ArticleList = () => {
   const store = useSelector(state => state);
+  const errorLoading = useSelector(state => state.errorLoading);
+  const loading = useSelector(state => state.loading);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -38,22 +40,42 @@ const ArticleList = () => {
     dispatch(fetchArticles(page, store.user.token));
   };
 
+  const onSpinner = !loading
+    ? (
+      <div className={classes.progressContainer}>
+        <CircularProgress />
+      </div>
+    ) : null;
+
+  const onErrorMessage = errorLoading ? (
+    <Alert className={classes.alertPosition} severity="warning">
+      Ошибка сервера, перезапустите страницу!
+    </Alert>
+  ) : null;
+
   return (
     <>
-      {createList()}
-      <div className={classes.paginationContainer}>
-        <Pagination
-          className={classes.pagination}
-          onChange={onChangePage}
-          page={store.page}
-          shape="rounded"
-          count={Math.ceil(store.articlesCount / 5)}
-          defaultPage={1}
-          color="primary"
-        />
-      </div>
+      {onSpinner}
+      {onErrorMessage}
+      {!onErrorMessage && loading
+        ? (
+          <>
+            {createList()}
+            <div className={classes.paginationContainer}>
+              <Pagination
+                className={classes.pagination}
+                onChange={onChangePage}
+                page={store.page}
+                shape="rounded"
+                count={Math.ceil(store.articlesCount / 5)}
+                defaultPage={1}
+                color="primary"
+              />
+            </div>
+          </>
+        )
+        : null}
     </>
   );
 };
-
 export default ArticleList;

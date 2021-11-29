@@ -18,6 +18,11 @@
   .h1LikeCount {
     display: flex;
 
+    h1{
+      font-size: 20px;
+      color: #1890FF;
+    }
+
     .likeCount {
       padding-left: 20px;
       background: no-repeat url("../../pictures/heart.svg") left bottom 40%;
@@ -63,7 +68,7 @@
     }
   }
 
-  .author {
+  .authorBlog {
     display: flex;
     justify-content: flex-end;
 

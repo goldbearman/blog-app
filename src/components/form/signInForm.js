@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // OTHER LIBRARIES
 import cn from 'classnames';
 import PropTypes from 'prop-types';
@@ -27,6 +27,12 @@ const SignInForm = () => {
   const history = useHistory();
   const errorAuthentication = useSelector(state => state.errorAuthentication);
 
+  const onSingInChange = () => {
+    dispatch(actions.onErrorAuthentication(false));
+  };
+
+  useEffect(() => () => onSingInChange(), []);
+
   const {
     register,
     handleSubmit,
@@ -39,11 +45,6 @@ const SignInForm = () => {
     let result = { ...data };
     result = { email: data['Email address'], password: data.Password };
     dispatch(fetchAuthentication(result, history));
-  };
-
-  const onSingInChange = () => {
-    console.log('onSingInChange');
-    dispatch(actions.onErrorAuthentication(false));
   };
 
   return (

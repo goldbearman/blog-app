@@ -1,7 +1,8 @@
 import {
   INITIAL_STATE, ON_LOGIN, REGISTRATION, ERROR_REGISTRATION,
   ON_GET_ARTICLE, ON_GET_ARTICLE_FALSE, AUTHENTICATION, ON_EDIT_USER, ON_EDIT_USER_NAME,
-  ADD_ARTICLE, SET_PAGE, ERROR_AUTHENTICATION, ON_CHANGE_FIELD, ON_BUTTON_ACTIVE,
+  ADD_ARTICLE, SET_PAGE, ERROR_AUTHENTICATION, ON_CHANGE_FIELD, ON_BUTTON_ACTIVE, ERROR_LOADING,
+  ON_LOADING,
 } from './actions';
 
 const allState = {
@@ -9,25 +10,20 @@ const allState = {
   articlesCount: 0,
   page: 1,
   isLoggedIn: false,
+  errorLoading: false,
+  loading: false,
 };
 
 const reducer = (state = allState, action) => {
-  // const setArrTrueFalse = (boolean, obj) => {
-  //   // eslint-disable-next-line guard-for-in,no-restricted-syntax
-  //   for (const key in obj) {
-  //     // eslint-disable-next-line no-param-reassign
-  //     obj[key] = boolean;
-  //   }
-  //   return obj;
-  // };
-
-  console.log(action);
-
   switch (action.type) {
     case INITIAL_STATE: {
-      console.log(action);
       const newState = Object.assign(
-        {}, state, { arrArticles: action.res.articles, articlesCount: action.res.articlesCount },
+        {}, state, {
+          arrArticles: action.res.articles,
+          articlesCount: action.res.articlesCount,
+          errorLoading: false,
+          loading: true,
+        },
       );
       return newState;
     }
@@ -37,13 +33,15 @@ const reducer = (state = allState, action) => {
       return newStateSheap;
     }
 
+    case ON_LOADING: {
+      return { ...state, loading: action.bool };
+    }
+
     case ON_BUTTON_ACTIVE: {
-      console.log(action.name);
       return { ...state, buttonActive: action.name };
     }
 
     case SET_PAGE: {
-      console.log(action.page);
       return { ...state, page: action.page };
     }
 
@@ -53,51 +51,45 @@ const reducer = (state = allState, action) => {
     }
 
     case AUTHENTICATION: {
-      console.log(action.user);
       return {
         ...state, isLoggedIn: true, user: action.user,
       };
     }
 
     case ON_EDIT_USER: {
-      console.log(action.res);
       return { ...state, user: action.res };
     }
 
     case ON_EDIT_USER_NAME: {
-      console.log(action.res);
       const newState = { ...state };
       newState.user.name = action.name;
       return newState;
     }
 
     case ADD_ARTICLE: {
-      console.log(action.article);
       const newState = { ...state };
       newState.user.name = action.name;
       return newState;
     }
 
     case ERROR_REGISTRATION: {
-    // eslint-disable-next-line no-console
-      console.log(`ERROR_REGISTRATION ${action.objError}`);
       return { ...state, errorRegistration: action.objError };
     }
 
+    case ERROR_AUTHENTICATION: {
+      return { ...state, errorAuthentication: action.bool };
+    }
+
+    case ERROR_LOADING: {
+      return { ...state, errorLoading: true };
+    }
+
     case ON_CHANGE_FIELD: {
-      console.log(`ON_CHANGE_FIELD ${action.field}`);
       const newState = { ...state };
       if (newState.errorRegistration) {
-        console.log(state.errorRegistration[action.field]);
         newState.errorRegistration[action.field] = undefined;
       }
       return newState;
-    }
-
-    case ERROR_AUTHENTICATION: {
-      // eslint-disable-next-line no-console
-      console.log(`ERROR_AUTHENTICATION ${action.bool}`);
-      return { ...state, errorAuthentication: action.bool };
     }
 
     case ON_GET_ARTICLE: {

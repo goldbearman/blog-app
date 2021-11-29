@@ -12,7 +12,7 @@ const Article = ({ item, onItemClick }) => (
 );
 
 Article.propTypes = {
-  item: PropTypes.objectOf(PropTypes.object),
+  item: PropTypes.objectOf(PropTypes.any),
   onItemClick: PropTypes.func,
 };
 

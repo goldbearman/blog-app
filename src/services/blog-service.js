@@ -1,7 +1,6 @@
 export default class BlogService {
   apiBase = 'https://api.realworld.io/api/';
 
-  // eslint-disable-next-line consistent-return,no-unused-vars
   async getResources(url, page = 1) {
     const res = await fetch(`${this.apiBase}${url}?limit=5&offset=${page * 5}`);
     if (!res.ok) {
@@ -22,11 +21,6 @@ export default class BlogService {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ user: userData }),
     });
-    // if (!res.ok) {
-    //   console.log(res);
-    //   console.log(res.json());
-    //   throw new Error(res.json().toString());
-    // }
     const responseBody = res.json();
     return responseBody;
   }
@@ -52,10 +46,6 @@ export default class BlogService {
         Authorization: `Token ${token}`,
       },
     });
-    // if (!res.ok) {
-    //   throw new Error(res.json().errors);
-    // }
-    // eslint-disable-next-line no-console
     return res;
   }
 
@@ -70,10 +60,6 @@ export default class BlogService {
       },
       body: JSON.stringify({ article: articleData }),
     });
-    // if (!res.ok) {
-    //   throw new Error(res.json().errors);
-    // }
-    // eslint-disable-next-line no-console
     console.log(res);
     return res;
   }
@@ -88,14 +74,11 @@ export default class BlogService {
       body: JSON.stringify({ article: articleData }),
     });
     const responseBody = await res.json();
-    // eslint-disable-next-line no-console
-    console.log(responseBody.article);
     return responseBody.article;
   }
 
 
   async getUserArticles(page = 1, token) {
-    console.log(token);
     let res;
     if (token) {
       res = await fetch(`${this.apiBase}articles?limit=5&offset=${(page - 1) * 5}`, {
@@ -107,8 +90,6 @@ export default class BlogService {
       });
     } else res = await fetch(`${this.apiBase}articles?limit=5&offset=${(page - 1) * 5}`);
     const responseBody = await res.json();
-    // eslint-disable-next-line no-console
-    console.log(responseBody);
     return responseBody;
   }
 
@@ -127,8 +108,6 @@ export default class BlogService {
       throw new Error(res.json().errors);
     }
     const responseBody = await res.json();
-    // eslint-disable-next-line no-console
-    console.log(responseBody);
     return responseBody;
   }
 }

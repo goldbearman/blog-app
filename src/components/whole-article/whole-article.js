@@ -3,6 +3,8 @@ import React, { useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 // REACT ROUTER DOM
 import { useParams } from 'react-router-dom';
+// UI DESIGN
+import { CircularProgress } from '@mui/material';
 // REDUX
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchArticle } from '../../redux/asyncAction';
@@ -10,6 +12,8 @@ import { onGetArticleFalse } from '../../redux/actions';
 // CUSTOM COMPONENTS
 import { ArticleContainer } from '../article-container/article-container';
 import ArticleContent from '../article/article-content';
+
+import classes from '../article-list/article-list.module.scss';
 
 const WholeArticle = () => {
   const dispatch = useDispatch();
@@ -25,12 +29,14 @@ const WholeArticle = () => {
   return (
     <>
       {getArticle
-      && (
-        <ArticleContainer>
-          <ArticleContent item={article} key={document.location.href} />
-          <ReactMarkdown>{article.body}</ReactMarkdown>
-        </ArticleContainer>
-      )}
+        ? (
+          <ArticleContainer>
+            <ArticleContent item={article} key={document.location.href} />
+            <ReactMarkdown className={classes.markdown}>{article.body}</ReactMarkdown>
+          </ArticleContainer>
+        )
+        : <div className={classes.progressContainer}><CircularProgress /></div>
+      }
     </>
   );
 };

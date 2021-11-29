@@ -54,14 +54,10 @@ const logIn = (user, onLogin) => (
   </>
 );
 
-// eslint-disable-next-line react/prop-types
 const NavBar = () => {
   const dispatch = useDispatch();
   const counter = useSelector(state => state);
   const history = useHistory();
-  // const params = useParams();
-  // console.log(params);
-  console.log(counter.buttonActive);
 
   const onLogin = (bool) => {
     localStorage.removeItem('user');
@@ -73,7 +69,7 @@ const NavBar = () => {
     <Navbar bg="white">
       <Container className={classes.articleNavbar}>
         <Navbar.Brand href="#home" className={classes.brand}>
-          <NavLink to="/" onClick={() => dispatch(actions.onButtonActive(''))}> Realworld Blog</NavLink>
+          <NavLink id="RouterNavLink" to="/" onClick={() => dispatch(actions.onButtonActive(''))}> Realworld Blog</NavLink>
         </Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">

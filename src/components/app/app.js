@@ -19,8 +19,6 @@ import NewArticle from '../new-article/new-article';
 const App = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(state => state.isLoggedIn);
-  // const store = useStore()
-
   useEffect(() => {
     const localUser = localStorage.getItem('user');
     let userToken;

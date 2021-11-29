@@ -25,15 +25,12 @@ const NewArticle = () => {
   const user = useSelector(state => state.user);
   const isLoggedIn = useSelector(state => state.isLoggedIn);
   const params = useParams();
-  console.log(params.slug);
   const blogService = new BlogService();
 
   let defaultArticle = { objArticle: [{}] };
 
   if (params.slug) {
-    console.log('if');
     const [needArticle] = counter.arrArticles.filter(item => item.slug === params.slug);
-    console.log(needArticle);
     defaultArticle = {
       obj: {
         title: needArticle.title,
@@ -58,19 +55,14 @@ const NewArticle = () => {
 
 
   const onSubmit = (data) => {
-    console.log(data);
-    console.log(data.objArticle);
     const taglist = data.objArticle.reduce((start, item) => {
       start.push(item.firstName);
       return start;
     }, []);
-    console.log(taglist);
     // eslint-disable-next-line no-param-reassign
     data = Object.assign(data.obj, { tagList: taglist });
-    console.log(data);
     if (params.slug) {
       blogService.fetchDeleteArticle(params.slug, user.token).then(() => {
-        console.log('deleteArticle');
         dispatch(fetchCreateArticle(data, counter, history));
       });
     } else dispatch(fetchCreateArticle(data, counter, history));
@@ -115,8 +107,6 @@ const NewArticle = () => {
             <ul>
               {fields.map((item, index) => (
                 <li key={item.id}>
-                  {console.log(item)}
-                  {console.log(fields)}
                   <input id="tag" defaultValue={Object.keys(defaultArticle).length === 1 ? '' : defaultArticle.objArticle[index]} placeholder="Tag" className={classes.inputTags} {...register(`objArticle.${index}.firstName`)} />
                   {index > 0
                     ? (

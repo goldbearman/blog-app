@@ -22,7 +22,6 @@ const SignInSchema = yup.object().shape({
   'User name': yup.string().min(3).max(20).required(),
   'Email address': yup.string().email().required(),
   Password: yup.string().min(6).max(40).required('Поле обязательно!'),
-  // eslint-disable-next-line no-undef
   'Confirm password': yup.string().oneOf([yup.ref('Password')], 'Passwords should match'),
 });
 
@@ -42,29 +41,15 @@ function SingUpForm() {
     mode: 'all',
   });
 
-  console.log(errorEmail);
-  console.log(errorUsername);
-
   const onSubmit = (data) => {
     let result = { ...data };
     result = { username: data['User name'], email: data['Email address'], password: data.Password };
     dispatch(fetchRegistration(result, history));
   };
 
-  // eslint-disable-next-line no-unused-vars
   const checkAgree = watch('checkAgree');
 
-  // eslint-disable-next-line no-console
-  console.log(checkAgree);
-  // eslint-disable-next-line no-console
-  console.log(errors);
-  // eslint-disable-next-line no-console
-  console.log((Object.keys(errors).length === 0));
-  // eslint-disable-next-line no-console
-  console.log(!(checkAgree && (Object.keys(errors).length === 0)));
-
   function onSingInChange(field) {
-    console.log(field);
     dispatch(onChangeField(field));
   }
 
@@ -84,8 +69,6 @@ function SingUpForm() {
             })}
           />
         </label>
-        {/* eslint-disable-next-line max-len */}
-        { /* <p>{errorRegistration?.username && `Username ${errorRegistration.username.join()}`}</p> */ }
         <p>{errors?.['User name'] && errors?.['User name']?.message}</p>
         <p>{errorUsername && `Username ${errorUsername.join()}`}</p>
         <label htmlFor="email address">
@@ -124,7 +107,6 @@ function SingUpForm() {
           />
         </label>
         <p>{errors?.['Confirm password'] && errors?.['Confirm password']?.message}</p>
-
 
         <hr size={3} />
 
