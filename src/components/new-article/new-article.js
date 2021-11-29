@@ -115,7 +115,6 @@ const NewArticle = () => {
                         type="button"
                         name={index}
                         onClick={() => {
-                          console.log(index);
                           remove(index);
                         }}
                       >

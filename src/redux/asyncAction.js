@@ -60,3 +60,10 @@ export const fetchCreateArticle = (data, counter, history) => (dispatch) => {
     dispatch(fetchArticles(counter.page, counter.user.token));
   });
 };
+
+// export const fetchSetFavorite = (slug, token) => (dispatch) => {
+//   blogService.setFavorite(slug, token).then(() => {
+//     // dispatch(fetchArticles(page, token));
+//   });
+//   setUnFavorite
+// };

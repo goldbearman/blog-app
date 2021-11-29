@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 // OTHER LIBRARIES
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
@@ -24,12 +24,21 @@ const ArticleContent = ({ item }) => {
   const page = useSelector(state => state.page);
   const history = useHistory();
   const params = useParams();
+
   const {
-    title, description, favoritesCount, tagList, author: { username, image }, createdAt, slug,
+    title, description, favoritesCount, tagList, author: { username, image },
+    createdAt, slug, favorited,
   } = item;
 
+  // eslint-disable-next-line no-console
+  console.log(favorited);
+  // eslint-disable-next-line no-console
+  console.log(item);
+
+  const [redHeart, setRedHeart] = useState(params.slug ? !favorited : favorited);
+  const [favoritesCountArticle, setFavoritesCountArticle] = useState(favoritesCount);
+
   const date = format(new Date(createdAt), 'MMMM dd, yyyy');
-  console.log(typeof tagList[0]);
 
   const checkTagList = (arr) => {
     let showTagList = true;
@@ -61,12 +70,31 @@ const ArticleContent = ({ item }) => {
     history.push('edit');
   };
 
+  const favoriteClick = (e) => {
+    e.stopPropagation();
+    setRedHeart(!redHeart);
+    setFavoritesCountArticle(redHeart ? favoritesCountArticle - 1 : favoritesCountArticle + 1);
+    // eslint-disable-next-line no-console
+    console.log(redHeart);
+    // dispatch(fetchSetFavorite(slug, user.token, history));
+    if (redHeart)blogService.setUnFavorite(slug, user.token).catch(() => {});
+    else blogService.setFavorite(slug, user.token).catch(() => {});
+  };
+
   return (
     <Grid container>
       <Grid item xs={9}>
         <div className={classes.h1LikeCount}>
           <h1>{title}</h1>
-          <div className={classes.likeCount}>{favoritesCount}</div>
+          {/* eslint-disable-next-line max-len */}
+          { /* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
+          <div
+            // className={cn(classes.redHeart, { [classes.redHeart]: redHeart })}
+            className={redHeart ? classes.redHeart : classes.likeCount}
+            onClick={e => favoriteClick(e)}
+          >
+            {favoritesCountArticle}
+          </div>
         </div>
         <div />
         {checkTagList(tagList) && <div className={classes.tagList}>{inTagList(tagList)}</div>}
@@ -113,6 +141,7 @@ ArticleContent.propTypes = {
     tagList: PropTypes.arrayOf(PropTypes.string),
     createdAt: PropTypes.string,
     slug: PropTypes.string,
+    favorited: PropTypes.bool,
     author: PropTypes.shape({
       username: PropTypes.string,
       image: PropTypes.string,
@@ -122,6 +151,7 @@ ArticleContent.propTypes = {
 
 ArticleContent.defaultProps = {
   item: {
+    favorited: false,
     title: '',
     description: '',
     favoritesCount: 0,

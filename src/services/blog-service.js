@@ -50,8 +50,6 @@ export default class BlogService {
   }
 
   async fetchUpdateArticle(slug, token, articleData) {
-    console.log(token);
-    console.log(slug);
     const res = await fetch(`${this.apiBase}articles/${slug}`, {
       method: 'PUT',
       headers: {
@@ -60,7 +58,6 @@ export default class BlogService {
       },
       body: JSON.stringify({ article: articleData }),
     });
-    console.log(res);
     return res;
   }
 
@@ -94,8 +91,6 @@ export default class BlogService {
   }
 
   async editUser(userData, token) {
-    console.log(userData);
-    console.log(token);
     const res = await fetch(`${this.apiBase}user`, {
       method: 'PUT',
       headers: {
@@ -109,5 +104,33 @@ export default class BlogService {
     }
     const responseBody = await res.json();
     return responseBody;
+  }
+
+  async setFavorite(slug, token) {
+    const res = await fetch(`${this.apiBase}articles/${slug}/favorite`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        Authorization: `Token ${token}`,
+      },
+    });
+    if (!res.ok) {
+      throw new Error('Bad response from server');
+    }
+    return res;
+  }
+
+  async setUnFavorite(slug, token) {
+    const res = await fetch(`${this.apiBase}articles/${slug}/favorite`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        Authorization: `Token ${token}`,
+      },
+    });
+    if (!res.ok) {
+      throw new Error('Bad response from server');
+    }
+    return res;
   }
 }
