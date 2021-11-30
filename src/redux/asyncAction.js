@@ -16,8 +16,8 @@ export const fetchArticles = (page, token, history) => (dispatch) => {
   }, () => dispatch(onErrorLoading()));
 };
 
-export const fetchArticle = slug => (dispatch) => {
-  blogService.getArticle(slug).then((res) => {
+export const fetchArticle = (slug, token) => (dispatch) => {
+  blogService.getArticle(slug, token).then((res) => {
     dispatch(onGetArticle(res.article));
   });
 };
@@ -61,9 +61,13 @@ export const fetchCreateArticle = (data, counter, history) => (dispatch) => {
   });
 };
 
-// export const fetchSetFavorite = (slug, token) => (dispatch) => {
-//   blogService.setFavorite(slug, token).then(() => {
-//     // dispatch(fetchArticles(page, token));
-//   });
-//   setUnFavorite
-// };
+export const fetchSetFavorite = (slug, token) => (dispatch) => {
+  blogService.setFavorite(slug, token).then((res) => {
+    dispatch(onGetArticle(res.article));
+  });
+};
+export const fetchSetUnFavorite = (slug, token) => (dispatch) => {
+  blogService.setUnFavorite(slug, token).then((res) => {
+    dispatch(onGetArticle(res.article));
+  });
+};

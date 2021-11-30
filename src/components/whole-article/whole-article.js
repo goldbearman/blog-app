@@ -18,12 +18,13 @@ import classes from '../article-list/article-list.module.scss';
 const WholeArticle = () => {
   const dispatch = useDispatch();
   const article = useSelector(state => state.article);
+  const user = useSelector(state => state.user);
   const getArticle = useSelector(state => state.getArticle);
   const { slug } = useParams();
 
   useEffect(() => {
-    dispatch(fetchArticle(slug));
-  }, []);
+    dispatch(fetchArticle(slug, user?.token));
+  }, [user?.token]);
 
   useEffect(() => () => dispatch(onGetArticleFalse()), []);
   return (

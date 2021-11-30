@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 // OTHER LIBRARIES
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
@@ -11,7 +11,8 @@ import { useHistory, useParams } from 'react-router-dom';
 import cn from 'classnames';
 // REDUX
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchArticles } from '../../redux/asyncAction';
+import { fetchArticles, fetchSetFavorite, fetchSetUnFavorite } from '../../redux/asyncAction';
+import { setFavorites } from '../../redux/actions';
 
 import classes from './article.module.scss';
 import BlogService from '../../services/blog-service';
@@ -26,17 +27,12 @@ const ArticleContent = ({ item }) => {
   const params = useParams();
 
   const {
-    title, description, favoritesCount, tagList, author: { username, image },
-    createdAt, slug, favorited,
+    title, description, tagList, author: { username, image },
+    createdAt, slug,
   } = item;
-
-  // eslint-disable-next-line no-console
-  console.log(favorited);
-  // eslint-disable-next-line no-console
-  console.log(item);
-
-  const [redHeart, setRedHeart] = useState(params.slug ? !favorited : favorited);
-  const [favoritesCountArticle, setFavoritesCountArticle] = useState(favoritesCount);
+  let {
+    favoritesCount, favorited,
+  } = item;
 
   const date = format(new Date(createdAt), 'MMMM dd, yyyy');
 
@@ -72,13 +68,21 @@ const ArticleContent = ({ item }) => {
 
   const favoriteClick = (e) => {
     e.stopPropagation();
-    setRedHeart(!redHeart);
-    setFavoritesCountArticle(redHeart ? favoritesCountArticle - 1 : favoritesCountArticle + 1);
-    // eslint-disable-next-line no-console
-    console.log(redHeart);
-    // dispatch(fetchSetFavorite(slug, user.token, history));
-    if (redHeart)blogService.setUnFavorite(slug, user.token).catch(() => {});
-    else blogService.setFavorite(slug, user.token).catch(() => {});
+
+    favorited = !favorited;
+    if (favorited) {
+      favoritesCount += 1;
+    } else {
+      favoritesCount -= 1;
+    }
+
+    dispatch(setFavorites({ slug, favorited, favoritesCount }));
+
+    if (favorited) {
+      dispatch(fetchSetFavorite(slug, user.token));
+    } else {
+      dispatch(fetchSetUnFavorite(slug, user.token));
+    }
   };
 
   return (
@@ -86,14 +90,13 @@ const ArticleContent = ({ item }) => {
       <Grid item xs={9}>
         <div className={classes.h1LikeCount}>
           <h1>{title}</h1>
-          {/* eslint-disable-next-line max-len */}
-          { /* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
           <div
-            // className={cn(classes.redHeart, { [classes.redHeart]: redHeart })}
-            className={redHeart ? classes.redHeart : classes.likeCount}
+            className={favorited ? classes.redHeart : classes.likeCount}
             onClick={e => favoriteClick(e)}
+            onKeyDown={e => favoriteClick(e)}
+            role="presentation"
           >
-            {favoritesCountArticle}
+            {favoritesCount}
           </div>
         </div>
         <div />

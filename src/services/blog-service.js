@@ -10,9 +10,19 @@ export default class BlogService {
     return response;
   }
 
-  async getArticle(slug) {
-    const res = await this.getResources(`articles/${slug}`);
-    return res;
+  async getUserArticles(page = 1, token) {
+    let res;
+    if (token) {
+      res = await fetch(`${this.apiBase}articles?limit=5&offset=${(page - 1) * 5}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json; charset = utf-8',
+          Authorization: `Token ${token}`,
+        },
+      });
+    } else res = await fetch(`${this.apiBase}articles?limit=5&offset=${(page - 1) * 5}`);
+    const responseBody = await res.json();
+    return responseBody;
   }
 
   async registration(userData) {
@@ -38,16 +48,6 @@ export default class BlogService {
     return responseBody;
   }
 
-  async fetchDeleteArticle(slug, token) {
-    const res = await fetch(`${this.apiBase}articles/${slug}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-        Authorization: `Token ${token}`,
-      },
-    });
-    return res;
-  }
 
   async fetchUpdateArticle(slug, token, articleData) {
     const res = await fetch(`${this.apiBase}articles/${slug}`, {
@@ -74,22 +74,6 @@ export default class BlogService {
     return responseBody.article;
   }
 
-
-  async getUserArticles(page = 1, token) {
-    let res;
-    if (token) {
-      res = await fetch(`${this.apiBase}articles?limit=5&offset=${(page - 1) * 5}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json; charset = utf-8',
-          Authorization: `Token ${token}`,
-        },
-      });
-    } else res = await fetch(`${this.apiBase}articles?limit=5&offset=${(page - 1) * 5}`);
-    const responseBody = await res.json();
-    return responseBody;
-  }
-
   async editUser(userData, token) {
     const res = await fetch(`${this.apiBase}user`, {
       method: 'PUT',
@@ -100,37 +84,45 @@ export default class BlogService {
       body: JSON.stringify({ user: userData }),
     });
     if (!res.ok) {
-      throw new Error(res.json().errors);
+      throw new Error('Bad response from server');
     }
     const responseBody = await res.json();
     return responseBody;
   }
 
-  async setFavorite(slug, token) {
-    const res = await fetch(`${this.apiBase}articles/${slug}/favorite`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-        Authorization: `Token ${token}`,
-      },
-    });
-    if (!res.ok) {
-      throw new Error('Bad response from server');
-    }
-    return res;
-  }
 
-  async setUnFavorite(slug, token) {
-    const res = await fetch(`${this.apiBase}articles/${slug}/favorite`, {
+  async fetchDeleteArticle(slug, token) {
+    const res = await fetch(`${this.apiBase}articles/${slug}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
         Authorization: `Token ${token}`,
       },
     });
-    if (!res.ok) {
-      throw new Error('Bad response from server');
-    }
     return res;
+  }
+
+  async fetchTemplateSlugToken(slug, token, url, methodBlog) {
+    const res = await fetch(`${this.apiBase}${url}`, {
+      method: methodBlog,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        Authorization: `Token ${token}`,
+      },
+    });
+    const responseBody = await res.json();
+    return responseBody;
+  }
+
+  async getArticle(slug, token) {
+    return this.fetchTemplateSlugToken(slug, token, `articles/${slug}`, 'GET');
+  }
+
+  async setFavorite(slug, token) {
+    return this.fetchTemplateSlugToken(slug, token, `articles/${slug}/favorite`, 'POST');
+  }
+
+  async setUnFavorite(slug, token) {
+    return this.fetchTemplateSlugToken(slug, token, `articles/${slug}/favorite`, 'DELETE');
   }
 }

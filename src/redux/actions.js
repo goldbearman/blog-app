@@ -8,6 +8,7 @@ export const ON_GET_ARTICLE_FALSE = 'ON_GET_ARTICLE_FALSE';
 export const ON_EDIT_USER_NAME = 'ON_EDIT_USER_NAME';
 export const ADD_ARTICLE = 'ADD_ARTICLE';
 export const SET_PAGE = 'SET_PAGE';
+export const SET_FAVORITES = 'SET_FAVORITES';
 export const ON_CHANGE_FIELD = 'ON_CHANGE_FIELD';
 export const ON_BUTTON_ACTIVE = 'ON_BUTTON_ACTIVE';
 export const ON_LOADING = 'ON_LOADING';
@@ -29,6 +30,7 @@ export const onButtonActive = name => ({ type: ON_BUTTON_ACTIVE, name });
 export const onEditUserName = name => ({ type: ON_EDIT_USER_NAME, name });
 export const addArticle = article => ({ type: ADD_ARTICLE, article });
 export const setPage = page => ({ type: SET_PAGE, page });
+export const setFavorites = objData => ({ type: SET_FAVORITES, objData });
 
 export const onErrorRegistration = objError => ({ type: ERROR_REGISTRATION, objError });
 export const onErrorAuthentication = bool => ({ type: ERROR_AUTHENTICATION, bool });

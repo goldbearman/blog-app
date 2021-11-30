@@ -2,7 +2,7 @@ import {
   INITIAL_STATE, ON_LOGIN, REGISTRATION, ERROR_REGISTRATION,
   ON_GET_ARTICLE, ON_GET_ARTICLE_FALSE, AUTHENTICATION, ON_EDIT_USER, ON_EDIT_USER_NAME,
   ADD_ARTICLE, SET_PAGE, ERROR_AUTHENTICATION, ON_CHANGE_FIELD, ON_BUTTON_ACTIVE, ERROR_LOADING,
-  ON_LOADING,
+  ON_LOADING, SET_FAVORITES,
 } from './actions';
 
 const allState = {
@@ -43,6 +43,20 @@ const reducer = (state = allState, action) => {
 
     case SET_PAGE: {
       return { ...state, page: action.page };
+    }
+
+    case SET_FAVORITES: {
+      const newState = { ...state };
+      const newArrArticles = newState.arrArticles.map((item) => {
+        const result = { ...item };
+        if (result.slug === action.objData.slug) {
+          result.favorited = action.objData.favorited;
+          result.favoritesCount = action.objData.favoritesCount;
+        }
+        return result;
+      });
+      newState.arrArticles = newArrArticles;
+      return newState;
     }
 
     case REGISTRATION: {
@@ -93,7 +107,8 @@ const reducer = (state = allState, action) => {
     }
 
     case ON_GET_ARTICLE: {
-      return { ...state, article: action.article, getArticle: true };
+      if (action.article) return { ...state, article: action.article, getArticle: true };
+      return { ...state, getArticle: false };
     }
 
     case ON_GET_ARTICLE_FALSE: {

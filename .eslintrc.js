@@ -21,6 +21,7 @@ module.exports = {
     'react',
   ],
   rules: {
+    'no-param-reassign': [2, { props: false }],
     'react/prop-types': [2, { ignore: ['children'] }],
     'import/prefer-default-export': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
