@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/named
 import {
   onInitialState, onAuthentication, onRegistration, onErrorRegistration, onGetArticle,
   onEditUser, onErrorAuthentication, onButtonActive, onErrorLoading, onLoadin,
@@ -6,7 +5,6 @@ import {
 import BlogService from '../services/blog-service';
 
 const blogService = new BlogService();
-
 
 export const fetchArticles = (page, token, history) => (dispatch) => {
   dispatch(onLoadin(false));

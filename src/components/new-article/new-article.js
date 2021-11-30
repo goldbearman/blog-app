@@ -59,13 +59,12 @@ const NewArticle = () => {
       start.push(item.firstName);
       return start;
     }, []);
-    // eslint-disable-next-line no-param-reassign
-    data = Object.assign(data.obj, { tagList: taglist });
+    const newData = Object.assign(data.obj, { tagList: taglist });
     if (params.slug) {
       blogService.fetchDeleteArticle(params.slug, user.token).then(() => {
-        dispatch(fetchCreateArticle(data, counter, history));
+        dispatch(fetchCreateArticle(newData, counter, history));
       });
-    } else dispatch(fetchCreateArticle(data, counter, history));
+    } else dispatch(fetchCreateArticle(newData, counter, history));
   };
 
   if (isLoggedIn) {

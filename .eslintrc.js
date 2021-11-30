@@ -28,7 +28,7 @@ module.exports = {
     indent: ['error', 2, { SwitchCase: 1 }],
     // indent: ['error', 2, { ignoredNodes: ['JSXElement'] }],
     'no-plusplus': 'off',
-    'no-console': 'error',
+    'no-console': 'off',
     'jsx-a11y/label-has-associated-control': [2, {
       labelComponents: ['CustomInputLabel'],
       labelAttributes: ['label'],

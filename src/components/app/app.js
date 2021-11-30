@@ -56,12 +56,11 @@ const App = () => {
         />
         <Route
           path="/sing-up"
-          render={({ history }) => (<SingUpForm history={history} />)}
+          component={SingUpForm}
         />
         <Route
           path="/sing-in"
-          render={({ history }) => (
-            <SignInForm history={history} />)}
+          component={SignInForm}
         />
         <Route path="/profile" render={() => (<EditProfile />)} />
       </main>

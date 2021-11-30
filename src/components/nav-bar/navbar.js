@@ -43,7 +43,7 @@ const logIn = (user, onLogin) => (
     <Link to="/new-article" className={cn(classes.buttonNavBar, classes.buttonCreateArticle)}>Create article</Link>
     <div className={classes.userData}>
       <Link to="/profile">{user.username}</Link>
-      <Avatar alt="Name" src={user.imgage || defaultImg} variant="circular" sx={{ width: 46, height: 46 }} />
+      <Avatar alt="Name" src={user.image || defaultImg} variant="circular" sx={{ width: 46, height: 46 }} />
     </div>
     <Button
       onClick={() => onLogin(false)}
@@ -68,9 +68,8 @@ const NavBar = () => {
   return (
     <Navbar bg="white">
       <Container className={classes.articleNavbar}>
-        <Navbar.Brand href="#home" className={classes.brand}>
-          <NavLink id="RouterNavLink" to="/" onClick={() => dispatch(actions.onButtonActive(''))}> Realworld Blog</NavLink>
-        </Navbar.Brand>
+        <NavLink id="RouterNavLink" to="/" onClick={() => dispatch(actions.onButtonActive(''))}> Realworld Blog</NavLink>
+        <Navbar.Brand href="#home" className={classes.brand} />
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           {counter.isLoggedIn
