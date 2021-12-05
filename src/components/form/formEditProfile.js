@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 // OTHER LIBRARIES
 import cn from 'classnames';
 // REACT ROUTER DOM
-import { useHistory } from 'react-router-dom';
+
 // REDUX
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchEditUser } from '../../redux/asyncAction';
@@ -33,7 +33,6 @@ const SignInSchema = yup.object().shape({
 ]);
 
 function EditProfile() {
-  const history = useHistory();
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
 
@@ -53,7 +52,7 @@ function EditProfile() {
       image: data['Avatar image'],
       password: data.Password,
     };
-    dispatch(fetchEditUser(result, user.token, history));
+    dispatch(fetchEditUser(result));
   };
 
   return (

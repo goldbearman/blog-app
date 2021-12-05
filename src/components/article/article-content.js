@@ -11,13 +11,10 @@ import { useHistory, useParams } from 'react-router-dom';
 import cn from 'classnames';
 // REDUX
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchArticles, fetchSetFavorite, fetchSetUnFavorite } from '../../redux/asyncAction';
+import { asyncDeleteArticle, fetchSetFavorite, fetchSetUnFavorite } from '../../redux/asyncAction';
 import { setFavorites } from '../../redux/actions';
 
 import classes from './article.module.scss';
-import BlogService from '../../services/blog-service';
-
-const blogService = new BlogService();
 
 const ArticleContent = ({ item }) => {
   const dispatch = useDispatch();
@@ -58,10 +55,9 @@ const ArticleContent = ({ item }) => {
   };
 
   const deleteArticle = () => {
-    blogService.fetchDeleteArticle(slug, user.token).then(() => {
-      dispatch(fetchArticles(page, user.token, history));
-    });
+    dispatch(asyncDeleteArticle(slug, page));
   };
+
   const editArticle = () => {
     history.push('edit');
   };
@@ -79,9 +75,9 @@ const ArticleContent = ({ item }) => {
     dispatch(setFavorites({ slug, favorited, favoritesCount }));
 
     if (favorited) {
-      dispatch(fetchSetFavorite(slug, user.token));
+      dispatch(fetchSetFavorite(slug));
     } else {
-      dispatch(fetchSetUnFavorite(slug, user.token));
+      dispatch(fetchSetUnFavorite(slug));
     }
   };
 
@@ -93,7 +89,7 @@ const ArticleContent = ({ item }) => {
           <div
             className={favorited ? classes.redHeart : classes.likeCount}
             onClick={e => favoriteClick(e)}
-            onKeyDown={e => favoriteClick(e)}
+            // onKeyDown={e => favoriteClick(e)}
             role="presentation"
           >
             {favoritesCount}

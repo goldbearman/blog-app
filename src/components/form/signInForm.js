@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 // REACT ROUTER DOM
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 // REDUX
 import { connect, useDispatch, useSelector } from 'react-redux';
 import * as actions from '../../redux/actions';
@@ -24,7 +24,7 @@ const SignInSchema = yup.object().shape({
 
 const SignInForm = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  // const history = useHistory();
   const errorAuthentication = useSelector(state => state.errorAuthentication);
 
   const onSingInChange = () => {
@@ -44,7 +44,7 @@ const SignInForm = () => {
   const onSubmit = (data) => {
     let result = { ...data };
     result = { email: data['Email address'], password: data.Password };
-    dispatch(fetchAuthentication(result, history));
+    dispatch(fetchAuthentication(result));
   };
 
   return (

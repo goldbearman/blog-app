@@ -37,7 +37,7 @@ const ArticleList = () => {
 
   const onChangePage = (event, page) => {
     dispatch(setPage(page));
-    dispatch(fetchArticles(page, store.user.token));
+    dispatch(fetchArticles(page));
   };
 
   const onSpinner = !loading

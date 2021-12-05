@@ -1,4 +1,9 @@
 export default class BlogService {
+  constructor(token) {
+    this.token = token;
+  }
+
+
   apiBase = 'https://api.realworld.io/api/';
 
   async getResources(url, page = 1) {
@@ -10,14 +15,14 @@ export default class BlogService {
     return response;
   }
 
-  async getUserArticles(page = 1, token) {
+  async getUserArticles(page = 1) {
     let res;
-    if (token) {
+    if (this.token) {
       res = await fetch(`${this.apiBase}articles?limit=5&offset=${(page - 1) * 5}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json; charset = utf-8',
-          Authorization: `Token ${token}`,
+          Authorization: `Token ${this.token}`,
         },
       });
     } else res = await fetch(`${this.apiBase}articles?limit=5&offset=${(page - 1) * 5}`);
@@ -49,24 +54,25 @@ export default class BlogService {
   }
 
 
-  async fetchUpdateArticle(slug, token, articleData) {
+  async fetchUpdateArticle(slug, articleData) {
     const res = await fetch(`${this.apiBase}articles/${slug}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
-        Authorization: `Token ${token}`,
+        Authorization: `Token ${this.token}`,
       },
       body: JSON.stringify({ article: articleData }),
     });
     return res;
   }
 
-  async createArticle(articleData, token) {
+  async createArticle(articleData) {
+    console.log(this.token);
     const res = await fetch(`${this.apiBase}articles`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset = utf-8',
-        Authorization: `Token ${token}`,
+        Authorization: `Token ${this.token}`,
       },
       body: JSON.stringify({ article: articleData }),
     });
@@ -74,12 +80,12 @@ export default class BlogService {
     return responseBody.article;
   }
 
-  async editUser(userData, token) {
+  async editUser(userData) {
     const res = await fetch(`${this.apiBase}user`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
-        Authorization: `Token ${token}`,
+        Authorization: `Token ${this.token}`,
       },
       body: JSON.stringify({ user: userData }),
     });
@@ -91,38 +97,42 @@ export default class BlogService {
   }
 
 
-  async fetchDeleteArticle(slug, token) {
+  async fetchDeleteArticle(slug) {
     const res = await fetch(`${this.apiBase}articles/${slug}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
-        Authorization: `Token ${token}`,
+        Authorization: `Token ${this.token}`,
       },
     });
     return res;
   }
 
   async fetchTemplateSlugToken(slug, token, url, methodBlog) {
-    const res = await fetch(`${this.apiBase}${url}`, {
-      method: methodBlog,
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-        Authorization: `Token ${token}`,
-      },
-    });
+    let objToken;
+    if (token) {
+      objToken = {
+        method: methodBlog,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          Authorization: `Token ${token}`,
+        },
+      };
+    }
+    const res = await fetch(`${this.apiBase}${url}`, objToken);
     const responseBody = await res.json();
     return responseBody;
   }
 
-  async getArticle(slug, token) {
-    return this.fetchTemplateSlugToken(slug, token, `articles/${slug}`, 'GET');
+  async getArticle(slug) {
+    return this.fetchTemplateSlugToken(slug, this.token, `articles/${slug}`, 'GET');
   }
 
-  async setFavorite(slug, token) {
-    return this.fetchTemplateSlugToken(slug, token, `articles/${slug}/favorite`, 'POST');
+  async setFavorite(slug) {
+    return this.fetchTemplateSlugToken(slug, this.token, `articles/${slug}/favorite`, 'POST');
   }
 
-  async setUnFavorite(slug, token) {
-    return this.fetchTemplateSlugToken(slug, token, `articles/${slug}/favorite`, 'DELETE');
+  async setUnFavorite(slug) {
+    return this.fetchTemplateSlugToken(slug, this.token, `articles/${slug}/favorite`, 'DELETE');
   }
 }

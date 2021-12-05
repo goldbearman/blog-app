@@ -4,68 +4,104 @@ import {
 } from './actions';
 import BlogService from '../services/blog-service';
 
+
+let historyBlog;
 const blogService = new BlogService();
 
-export const fetchArticles = (page, token, history) => (dispatch) => {
+export const initAsyncActionHistory = (history) => {
+  historyBlog = history;
+};
+
+export const initBlogServiceToken = (token) => {
+  console.log(token);
+  blogService.token = token;
+};
+
+export const fetchArticles = (page, history) => (dispatch) => {
   dispatch(onLoadin(false));
-  blogService.getUserArticles(page, token).then((res) => {
-    if (history) history.push('/articles');
+  blogService.getUserArticles(page).then((res) => {
+    if (history) {
+      historyBlog.push('/articles');
+    }
     dispatch(onInitialState(res));
   }, () => dispatch(onErrorLoading()));
 };
 
-export const fetchArticle = (slug, token) => (dispatch) => {
-  blogService.getArticle(slug, token).then((res) => {
+export const asyncDeleteArticle = (slug, page) => (dispatch) => {
+  console.log(slug, page);
+  dispatch(onLoadin(false));
+  historyBlog.push('/articles');
+  blogService.fetchDeleteArticle(slug).then(() => {
+    dispatch(fetchArticles(page));
+  });
+};
+
+export const fetchCreateArticle = (data, counter) => (dispatch) => {
+  console.log(historyBlog);
+  dispatch(onLoadin(false));
+  historyBlog.push('/articles');
+  blogService.createArticle(data).then(() => {
+    dispatch(fetchArticles(counter.page));
+  });
+};
+
+export const asyncEditArticle = (newData, counter, slug) => (dispatch) => {
+  console.log(newData, counter, slug);
+  if (slug) {
+    console.log(slug);
+    blogService.fetchDeleteArticle(slug).then(() => {
+      dispatch(fetchCreateArticle(newData, counter));
+    });
+  } else dispatch(fetchCreateArticle(newData, counter));
+};
+
+export const fetchArticle = slug => (dispatch) => {
+  blogService.getArticle(slug).then((res) => {
     dispatch(onGetArticle(res.article));
   });
 };
 
-export const fetchAuthentication = (data, history) => (dispatch) => {
+export const fetchAuthentication = data => (dispatch) => {
   blogService.authentication(data).then((res) => {
     localStorage.setItem('user', JSON.stringify(res.user));
     dispatch(onAuthentication(res.user));
     dispatch(onButtonActive(''));
-    history.push('/articles');
+    console.log(res.user.token);
+    blogService.token = res.user.token;
+    historyBlog.push('/articles');
   }, () => dispatch(onErrorAuthentication(true)));
 };
 
-export const fetchRegistration = (data, history) => (dispatch) => {
+export const fetchRegistration = data => (dispatch) => {
   blogService.registration(data).then((res) => {
     if (res.errors) {
       dispatch(onErrorRegistration(res.errors));
     } else {
       dispatch(onRegistration(res.user));
       dispatch(onButtonActive('in'));
-      history.push('/sing-in');
+      historyBlog.push('/sing-in');
     }
   }, () => dispatch(onErrorLoading()));
 };
 
-export const fetchEditUser = (data, token, history) => (dispatch) => {
+export const fetchEditUser = data => (dispatch) => {
   dispatch(onLoadin(false));
-  history.push('/articles');
-  blogService.editUser(data, token).then((res) => {
+  historyBlog.push('/articles');
+  blogService.editUser(data).then((res) => {
     localStorage.setItem('user', JSON.stringify(res.user));
+    blogService.token = res.user.token;
     dispatch(onEditUser(res.user));
-    dispatch(fetchArticles(1, res.user.token));
+    dispatch(fetchArticles(1));
   }, () => dispatch(onErrorRegistration()));
 };
 
-export const fetchCreateArticle = (data, counter, history) => (dispatch) => {
-  dispatch(onLoadin(false));
-  history.push('/articles');
-  blogService.createArticle(data, counter.user.token).then(() => {
-    dispatch(fetchArticles(counter.page, counter.user.token));
-  });
-};
-
-export const fetchSetFavorite = (slug, token) => (dispatch) => {
-  blogService.setFavorite(slug, token).then((res) => {
+export const fetchSetFavorite = slug => (dispatch) => {
+  blogService.setFavorite(slug).then((res) => {
     dispatch(onGetArticle(res.article));
   });
 };
-export const fetchSetUnFavorite = (slug, token) => (dispatch) => {
-  blogService.setUnFavorite(slug, token).then((res) => {
+export const fetchSetUnFavorite = slug => (dispatch) => {
+  blogService.setUnFavorite(slug).then((res) => {
     dispatch(onGetArticle(res.article));
   });
 };

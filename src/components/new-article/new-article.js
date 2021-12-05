@@ -10,22 +10,24 @@ import { Button } from '@mui/material';
 // REACT ROUTER DOM
 import { useHistory, Redirect, useParams } from 'react-router-dom';
 // REDUX
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchCreateArticle } from '../../redux/asyncAction';
+import { useSelector, useDispatch } from 'react-redux';
+import { asyncEditArticle } from '../../redux/asyncAction';
 // CUSTOM COMPONENTS
 import { ArticleContainer } from '../article-container/article-container';
 
-import BlogService from '../../services/blog-service';
 import classes from './new-article.module.scss';
 
 const NewArticle = () => {
-  const dispatch = useDispatch();
   const history = useHistory();
+  const dispatch = useDispatch();
   const counter = useSelector(state => state);
   const user = useSelector(state => state.user);
   const isLoggedIn = useSelector(state => state.isLoggedIn);
   const params = useParams();
-  const blogService = new BlogService();
+
+  console.log(history);
+  console.log(user?.token);
+
 
   let defaultArticle = { objArticle: [{}] };
 
@@ -60,11 +62,7 @@ const NewArticle = () => {
       return start;
     }, []);
     const newData = Object.assign(data.obj, { tagList: taglist });
-    if (params.slug) {
-      blogService.fetchDeleteArticle(params.slug, user.token).then(() => {
-        dispatch(fetchCreateArticle(newData, counter, history));
-      });
-    } else dispatch(fetchCreateArticle(newData, counter, history));
+    dispatch(asyncEditArticle(newData, counter, params?.slug));
   };
 
   if (isLoggedIn) {
