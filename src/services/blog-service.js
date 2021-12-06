@@ -3,7 +3,6 @@ export default class BlogService {
     this.token = token;
   }
 
-
   apiBase = 'https://api.realworld.io/api/';
 
   async getResources(url, page = 1) {

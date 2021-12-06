@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useMemo, useState } from 'react';
 // OTHER LIBRARIES
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
@@ -25,11 +25,16 @@ const ArticleContent = ({ item }) => {
 
   const {
     title, description, tagList, author: { username, image },
-    createdAt, slug,
+    createdAt, slug, favoritesCount,
   } = item;
   let {
-    favoritesCount, favorited,
+    favorited,
   } = item;
+
+  const [like, setLike] = useState(favoritesCount);
+
+  console.log('ArticleContent');
+
 
   const date = format(new Date(createdAt), 'MMMM dd, yyyy');
 
@@ -62,24 +67,37 @@ const ArticleContent = ({ item }) => {
     history.push('edit');
   };
 
+
   const favoriteClick = (e) => {
     e.stopPropagation();
-
     favorited = !favorited;
     if (favorited) {
-      favoritesCount += 1;
+      newFavoritesCount += 1;
     } else {
-      favoritesCount -= 1;
+      newFavoritesCount -= 1;
+    }
+  };
+
+  const counterFavorite = (count) => {
+    let newFavoritesCount = count;
+    favorited = !favorited;
+    if (favorited) {
+      newFavoritesCount += 1;
+    } else {
+      newFavoritesCount -= 1;
     }
 
-    dispatch(setFavorites({ slug, favorited, favoritesCount }));
+    dispatch(setFavorites({ slug, count, favoritesCount }));
 
     if (favorited) {
       dispatch(fetchSetFavorite(slug));
     } else {
       dispatch(fetchSetUnFavorite(slug));
     }
+    return newFavoritesCount;
   };
+
+  const modifiedFavoritesCount = useMemo(() => favoriteClick);
 
   return (
     <Grid container>
@@ -160,4 +178,4 @@ ArticleContent.defaultProps = {
   },
 };
 
-export default ArticleContent;
+export default memo(ArticleContent);

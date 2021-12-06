@@ -12,9 +12,12 @@ export const initAsyncActionHistory = (history) => {
   historyBlog = history;
 };
 
-export const initBlogServiceToken = (token) => {
-  console.log(token);
-  blogService.token = token;
+export const initBlogServiceToken = () => {
+  const localUser = localStorage.getItem('user');
+  if (localUser) {
+    const user = JSON.parse(localUser);
+    blogService.token = user.token;
+  } else blogService.token = undefined;
 };
 
 export const fetchArticles = (page, history) => (dispatch) => {
@@ -63,11 +66,11 @@ export const fetchArticle = slug => (dispatch) => {
 
 export const fetchAuthentication = data => (dispatch) => {
   blogService.authentication(data).then((res) => {
+    blogService.token = res.user.token;
     localStorage.setItem('user', JSON.stringify(res.user));
     dispatch(onAuthentication(res.user));
     dispatch(onButtonActive(''));
     console.log(res.user.token);
-    blogService.token = res.user.token;
     historyBlog.push('/articles');
   }, () => dispatch(onErrorAuthentication(true)));
 };

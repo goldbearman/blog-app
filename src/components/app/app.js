@@ -14,6 +14,7 @@ import SingUpForm from '../form/singUpForm';
 import SignInForm from '../form/signInForm';
 import EditProfile from '../form/formEditProfile';
 import NewArticle from '../new-article/new-article';
+import PrivateRoute from './private-router';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -24,8 +25,7 @@ const App = () => {
     const localUser = localStorage.getItem('user');
     if (localUser) {
       const user = JSON.parse(localUser);
-      console.log(user);
-      initBlogServiceToken(user.token);
+      initBlogServiceToken();
       dispatch(onAuthentication(user));
     }
     dispatch(fetchArticles(1, history));
@@ -47,13 +47,17 @@ const App = () => {
           path="/articles/:slug"
           component={WholeArticle}
         />
-        <Route
+        <PrivateRoute
           path="/articles/:slug/edit"
           component={NewArticle}
+          auth={isLoggedIn}
+          redirect="/article"
         />
-        <Route
+        <PrivateRoute
           path="/new-article"
           component={NewArticle}
+          auth={isLoggedIn}
+          redirect="/article"
         />
         <Route
           path="/sing-up"
@@ -63,9 +67,11 @@ const App = () => {
           path="/sing-in"
           component={SignInForm}
         />
-        <Route
+        <PrivateRoute
           path="/profile"
+          auth={isLoggedIn}
           component={EditProfile}
+          redirect="/article"
         />
       </main>
     </>
