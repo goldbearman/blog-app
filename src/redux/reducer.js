@@ -2,7 +2,7 @@ import {
   INITIAL_STATE, ON_LOGIN, REGISTRATION, ERROR_REGISTRATION,
   ON_GET_ARTICLE, ON_GET_ARTICLE_FALSE, AUTHENTICATION, ON_EDIT_USER, ON_EDIT_USER_NAME,
   ADD_ARTICLE, SET_PAGE, ERROR_AUTHENTICATION, ON_CHANGE_FIELD, ON_BUTTON_ACTIVE, ERROR_LOADING,
-  ON_LOADING, SET_FAVORITES,
+  ON_LOADING, SET_FAVORITES, ERROR_EDIT_USER,
 } from './actions';
 
 const allState = {
@@ -93,6 +93,12 @@ const reducer = (state = allState, action) => {
     case ERROR_AUTHENTICATION: {
       console.log('ERROR_AUTHENTICATION');
       return { ...state, errorAuthentication: action.objError };
+    }
+
+    case ERROR_EDIT_USER: {
+      console.log('ERROR_EDIT_USER');
+      console.log(action.objError);
+      return { ...state, errorEditUser: action.objError };
     }
 
     case ERROR_LOADING: {

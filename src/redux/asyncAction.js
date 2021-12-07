@@ -1,6 +1,6 @@
 import {
   onInitialState, onAuthentication, onRegistration, onErrorRegistration, onGetArticle,
-  onEditUser, onErrorAuthentication, onButtonActive, onErrorLoading, onLoadin,
+  onEditUser, onErrorAuthentication, onButtonActive, onErrorLoading, onLoadin, onErrorEditUser,
 } from './actions';
 import BlogService from '../services/blog-service';
 
@@ -91,10 +91,17 @@ export const fetchEditUser = data => (dispatch) => {
   dispatch(onLoadin(false));
   historyBlog.push('/articles');
   blogService.editUser(data).then((res) => {
-    localStorage.setItem('user', JSON.stringify(res.user));
-    dispatch(onEditUser(res.user));
-    dispatch(fetchArticles(1));
-  }, () => dispatch(onErrorRegistration()));
+    console.log(res);
+    if (typeof res === 'string') {
+      console.log('if');
+      dispatch(onErrorEditUser(res));
+    } else {
+      console.log('if');
+      localStorage.setItem('user', JSON.stringify(res.user));
+      dispatch(onEditUser(res.user));
+      dispatch(fetchArticles(1));
+    }
+  }, () => dispatch(onErrorLoading()));
 };
 
 export const fetchSetFavorite = slug => (dispatch) => {

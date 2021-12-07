@@ -34,7 +34,9 @@ const SignInSchema = yup.object().shape({
 
 function EditProfile() {
   const user = useSelector(state => state.user);
+  const errorEditUser = useSelector(state => state.errorEditUser);
   const dispatch = useDispatch();
+  console.log(errorEditUser);
 
   const {
     register,
@@ -105,7 +107,7 @@ function EditProfile() {
           />
         </label>
         <p>{errors?.['Avatar image'] && errors?.['Avatar image']?.message}</p>
-
+        <p>{errorEditUser && `${errorEditUser}`}</p>
         <input className={classes.submitButton} value="Save" type="submit" />
       </form>
     </FormContainer>

@@ -15,6 +15,7 @@ export const ON_LOADING = 'ON_LOADING';
 
 export const ERROR_REGISTRATION = 'ERROR_REGISTRATION';
 export const ERROR_AUTHENTICATION = 'ERROR_AUTHENTICATION';
+export const ERROR_EDIT_USER = 'ERROR_EDIT_USER';
 export const ERROR_LOADING = 'ERROR_LOADING';
 
 export const onLogin = bool => ({ type: ON_LOGIN, bool });
@@ -34,4 +35,5 @@ export const setFavorites = objData => ({ type: SET_FAVORITES, objData });
 
 export const onErrorRegistration = objError => ({ type: ERROR_REGISTRATION, objError });
 export const onErrorAuthentication = objError => ({ type: ERROR_AUTHENTICATION, objError });
+export const onErrorEditUser = objError => ({ type: ERROR_EDIT_USER, objError });
 export const onErrorLoading = () => ({ type: ERROR_LOADING });
