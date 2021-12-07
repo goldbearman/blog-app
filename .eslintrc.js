@@ -21,6 +21,7 @@ module.exports = {
     'react',
   ],
   rules: {
+    // 'prefer-destructuring': ['off', { object: false, array: false }],
     'no-param-reassign': [2, { props: false }],
     'react/prop-types': [2, { ignore: ['children'] }],
     'import/prefer-default-export': 'off',

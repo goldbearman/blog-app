@@ -91,7 +91,8 @@ const reducer = (state = allState, action) => {
     }
 
     case ERROR_AUTHENTICATION: {
-      return { ...state, errorAuthentication: action.bool };
+      console.log('ERROR_AUTHENTICATION');
+      return { ...state, errorAuthentication: action.objError };
     }
 
     case ERROR_LOADING: {

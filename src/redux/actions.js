@@ -33,5 +33,5 @@ export const setPage = page => ({ type: SET_PAGE, page });
 export const setFavorites = objData => ({ type: SET_FAVORITES, objData });
 
 export const onErrorRegistration = objError => ({ type: ERROR_REGISTRATION, objError });
-export const onErrorAuthentication = bool => ({ type: ERROR_AUTHENTICATION, bool });
+export const onErrorAuthentication = objError => ({ type: ERROR_AUTHENTICATION, objError });
 export const onErrorLoading = () => ({ type: ERROR_LOADING });

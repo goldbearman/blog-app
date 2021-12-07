@@ -4,7 +4,7 @@ import './app.scss';
 import { Route, useHistory } from 'react-router-dom';
 // REDUX
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchArticles, initAsyncActionHistory, initBlogServiceToken } from '../../redux/asyncAction';
+import { fetchArticles, initAsyncActionHistory } from '../../redux/asyncAction';
 import { onAuthentication } from '../../redux/actions';
 // CUSTOM COMPONENTS
 import NavBar from '../nav-bar/navbar';
@@ -22,10 +22,11 @@ const App = () => {
   const history = useHistory();
   initAsyncActionHistory(history);
   useEffect(() => {
+    console.log('useEffect');
     const localUser = localStorage.getItem('user');
     if (localUser) {
       const user = JSON.parse(localUser);
-      initBlogServiceToken();
+      // initBlogServiceToken();
       dispatch(onAuthentication(user));
     }
     dispatch(fetchArticles(1, history));

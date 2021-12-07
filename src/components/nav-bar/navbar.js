@@ -13,7 +13,7 @@ import { Avatar } from '@material-ui/core';
 import { Button } from '@mui/material';
 // REDUX UI
 import { useSelector, useDispatch } from 'react-redux';
-import { initBlogServiceToken } from '../../redux/asyncAction';
+// import { initBlogServiceToken } from '../../redux/asyncAction';
 import * as actions from '../../redux/actions';
 // ICON
 import defaultImg from '../../pictures/smiley-cyrus.jpeg';
@@ -62,7 +62,7 @@ const NavBar = () => {
 
   const onLogin = (bool) => {
     localStorage.removeItem('user');
-    initBlogServiceToken();
+    // initBlogServiceToken();
     dispatch(actions.onLogin(bool));
     history.push('/articles');
   };

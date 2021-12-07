@@ -12,15 +12,8 @@ export const initAsyncActionHistory = (history) => {
   historyBlog = history;
 };
 
-export const initBlogServiceToken = () => {
-  const localUser = localStorage.getItem('user');
-  if (localUser) {
-    const user = JSON.parse(localUser);
-    blogService.token = user.token;
-  } else blogService.token = undefined;
-};
-
 export const fetchArticles = (page, history) => (dispatch) => {
+  console.log('fetchArticles');
   dispatch(onLoadin(false));
   blogService.getUserArticles(page).then((res) => {
     if (history) {
@@ -66,20 +59,27 @@ export const fetchArticle = slug => (dispatch) => {
 
 export const fetchAuthentication = data => (dispatch) => {
   blogService.authentication(data).then((res) => {
-    blogService.token = res.user.token;
-    localStorage.setItem('user', JSON.stringify(res.user));
-    dispatch(onAuthentication(res.user));
-    dispatch(onButtonActive(''));
-    console.log(res.user.token);
-    historyBlog.push('/articles');
-  }, () => dispatch(onErrorAuthentication(true)));
+    console.log(res);
+    if (res.errors) {
+      console.log(res.errors);
+      dispatch(onErrorAuthentication(res.errors));
+    } else {
+      localStorage.setItem('user', JSON.stringify(res.user));
+      dispatch(onAuthentication(res.user));
+      dispatch(onButtonActive(''));
+      historyBlog.push('/articles');
+    }
+  }, () => dispatch(onErrorLoading()));
 };
 
 export const fetchRegistration = data => (dispatch) => {
+  console.log('fetchRegistration');
   blogService.registration(data).then((res) => {
     if (res.errors) {
+      console.log('if');
       dispatch(onErrorRegistration(res.errors));
     } else {
+      console.log('else');
       dispatch(onRegistration(res.user));
       dispatch(onButtonActive('in'));
       historyBlog.push('/sing-in');
@@ -92,7 +92,6 @@ export const fetchEditUser = data => (dispatch) => {
   historyBlog.push('/articles');
   blogService.editUser(data).then((res) => {
     localStorage.setItem('user', JSON.stringify(res.user));
-    blogService.token = res.user.token;
     dispatch(onEditUser(res.user));
     dispatch(fetchArticles(1));
   }, () => dispatch(onErrorRegistration()));
