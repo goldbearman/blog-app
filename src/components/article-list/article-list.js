@@ -18,7 +18,6 @@ const ArticleList = () => {
   } = useSelector(state => state);
   const dispatch = useDispatch();
   const history = useHistory();
-  console.log(arrArticles, page, articlesCount, loading, errorLoading);
 
   const createList = () => {
     const elements = arrArticles.map((data) => {

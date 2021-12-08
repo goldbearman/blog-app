@@ -9,7 +9,6 @@ export default class BlogService {
       const { token } = JSON.parse(localUser);
       tokenBlog = token;
     }
-    console.log(tokenBlog);
     const res = await fetch(`${this.apiBase}${url}`, {
       method: methodUrl,
       headers: {
