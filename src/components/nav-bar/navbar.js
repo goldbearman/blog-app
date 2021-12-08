@@ -62,7 +62,6 @@ const NavBar = () => {
 
   const onLogin = (bool) => {
     localStorage.removeItem('user');
-    // initBlogServiceToken();
     dispatch(actions.onLogin(bool));
     history.push('/articles');
   };

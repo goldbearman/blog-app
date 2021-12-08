@@ -8,7 +8,7 @@ import {
 // MATERIAL UI
 import { Button } from '@mui/material';
 // REACT ROUTER DOM
-import { useHistory, Redirect, useParams } from 'react-router-dom';
+import { Redirect, useParams } from 'react-router-dom';
 // REDUX
 import { useSelector, useDispatch } from 'react-redux';
 import { asyncEditArticle } from '../../redux/asyncAction';
@@ -18,16 +18,10 @@ import { ArticleContainer } from '../article-container/article-container';
 import classes from './new-article.module.scss';
 
 const NewArticle = () => {
-  const history = useHistory();
   const dispatch = useDispatch();
   const counter = useSelector(state => state);
-  const user = useSelector(state => state.user);
   const isLoggedIn = useSelector(state => state.isLoggedIn);
   const params = useParams();
-
-  console.log(history);
-  console.log(user?.token);
-
 
   let defaultArticle = { objArticle: [{}] };
 

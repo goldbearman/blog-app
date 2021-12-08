@@ -22,11 +22,9 @@ const App = () => {
   const history = useHistory();
   initAsyncActionHistory(history);
   useEffect(() => {
-    console.log('useEffect');
     const localUser = localStorage.getItem('user');
     if (localUser) {
       const user = JSON.parse(localUser);
-      // initBlogServiceToken();
       dispatch(onAuthentication(user));
     }
     dispatch(fetchArticles(1, history));

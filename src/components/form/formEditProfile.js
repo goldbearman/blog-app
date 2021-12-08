@@ -10,6 +10,7 @@ import cn from 'classnames';
 // REDUX
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchEditUser } from '../../redux/asyncAction';
+import * as actions from '../../redux/actions';
 // CUSTOM COMPONENTS
 import { FormContainer } from './formContainer';
 
@@ -33,10 +34,8 @@ const SignInSchema = yup.object().shape({
 ]);
 
 function EditProfile() {
-  const user = useSelector(state => state.user);
-  const errorEditUser = useSelector(state => state.errorEditUser);
+  const { errorEditUser, user } = useSelector(state => state);
   const dispatch = useDispatch();
-  console.log(errorEditUser);
 
   const {
     register,
@@ -57,21 +56,28 @@ function EditProfile() {
     dispatch(fetchEditUser(result));
   };
 
+  const onSingInChange = () => {
+    dispatch(actions.onErrorEditUser(''));
+  };
+
   return (
     <FormContainer>
       <h1>Edit Profile</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="user name">
-          UserName
+          Username
           <input
             id="user name"
             defaultValue={user.username}
             className={cn(errors?.['User name'] && classes.error)}
             type="text"
             placeholder="Username"
-            {...register('User name')}
+            {...register('User name', {
+              onChange: () => onSingInChange(),
+            })}
           />
         </label>
+        <p>{errorEditUser?.match(/username/) && 'Username is not unique'}</p>
         <p>{errors?.['User name'] && errors?.['User name']?.message}</p>
         <label htmlFor="email address">
           Email address
@@ -81,9 +87,12 @@ function EditProfile() {
             className={cn(errors?.['Email address'] && classes.error)}
             type="text"
             placeholder="Email address"
-            {...register('Email address')}
+            {...register('Email address', {
+              onChange: () => onSingInChange(),
+            })}
           />
         </label>
+        <p>{errorEditUser?.match(/email/) && 'Email is not unique'}</p>
         <p>{errors?.['Email address'] && errors?.['Email address']?.message}</p>
         <label htmlFor="password">
           New password
@@ -107,7 +116,6 @@ function EditProfile() {
           />
         </label>
         <p>{errors?.['Avatar image'] && errors?.['Avatar image']?.message}</p>
-        <p>{errorEditUser && `${errorEditUser}`}</p>
         <input className={classes.submitButton} value="Save" type="submit" />
       </form>
     </FormContainer>

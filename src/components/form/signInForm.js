@@ -24,7 +24,6 @@ const SignInSchema = yup.object().shape({
 
 const SignInForm = () => {
   const dispatch = useDispatch();
-  // const history = useHistory();
   const errorAuthentication = useSelector(state => state.errorAuthentication);
 
   const onSingInChange = () => {
@@ -59,7 +58,7 @@ const SignInForm = () => {
             type="text"
             placeholder="Email address"
             {...register('Email address', {
-              onBlur: () => onSingInChange(),
+              onChange: () => onSingInChange(),
             })}
           />
         </label>
@@ -72,7 +71,7 @@ const SignInForm = () => {
             type="password"
             placeholder="Password"
             {...register('Password', {
-              onBlur: () => onSingInChange(),
+              onChange: () => onSingInChange(),
             })}
           />
         </label>

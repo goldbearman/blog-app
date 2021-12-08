@@ -4,17 +4,17 @@ export default class BlogService {
 
   async getResourcesTemplate(url, methodUrl = 'GET', bodyUrl) {
     const localUser = localStorage.getItem('user');
-    let token = '';
+    let tokenBlog = '';
     if (localUser) {
-      // eslint-disable-next-line prefer-destructuring
-      token = JSON.parse(localUser).token;
+      const { token } = JSON.parse(localUser);
+      tokenBlog = token;
     }
-    console.log(token);
+    console.log(tokenBlog);
     const res = await fetch(`${this.apiBase}${url}`, {
       method: methodUrl,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Token ${token}`,
+        Authorization: `Token ${tokenBlog}`,
       },
       body: JSON.stringify(bodyUrl),
     });
@@ -22,39 +22,31 @@ export default class BlogService {
   }
 
   async getUserArticles(page = 1) {
-    console.log('getUserArticles');
     const res = await this.getResourcesTemplate(`articles?limit=5&offset=${(page - 1) * 5}`, 'GET');
     const response = await res.json();
     return response;
   }
 
   async registration(userData) {
-    console.log('registration');
     const res = await this.getResourcesTemplate('users', 'POST', { user: userData });
-    console.log(res);
     const response = await res.json();
     return response;
   }
 
   async authentication(userData) {
-    console.log('authentication');
     const res = await this.getResourcesTemplate('users/login', 'POST', { user: userData });
     const response = await res.json();
-    console.log(response);
     return response;
   }
 
 
   async fetchUpdateArticle(slug, articleData) {
-    console.log('authentication');
     const res = await this.getResourcesTemplate(`articles/${slug}`, 'POST', { article: articleData });
     const response = await res.json();
     return response;
   }
 
   async createArticle(articleData) {
-    console.log('createArticle');
-    // eslint-disable-next-line max-len
     const res = await this.getResourcesTemplate('articles', 'POST', { article: articleData });
     const response = await res.json();
     return response.article;
@@ -62,9 +54,7 @@ export default class BlogService {
 
   async editUser(userData) {
     const res = await this.getResourcesTemplate('user', 'PUT', { user: userData });
-    console.log(res);
     const response = await res.json();
-    console.log(response);
     return response;
   }
 

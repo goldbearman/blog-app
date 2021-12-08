@@ -13,14 +13,15 @@ import Article from '../article/article';
 import classes from './article-list.module.scss';
 
 const ArticleList = () => {
-  const store = useSelector(state => state);
-  const errorLoading = useSelector(state => state.errorLoading);
-  const loading = useSelector(state => state.loading);
+  const {
+    arrArticles, page, articlesCount, loading, errorLoading,
+  } = useSelector(state => state);
   const dispatch = useDispatch();
   const history = useHistory();
+  console.log(arrArticles, page, articlesCount, loading, errorLoading);
 
   const createList = () => {
-    const elements = store.arrArticles.map((data) => {
+    const elements = arrArticles.map((data) => {
       const { slug } = data;
       return (
         <Article
@@ -35,12 +36,12 @@ const ArticleList = () => {
     return elements;
   };
 
-  const onChangePage = (event, page) => {
-    dispatch(setPage(page));
-    dispatch(fetchArticles(page));
+  const onChangePage = (event, pageBlog) => {
+    dispatch(setPage(pageBlog));
+    dispatch(fetchArticles(pageBlog));
   };
 
-  const onSpinner = !loading
+  const onSpinner = !loading && !errorLoading
     ? (
       <div className={classes.progressContainer}>
         <CircularProgress />
@@ -65,9 +66,9 @@ const ArticleList = () => {
               <Pagination
                 className={classes.pagination}
                 onChange={onChangePage}
-                page={store.page}
+                page={page}
                 shape="rounded"
-                count={Math.ceil(store.articlesCount / 5)}
+                count={Math.ceil(articlesCount / 5)}
                 defaultPage={1}
                 color="primary"
               />

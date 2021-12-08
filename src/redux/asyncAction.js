@@ -13,7 +13,6 @@ export const initAsyncActionHistory = (history) => {
 };
 
 export const fetchArticles = (page, history) => (dispatch) => {
-  console.log('fetchArticles');
   dispatch(onLoadin(false));
   blogService.getUserArticles(page).then((res) => {
     if (history) {
@@ -24,7 +23,6 @@ export const fetchArticles = (page, history) => (dispatch) => {
 };
 
 export const asyncDeleteArticle = (slug, page) => (dispatch) => {
-  console.log(slug, page);
   dispatch(onLoadin(false));
   historyBlog.push('/articles');
   blogService.fetchDeleteArticle(slug).then(() => {
@@ -33,7 +31,6 @@ export const asyncDeleteArticle = (slug, page) => (dispatch) => {
 };
 
 export const fetchCreateArticle = (data, counter) => (dispatch) => {
-  console.log(historyBlog);
   dispatch(onLoadin(false));
   historyBlog.push('/articles');
   blogService.createArticle(data).then(() => {
@@ -42,9 +39,7 @@ export const fetchCreateArticle = (data, counter) => (dispatch) => {
 };
 
 export const asyncEditArticle = (newData, counter, slug) => (dispatch) => {
-  console.log(newData, counter, slug);
   if (slug) {
-    console.log(slug);
     blogService.fetchDeleteArticle(slug).then(() => {
       dispatch(fetchCreateArticle(newData, counter));
     });
@@ -59,9 +54,7 @@ export const fetchArticle = slug => (dispatch) => {
 
 export const fetchAuthentication = data => (dispatch) => {
   blogService.authentication(data).then((res) => {
-    console.log(res);
     if (res.errors) {
-      console.log(res.errors);
       dispatch(onErrorAuthentication(res.errors));
     } else {
       localStorage.setItem('user', JSON.stringify(res.user));
@@ -73,13 +66,10 @@ export const fetchAuthentication = data => (dispatch) => {
 };
 
 export const fetchRegistration = data => (dispatch) => {
-  console.log('fetchRegistration');
   blogService.registration(data).then((res) => {
     if (res.errors) {
-      console.log('if');
       dispatch(onErrorRegistration(res.errors));
     } else {
-      console.log('else');
       dispatch(onRegistration(res.user));
       dispatch(onButtonActive('in'));
       historyBlog.push('/sing-in');
@@ -89,15 +79,12 @@ export const fetchRegistration = data => (dispatch) => {
 
 export const fetchEditUser = data => (dispatch) => {
   dispatch(onLoadin(false));
-  historyBlog.push('/articles');
   blogService.editUser(data).then((res) => {
-    console.log(res);
     if (typeof res === 'string') {
-      console.log('if');
       dispatch(onErrorEditUser(res));
     } else {
-      console.log('if');
       localStorage.setItem('user', JSON.stringify(res.user));
+      historyBlog.push('/articles');
       dispatch(onEditUser(res.user));
       dispatch(fetchArticles(1));
     }

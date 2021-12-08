@@ -91,13 +91,10 @@ const reducer = (state = allState, action) => {
     }
 
     case ERROR_AUTHENTICATION: {
-      console.log('ERROR_AUTHENTICATION');
       return { ...state, errorAuthentication: action.objError };
     }
 
     case ERROR_EDIT_USER: {
-      console.log('ERROR_EDIT_USER');
-      console.log(action.objError);
       return { ...state, errorEditUser: action.objError };
     }
 

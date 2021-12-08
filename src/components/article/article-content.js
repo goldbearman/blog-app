@@ -18,8 +18,7 @@ import classes from './article.module.scss';
 
 const ArticleContent = ({ item }) => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user);
-  const page = useSelector(state => state.page);
+  const { page, user } = useSelector(state => state);
   const history = useHistory();
   const params = useParams();
 
@@ -30,9 +29,6 @@ const ArticleContent = ({ item }) => {
   let {
     favorited, favoritesCount,
   } = item;
-
-  console.log('ArticleContent');
-
 
   const date = format(new Date(createdAt), 'MMMM dd, yyyy');
 
@@ -92,7 +88,6 @@ const ArticleContent = ({ item }) => {
           <div
             className={favorited ? classes.redHeart : classes.likeCount}
             onClick={e => favoriteClick(e)}
-            // onKeyDown={e => favoriteClick(e)}
             role="presentation"
           >
             {favoritesCount}

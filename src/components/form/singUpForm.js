@@ -65,7 +65,7 @@ function SingUpForm() {
             type="text"
             placeholder="Username"
             {...register('User name', {
-              onBlur: () => onSingInChange('username'),
+              onChange: () => onSingInChange('username'),
             })}
           />
         </label>
@@ -79,7 +79,7 @@ function SingUpForm() {
             type="text"
             placeholder="Email address"
             {...register('Email address', {
-              onBlur: () => onSingInChange('email'),
+              onChange: () => onSingInChange('email'),
             })}
           />
         </label>

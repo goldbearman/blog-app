@@ -17,9 +17,7 @@ import classes from '../article-list/article-list.module.scss';
 
 const WholeArticle = () => {
   const dispatch = useDispatch();
-  const article = useSelector(state => state.article);
-  const user = useSelector(state => state.user);
-  const getArticle = useSelector(state => state.getArticle);
+  const { getArticle, user, article } = useSelector(state => state);
   const { slug } = useParams();
 
   useEffect(() => {
