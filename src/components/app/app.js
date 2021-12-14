@@ -10,9 +10,9 @@ import { onAuthentication } from '../../redux/actions';
 import NavBar from '../nav-bar/navbar';
 import ArticleList from '../article-list/article-list';
 import WholeArticle from '../whole-article/whole-article';
-import SingUpForm from '../form/singUpForm';
-import SignInForm from '../form/signInForm';
-import EditProfile from '../form/formEditProfile';
+import SingUpForm from '../forms/singUpForm';
+import SignInForm from '../forms/signInForm';
+import EditProfile from '../forms/formEditProfile';
 import NewArticle from '../new-article/new-article';
 import PrivateRoute from './private-router';
 
@@ -29,6 +29,9 @@ const App = () => {
     }
     dispatch(fetchArticles(1, history));
   }, [isLoggedIn]);
+
+  // eslint-disable-next-line no-console
+  console.log(isLoggedIn);
 
   return (
     <>
@@ -50,17 +53,18 @@ const App = () => {
           path="/articles/:slug/edit"
           component={NewArticle}
           auth={isLoggedIn}
-          redirect="/article"
+          redirect="/articles"
         />
         <PrivateRoute
           path="/new-article"
           component={NewArticle}
           auth={isLoggedIn}
-          redirect="/article"
+          redirect="/articles"
         />
         <Route
           path="/sing-up"
           component={SingUpForm}
+          exact
         />
         <Route
           path="/sing-in"
@@ -70,7 +74,7 @@ const App = () => {
           path="/profile"
           auth={isLoggedIn}
           component={EditProfile}
-          redirect="/article"
+          redirect="/articles"
         />
       </main>
     </>

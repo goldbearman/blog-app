@@ -12,19 +12,19 @@ export const initAsyncActionHistory = (history) => {
   historyBlog = history;
 };
 
-export const fetchArticles = (page, history) => (dispatch) => {
+export const fetchArticles = page => (dispatch) => {
   dispatch(onLoadin(false));
   blogService.getUserArticles(page).then((res) => {
-    if (history) {
-      historyBlog.push('/articles');
-    }
+    // if (history) {
+    //   historyBlog.replace('/articles');
+    // }
     dispatch(onInitialState(res));
   }, () => dispatch(onErrorLoading()));
 };
 
 export const asyncDeleteArticle = (slug, page) => (dispatch) => {
   dispatch(onLoadin(false));
-  historyBlog.push('/articles');
+  historyBlog.replace('/articles');
   blogService.fetchDeleteArticle(slug).then(() => {
     dispatch(fetchArticles(page));
   });
@@ -32,7 +32,7 @@ export const asyncDeleteArticle = (slug, page) => (dispatch) => {
 
 export const fetchCreateArticle = (data, counter) => (dispatch) => {
   dispatch(onLoadin(false));
-  historyBlog.push('/articles');
+  historyBlog.replace('/articles');
   blogService.createArticle(data).then(() => {
     dispatch(fetchArticles(counter.page));
   });
@@ -60,7 +60,7 @@ export const fetchAuthentication = data => (dispatch) => {
       localStorage.setItem('user', JSON.stringify(res.user));
       dispatch(onAuthentication(res.user));
       dispatch(onButtonActive(''));
-      historyBlog.push('/articles');
+      historyBlog.replace('/articles');
     }
   }, () => dispatch(onErrorLoading()));
 };
@@ -72,7 +72,7 @@ export const fetchRegistration = data => (dispatch) => {
     } else {
       dispatch(onRegistration(res.user));
       dispatch(onButtonActive('in'));
-      historyBlog.push('/sing-in');
+      historyBlog.replace('/sing-in');
     }
   }, () => dispatch(onErrorLoading()));
 };
@@ -84,7 +84,7 @@ export const fetchEditUser = data => (dispatch) => {
       dispatch(onErrorEditUser(res));
     } else {
       localStorage.setItem('user', JSON.stringify(res.user));
-      historyBlog.push('/articles');
+      historyBlog.replace('/articles');
       dispatch(onEditUser(res.user));
       dispatch(fetchArticles(1));
     }

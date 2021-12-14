@@ -1,4 +1,3 @@
-
 export default class BlogService {
   apiBase = 'https://api.realworld.io/api/';
 

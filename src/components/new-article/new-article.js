@@ -99,7 +99,7 @@ const NewArticle = () => {
               {fields.map((item, index) => (
                 <li key={item.id}>
                   <input id="tag" defaultValue={Object.keys(defaultArticle).length === 1 ? '' : defaultArticle.objArticle[index]} placeholder="Tag" className={classes.inputTags} {...register(`objArticle.${index}.firstName`)} />
-                  {index > 0
+                  {index > -1
                     ? (
                       <Button
                         className={cn(classes.button, classes.buttonDel)}
@@ -112,7 +112,6 @@ const NewArticle = () => {
                         Delete
                       </Button>
                     ) : null}
-                  <div className={classes.emptyDiv} />
                 </li>
               ))}
               <Button

@@ -18,7 +18,7 @@ import classes from './article.module.scss';
 
 const ArticleContent = ({ item }) => {
   const dispatch = useDispatch();
-  const { page, user } = useSelector(state => state);
+  const { page, user, isLoggedIn } = useSelector(state => state);
   const history = useHistory();
   const params = useParams();
 
@@ -64,19 +64,21 @@ const ArticleContent = ({ item }) => {
 
   const favoriteClick = (e) => {
     e.stopPropagation();
-    favorited = !favorited;
-    if (favorited) {
-      favoritesCount += 1;
-    } else {
-      favoritesCount -= 1;
-    }
+    if (isLoggedIn) {
+      favorited = !favorited;
+      if (favorited) {
+        favoritesCount += 1;
+      } else {
+        favoritesCount -= 1;
+      }
 
-    dispatch(setFavorites({ slug, favorited, favoritesCount }));
+      dispatch(setFavorites({ slug, favorited, favoritesCount }));
 
-    if (favorited) {
-      dispatch(fetchSetFavorite(slug));
-    } else {
-      dispatch(fetchSetUnFavorite(slug));
+      if (favorited) {
+        dispatch(fetchSetFavorite(slug));
+      } else {
+        dispatch(fetchSetUnFavorite(slug));
+      }
     }
   };
 

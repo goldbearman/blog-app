@@ -18,17 +18,17 @@
     margin-bottom: -10px;
   }
 
-  input, label, textarea {
-    margin-bottom: 21px;
+  label {
     display: block;
   }
 
   input, textarea {
+    margin-bottom: 21px;
     font-size: 16px;
     width: 100%;
-    padding: 8px 12px;
+    padding: 7px 12px;
     border: 1px solid #BFBFBF;
-    margin-top: 3px;
+    //margin-top: 3px;
     border-radius: 4px;
 
     &:focus{
@@ -37,7 +37,7 @@
   }
 
   .inputTags{
-    margin-bottom: 5px;
+    margin-bottom: 0;
   }
 
   textarea {
@@ -50,6 +50,7 @@
 
   ul li {
     display: inline-block;
+    margin-bottom: 5px;
     input {
       width: 300px;
       display: inline-block;
@@ -89,11 +90,12 @@
   }
 
   .button {
-    padding: 8px 36px;
+    padding: 0 36px;
     border-radius: 5px;
-    margin-left: 17px;
+
     height: 40px;
-    margin-top: -6px;
+    //margin-top: -3px;
+
     text-transform: none;
     font-size: 15px;
   }
@@ -101,6 +103,7 @@
   .buttonDel {
     color: #F5222D;
     border: 1px solid #F5222D;
+    margin: -3px 17px 0;
 
     &:hover {
       color: white;
@@ -113,7 +116,7 @@
     display: inline-block;
     color: #1890FF;
     border: 1px solid #1890FF;
-    margin-left: -182px;
+    //margin-top: 3px;
 
     &:hover {
       color: white;
