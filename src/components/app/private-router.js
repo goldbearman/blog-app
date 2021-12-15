@@ -12,8 +12,22 @@ const PrivateRoute = ({
     {...rest}
     render={props => (
       localStorage.getItem('user')
-        ? <Component {...props} />
-        : <Redirect to={redirect} />
+        ? (
+          <>
+            {/* eslint-disable-next-line no-console */}
+            { console.log('PrivateRoute localStorage') }
+            <Component {...props} />
+          < />
+        )
+        : (
+          <>
+            {/* eslint-disable-next-line no-console */}
+            { console.log('Redirect') }
+            <Redirect to={redirect} />
+          < />
+        )
+
+
     )}
   />
 );

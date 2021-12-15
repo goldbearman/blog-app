@@ -13,6 +13,8 @@ export const initAsyncActionHistory = (history) => {
 };
 
 export const fetchArticles = page => (dispatch) => {
+  // eslint-disable-next-line no-console
+  console.log('fetchArticles');
   dispatch(onLoadin(false));
   blogService.getUserArticles(page).then((res) => {
     // if (history) {
@@ -23,6 +25,8 @@ export const fetchArticles = page => (dispatch) => {
 };
 
 export const asyncDeleteArticle = (slug, page) => (dispatch) => {
+  // eslint-disable-next-line no-console
+  console.log('asyncDeleteArticle');
   dispatch(onLoadin(false));
   historyBlog.replace('/articles');
   blogService.fetchDeleteArticle(slug).then(() => {
@@ -31,6 +35,8 @@ export const asyncDeleteArticle = (slug, page) => (dispatch) => {
 };
 
 export const fetchCreateArticle = (data, counter) => (dispatch) => {
+  // eslint-disable-next-line no-console
+  console.log('fetchCreateArticle');
   dispatch(onLoadin(false));
   historyBlog.replace('/articles');
   blogService.createArticle(data).then(() => {
@@ -39,6 +45,8 @@ export const fetchCreateArticle = (data, counter) => (dispatch) => {
 };
 
 export const asyncEditArticle = (newData, counter, slug) => (dispatch) => {
+  // eslint-disable-next-line no-console
+  console.log('asyncEditArticle');
   if (slug) {
     blogService.fetchDeleteArticle(slug).then(() => {
       dispatch(fetchCreateArticle(newData, counter));
@@ -47,12 +55,16 @@ export const asyncEditArticle = (newData, counter, slug) => (dispatch) => {
 };
 
 export const fetchArticle = slug => (dispatch) => {
+  // eslint-disable-next-line no-console
+  console.log('fetchArticle');
   blogService.getArticle(slug).then((res) => {
     dispatch(onGetArticle(res.article));
   });
 };
 
 export const fetchAuthentication = data => (dispatch) => {
+  // eslint-disable-next-line no-console
+  console.log('fetchAuthentication');
   blogService.authentication(data).then((res) => {
     if (res.errors) {
       dispatch(onErrorAuthentication(res.errors));
@@ -66,6 +78,8 @@ export const fetchAuthentication = data => (dispatch) => {
 };
 
 export const fetchRegistration = data => (dispatch) => {
+  // eslint-disable-next-line no-console
+  console.log('fetchRegistration');
   blogService.registration(data).then((res) => {
     if (res.errors) {
       dispatch(onErrorRegistration(res.errors));
@@ -78,6 +92,8 @@ export const fetchRegistration = data => (dispatch) => {
 };
 
 export const fetchEditUser = data => (dispatch) => {
+  // eslint-disable-next-line no-console
+  console.log('fetchEditUser');
   dispatch(onLoadin(false));
   blogService.editUser(data).then((res) => {
     if (typeof res === 'string') {
@@ -92,11 +108,15 @@ export const fetchEditUser = data => (dispatch) => {
 };
 
 export const fetchSetFavorite = slug => (dispatch) => {
+  // eslint-disable-next-line no-console
+  console.log('fetchSetFavorite');
   blogService.setFavorite(slug).then((res) => {
     dispatch(onGetArticle(res.article));
   });
 };
 export const fetchSetUnFavorite = slug => (dispatch) => {
+  // eslint-disable-next-line no-console
+  console.log('fetchSetUnFavorite');
   blogService.setUnFavorite(slug).then((res) => {
     dispatch(onGetArticle(res.article));
   });

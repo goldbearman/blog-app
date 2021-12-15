@@ -19,8 +19,12 @@ const WholeArticle = () => {
   const dispatch = useDispatch();
   const { getArticle, user, article } = useSelector(state => state);
   const { slug } = useParams();
+  // eslint-disable-next-line no-console
+  console.log(getArticle, user, article);
 
   useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log('useEffect');
     dispatch(fetchArticle(slug, user?.token));
   }, [user?.token]);
 

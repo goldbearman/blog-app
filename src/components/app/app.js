@@ -24,6 +24,8 @@ const App = () => {
   useEffect(() => {
     const localUser = localStorage.getItem('user');
     if (localUser) {
+      // eslint-disable-next-line no-console
+      console.log('if');
       const user = JSON.parse(localUser);
       dispatch(onAuthentication(user));
     }
@@ -50,16 +52,18 @@ const App = () => {
           component={WholeArticle}
         />
         <PrivateRoute
+          exact
           path="/articles/:slug/edit"
           component={NewArticle}
           auth={isLoggedIn}
-          redirect="/articles"
+          redirect="/articles/sing-in"
         />
-        <PrivateRoute
+        <Route
+          exact
           path="/new-article"
           component={NewArticle}
           auth={isLoggedIn}
-          redirect="/articles"
+          redirect="/articles/sing-in"
         />
         <Route
           path="/sing-up"
@@ -74,7 +78,7 @@ const App = () => {
           path="/profile"
           auth={isLoggedIn}
           component={EditProfile}
-          redirect="/articles"
+          redirect="/articles/sing-in"
         />
       </main>
     </>
