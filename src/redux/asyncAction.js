@@ -13,59 +13,44 @@ export const initAsyncActionHistory = (history) => {
 };
 
 export const fetchArticles = page => (dispatch) => {
-  // eslint-disable-next-line no-console
-  console.log('fetchArticles');
   dispatch(onLoadin(false));
-  blogService.getUserArticles(page).then((res) => {
-    // if (history) {
-    //   historyBlog.replace('/articles');
-    // }
+  blogService.getResourcesTemplateJson(`articles?limit=5&offset=${(page - 1) * 5}`, 'GET').then((res) => {
     dispatch(onInitialState(res));
   }, () => dispatch(onErrorLoading()));
 };
 
 export const asyncDeleteArticle = (slug, page) => (dispatch) => {
-  // eslint-disable-next-line no-console
-  console.log('asyncDeleteArticle');
   dispatch(onLoadin(false));
   historyBlog.replace('/articles');
-  blogService.fetchDeleteArticle(slug).then(() => {
+  blogService.getResourcesTemplate(`articles/${slug}`, 'DELETE').then(() => {
     dispatch(fetchArticles(page));
   });
 };
 
 export const fetchCreateArticle = (data, counter) => (dispatch) => {
-  // eslint-disable-next-line no-console
-  console.log('fetchCreateArticle');
   dispatch(onLoadin(false));
   historyBlog.replace('/articles');
-  blogService.createArticle(data).then(() => {
+  blogService.getResourcesTemplateJson('articles', 'POST', { article: data }).then(() => {
     dispatch(fetchArticles(counter.page));
   });
 };
 
 export const asyncEditArticle = (newData, counter, slug) => (dispatch) => {
-  // eslint-disable-next-line no-console
-  console.log('asyncEditArticle');
   if (slug) {
-    blogService.fetchDeleteArticle(slug).then(() => {
+    blogService.getResourcesTemplate(`articles/${slug}`, 'DELETE').then(() => {
       dispatch(fetchCreateArticle(newData, counter));
     });
   } else dispatch(fetchCreateArticle(newData, counter));
 };
 
 export const fetchArticle = slug => (dispatch) => {
-  // eslint-disable-next-line no-console
-  console.log('fetchArticle');
-  blogService.getArticle(slug).then((res) => {
+  blogService.getResourcesTemplateJson(`articles/${slug}`, 'GET').then((res) => {
     dispatch(onGetArticle(res.article));
   });
 };
 
 export const fetchAuthentication = data => (dispatch) => {
-  // eslint-disable-next-line no-console
-  console.log('fetchAuthentication');
-  blogService.authentication(data).then((res) => {
+  blogService.getResourcesTemplateJson('users/login', 'POST', { user: data }).then((res) => {
     if (res.errors) {
       dispatch(onErrorAuthentication(res.errors));
     } else {
@@ -78,9 +63,7 @@ export const fetchAuthentication = data => (dispatch) => {
 };
 
 export const fetchRegistration = data => (dispatch) => {
-  // eslint-disable-next-line no-console
-  console.log('fetchRegistration');
-  blogService.registration(data).then((res) => {
+  blogService.getResourcesTemplateJson('users', 'POST', { user: data }).then((res) => {
     if (res.errors) {
       dispatch(onErrorRegistration(res.errors));
     } else {
@@ -92,10 +75,8 @@ export const fetchRegistration = data => (dispatch) => {
 };
 
 export const fetchEditUser = data => (dispatch) => {
-  // eslint-disable-next-line no-console
-  console.log('fetchEditUser');
   dispatch(onLoadin(false));
-  blogService.editUser(data).then((res) => {
+  blogService.getResourcesTemplateJson('user', 'PUT', { user: data }).then((res) => {
     if (typeof res === 'string') {
       dispatch(onErrorEditUser(res));
     } else {
@@ -108,16 +89,12 @@ export const fetchEditUser = data => (dispatch) => {
 };
 
 export const fetchSetFavorite = slug => (dispatch) => {
-  // eslint-disable-next-line no-console
-  console.log('fetchSetFavorite');
-  blogService.setFavorite(slug).then((res) => {
+  blogService.getResourcesTemplateJson(`articles/${slug}/favorite`, 'POST').then((res) => {
     dispatch(onGetArticle(res.article));
   });
 };
 export const fetchSetUnFavorite = slug => (dispatch) => {
-  // eslint-disable-next-line no-console
-  console.log('fetchSetUnFavorite');
-  blogService.setUnFavorite(slug).then((res) => {
+  blogService.getResourcesTemplateJson(`articles/${slug}/favorite`, 'DELETE').then((res) => {
     dispatch(onGetArticle(res.article));
   });
 };

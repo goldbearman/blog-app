@@ -63,9 +63,7 @@ const NavBar = () => {
   const onLogin = (bool) => {
     localStorage.removeItem('user');
     dispatch(actions.onLogin(bool));
-    // eslint-disable-next-line no-console
-    console.log('history.push');
-    history.push('/articles');
+    history.replace('/articles');
   };
 
   return (

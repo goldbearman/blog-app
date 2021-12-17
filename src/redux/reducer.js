@@ -2,7 +2,7 @@ import {
   INITIAL_STATE, ON_LOGIN, REGISTRATION, ERROR_REGISTRATION,
   ON_GET_ARTICLE, ON_GET_ARTICLE_FALSE, AUTHENTICATION, ON_EDIT_USER, ON_EDIT_USER_NAME,
   ADD_ARTICLE, SET_PAGE, ERROR_AUTHENTICATION, ON_CHANGE_FIELD, ON_BUTTON_ACTIVE, ERROR_LOADING,
-  ON_LOADING, SET_FAVORITES, ERROR_EDIT_USER,
+  ON_LOADING, ERROR_EDIT_USER,
 } from './actions';
 
 const allState = {
@@ -45,18 +45,37 @@ const reducer = (state = allState, action) => {
       return { ...state, page: action.page };
     }
 
-    case SET_FAVORITES: {
+    // case SET_FAVORITES: {
+    //   const newState = { ...state };
+    //   const newArrArticles = newState.arrArticles.map((item) => {
+    //     const result = { ...item };
+    //     if (result.slug === action.objData.slug) {
+    //       result.favorited = action.objData.favorited;
+    //       result.favoritesCount = action.objData.favoritesCount;
+    //     }
+    //     return result;
+    //   });
+    //   newState.arrArticles = newArrArticles;
+    //   return newState;
+    // }
+
+    case ON_GET_ARTICLE: {
       const newState = { ...state };
-      const newArrArticles = newState.arrArticles.map((item) => {
-        const result = { ...item };
-        if (result.slug === action.objData.slug) {
-          result.favorited = action.objData.favorited;
-          result.favoritesCount = action.objData.favoritesCount;
-        }
-        return result;
-      });
-      newState.arrArticles = newArrArticles;
-      return newState;
+      if (action.article) {
+        const newArrArticles = newState.arrArticles.map((item) => {
+          const result = { ...item };
+          if (result.slug === action.article.slug) {
+            result.favorited = action.article.favorited;
+            result.favoritesCount = action.article.favoritesCount;
+          }
+          return result;
+        });
+        newState.arrArticles = newArrArticles;
+        newState.article = action.article;
+        newState.getArticle = true;
+        return newState;
+      }
+      return { ...state, getArticle: false };
     }
 
     case REGISTRATION: {
@@ -108,11 +127,6 @@ const reducer = (state = allState, action) => {
         newState.errorRegistration[action.field] = undefined;
       }
       return newState;
-    }
-
-    case ON_GET_ARTICLE: {
-      if (action.article) return { ...state, article: action.article, getArticle: true };
-      return { ...state, getArticle: false };
     }
 
     case ON_GET_ARTICLE_FALSE: {

@@ -35,7 +35,8 @@ body {
 }
 
 html{
-    background: #F3F7FA;
+    /*background-color: #c6103e;*/
+    background-color: #EBEEF3;
     font-size: 12px;
 }
 
@@ -45,14 +46,11 @@ body {
     color: #4A4A4A;
     line-height: 1.4em;
     margin: 0 auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
     font-weight: 300;
 }
 
 #root{
     font-family: 'Roboto', sans-serif;
-    background: #f3f7fa;
     font-size: 12px;
     color: #262626;
 }

@@ -11,9 +11,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     marginTop: theme.spacing(7),
     width: '384px',
+    backgroundColor: 'white',
     padding: '32px',
     borderRadius: '6px',
-    backgroundColor: 'white',
     display: 'flex',
     flexDirection: 'column',
     alignItim: 'center',

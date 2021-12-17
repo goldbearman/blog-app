@@ -14,7 +14,7 @@ import SingUpForm from '../forms/singUpForm';
 import SignInForm from '../forms/signInForm';
 import EditProfile from '../forms/formEditProfile';
 import NewArticle from '../new-article/new-article';
-import PrivateRoute from './private-router';
+import PrivateRoute from '../private-router/private-router';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -24,16 +24,11 @@ const App = () => {
   useEffect(() => {
     const localUser = localStorage.getItem('user');
     if (localUser) {
-      // eslint-disable-next-line no-console
-      console.log('if');
       const user = JSON.parse(localUser);
       dispatch(onAuthentication(user));
     }
     dispatch(fetchArticles(1, history));
   }, [isLoggedIn]);
-
-  // eslint-disable-next-line no-console
-  console.log(isLoggedIn);
 
   return (
     <>
