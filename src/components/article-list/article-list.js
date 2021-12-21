@@ -27,7 +27,7 @@ const ArticleList = () => {
           item={data}
           key={slug}
           onItemClick={() => {
-            history.replace(`/articles/${slug}/`);
+            history.push(`/articles/${slug}/`);
           }}
         />
       );

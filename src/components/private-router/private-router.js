@@ -22,8 +22,6 @@ const PrivateRoute = ({
             <Redirect to={redirect} />
           < />
         )
-
-
     )}
   />
 );

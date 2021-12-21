@@ -48,6 +48,7 @@
   .buttonSmallContainer{
     text-align: right;
     margin-top: 30px;
+    position: relative;
 
     .buttonSmall{
       font-size: 14px;
@@ -64,6 +65,45 @@
     .buttonEdit{
       border: 1px solid #52C41A;
       color: #52C41A;
+    }
+
+    .dialogWindow{
+      position: absolute;
+      left: 140px;
+      z-index: 2;
+      width: 250px;
+      height: 124px;
+      padding: 12px 20px;
+      border-radius: 4px;
+      background: no-repeat url("../../pictures/window-dialog.png") transparent;
+      filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.15));
+
+      p{
+        font-size: 14px;
+        text-align: left;
+        margin-bottom: 10px;
+        background: no-repeat url("../../pictures/caution.svg") left 5px;
+        padding-left: 20px;
+      }
+
+      .buttonDialog {
+        font-size: 14px;
+        text-transform: none;
+        text-decoration: none;
+        color: inherit;
+        padding: 1px 8px;
+        border-radius: 5px;
+        border: 1px solid #D9D9D9;
+        transition: 0.2s;
+        margin-left: 8px;
+
+
+        &:hover {
+          color: white;
+          border: 1px solid #1890FF;
+          background-color: #1890FF;
+        }
+      }
     }
   }
 

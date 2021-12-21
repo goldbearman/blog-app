@@ -8,7 +8,6 @@ import { Provider } from 'react-redux';
 import reduxThunk from 'redux-thunk';
 import reducer from './redux/reducer';
 
-
 // COMPONENST
 import App from './components/app/app';
 

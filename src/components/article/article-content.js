@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 // OTHER LIBRARIES
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
@@ -15,12 +15,15 @@ import { asyncDeleteArticle, fetchSetFavorite, fetchSetUnFavorite } from '../../
 
 
 import classes from './article.module.scss';
+import ConfirmDialog from '../confirm-dialog/confirm-dialog';
 
 const ArticleContent = ({ item }) => {
   const dispatch = useDispatch();
   const { page, user, isLoggedIn } = useSelector(state => state);
   const history = useHistory();
   const params = useParams();
+
+  const [open, setOpen] = useState(false);
 
   const {
     title, description, tagList, author: { username, image },
@@ -57,6 +60,14 @@ const ArticleContent = ({ item }) => {
     dispatch(asyncDeleteArticle(slug, page));
   };
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = (value) => {
+    setOpen(false);
+    if (value === 'delete') deleteArticle();
+  };
+
   const editArticle = () => {
     history.replace('edit');
   };
@@ -71,9 +82,6 @@ const ArticleContent = ({ item }) => {
       } else {
         favoritesCount -= 1;
       }
-
-      // dispatch(setFavorites({ slug, favorited, favoritesCount }));
-
       if (favorited) {
         dispatch(fetchSetFavorite(slug));
       } else {
@@ -112,8 +120,9 @@ const ArticleContent = ({ item }) => {
         {params.slug && username === user?.username
         && (
           <div className={classes.buttonSmallContainer}>
+            <ConfirmDialog open={open} onClose={handleClose} />
             <Button
-              onClick={() => deleteArticle()}
+              onClick={handleClickOpen}
               className={cn(classes.buttonSmall, classes.buttonDelete)}
             >
               Delete

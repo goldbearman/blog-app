@@ -21,6 +21,7 @@ module.exports = {
     'react',
   ],
   rules: {
+    'no-underscore-dangle': ['error', { allow: ['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__', '_bar'] }],
     'no-param-reassign': [2, { props: false }],
     'react/prop-types': [2, { ignore: ['children'] }],
     'import/prefer-default-export': 'off',

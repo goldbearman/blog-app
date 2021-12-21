@@ -45,20 +45,6 @@ const reducer = (state = allState, action) => {
       return { ...state, page: action.page };
     }
 
-    // case SET_FAVORITES: {
-    //   const newState = { ...state };
-    //   const newArrArticles = newState.arrArticles.map((item) => {
-    //     const result = { ...item };
-    //     if (result.slug === action.objData.slug) {
-    //       result.favorited = action.objData.favorited;
-    //       result.favoritesCount = action.objData.favoritesCount;
-    //     }
-    //     return result;
-    //   });
-    //   newState.arrArticles = newArrArticles;
-    //   return newState;
-    // }
-
     case ON_GET_ARTICLE: {
       const newState = { ...state };
       if (action.article) {
