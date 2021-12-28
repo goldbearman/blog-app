@@ -50,7 +50,6 @@ const App = () => {
           exact
           path="/articles/:slug/edit"
           component={NewArticle}
-          auth={isLoggedIn}
           redirect="/articles/sing-in"
         />
         <Route
@@ -71,7 +70,6 @@ const App = () => {
         />
         <PrivateRoute
           path="/profile"
-          auth={isLoggedIn}
           component={EditProfile}
           redirect="/articles/sing-in"
         />

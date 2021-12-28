@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 
 const PrivateRoute = ({
-  component: Component, auth, redirect, ...rest
+  component: Component, redirect, ...rest
 }) => (
   <Route
     {...rest}
